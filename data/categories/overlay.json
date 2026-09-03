@@ -1,0 +1,295 @@
+[
+  {
+    "id": "modal-dialog",
+    "category": "overlay",
+    "name": "モーダル / ダイアログ",
+    "enName": "Modal / Dialog",
+    "aliases": ["Popup", "Lightbox", "モーダルウィンドウ"],
+    "summary": "背景を覆って前面に表示し、処理するまで他の操作を止めるウィンドウ。",
+    "purpose": "ユーザーの流れを意図的に中断し、その場で完結させたい入力・確認・重要な情報提示を行う。中断のコストが高いので、使用は必要最小限にする。",
+    "whenToUse": [
+      "続行前に必ず判断が必要（削除の確認、未保存の警告）",
+      "短い入力を、文脈を失わずにその場で行わせたい（新規作成、共有設定）",
+      "エラーなど、無視されると困る情報を確実に伝える"
+    ],
+    "whenNotToUse": [
+      "情報量が多く、スクロールが長くなる → 独立した画面へ遷移",
+      "モバイルで画面いっぱいになる内容 → フルスクリーンページかボトムシート",
+      "完了通知など、確認不要な軽い伝達 → トースト / スナックバー",
+      "モーダルの中からさらにモーダルを開く（原則禁止）"
+    ],
+    "realWorldExamples": [
+      { "app": "Google ドライブ", "usage": "「共有」ダイアログ。権限設定とリンクコピーをその場で完結させる。" },
+      { "app": "GitHub", "usage": "リポジトリ削除の確認ダイアログ。リポジトリ名の入力を求める強い確認。" },
+      { "app": "各種Webサービス", "usage": "ログイン／サインアップのモーダル。ページ遷移せずに認証を挟む。" }
+    ],
+    "antiPatterns": [
+      "閉じるボタンがない、または Esc・外側クリックで閉じられない",
+      "破壊的操作の確認で「OK / キャンセル」という曖昧なラベルを使う（「削除する / やめる」と動詞にする）",
+      "背景がスクロールしてしまう（背面のスクロールロックが必要）",
+      "訪問直後にニュースレター登録モーダルを出す（離脱の主要因）",
+      "モーダルを閉じたら入力内容が全部消える"
+    ],
+    "accessibility": [
+      "role=\"dialog\" aria-modal=\"true\" と aria-labelledby（タイトル）を設定する",
+      "開いたらフォーカスをモーダル内へ移し、Tab がモーダル外へ出ないようトラップする",
+      "閉じたら開いた要素へフォーカスを戻す",
+      "背面コンテンツは inert / aria-hidden で読み上げ対象から外す"
+    ],
+    "platformNotes": {
+      "web": "<dialog showModal()> がフォーカストラップ・Esc・::backdrop を標準で提供する。",
+      "flutter": "showDialog + AlertDialog / Dialog。barrierDismissible で外側タップの許可を制御する。"
+    },
+    "related": ["confirm-dialog", "bottom-sheet", "action-sheet", "toast-snackbar"],
+    "keywords": ["モーダル", "ダイアログ", "modal", "ポップアップ", "確認"]
+  },
+  {
+    "id": "bottom-sheet",
+    "category": "overlay",
+    "name": "ボトムシート",
+    "enName": "Bottom Sheet",
+    "aliases": ["Sheet", "Modal Sheet", "ハーフモーダル", "下から出るパネル"],
+    "summary": "画面下端から せり上がるパネル。モバイルにおけるモーダルの主流形。",
+    "purpose": "親指の届く下部から出現し、背景の文脈を残したまま追加の情報や操作を提供する。ドラッグで高さを変えられる（Modal / Persistent / Expanding）のが特徴。",
+    "whenToUse": [
+      "モバイルで、選択肢や詳細をその場で見せたい",
+      "地図・動画など、背景を見せたまま情報を重ねたい",
+      "段階的に情報量を増やしたい（ピーク→半分→全画面）"
+    ],
+    "whenNotToUse": [
+      "デスクトップの広い画面（ポップオーバーやモーダルの方が自然）",
+      "選択肢が2〜3個の単純な選択 → アクションシート",
+      "入力項目が非常に多い → 全画面ページ"
+    ],
+    "realWorldExamples": [
+      { "app": "Google マップ", "usage": "場所を選ぶと下から詳細シートが出る。ドラッグで全画面まで広げられる代表例。" },
+      { "app": "Spotify", "usage": "曲の「…」をタップすると下から操作シート（プレイリストに追加、共有など）が出る。" },
+      { "app": "iOS 16以降の各種アプリ", "usage": "UISheetPresentationController によるハーフモーダル（detents で高さを指定）。" }
+    ],
+    "antiPatterns": [
+      "下スワイプで閉じられない（モバイルで学習された操作）",
+      "ドラッグ可能なことを示すハンドル（グラバー）がない",
+      "シート内のスクロールとシート自体のドラッグが競合して、意図せず閉じる",
+      "キーボードが出るとシートが隠れる（keyboard inset の考慮漏れ）"
+    ],
+    "accessibility": [
+      "モーダルシートは role=\"dialog\" aria-modal でフォーカストラップする",
+      "閉じるボタンをドラッグ以外にも用意する（ジェスチャーのみに頼らない）",
+      "セーフエリア（ホームインジケータ）の分の下パディングを確保する"
+    ],
+    "platformNotes": {
+      "web": "<dialog> を下端に配置＋translateY アニメーション。scroll snap やドラッグ実装は自前。",
+      "flutter": "showModalBottomSheet（isScrollControlled: true + DraggableScrollableSheet で可変高さ）。"
+    },
+    "related": ["action-sheet", "modal-dialog", "drawer-overlay", "safe-area"],
+    "keywords": ["ボトムシート", "下から", "シート", "bottom sheet", "ハーフモーダル"]
+  },
+  {
+    "id": "action-sheet",
+    "category": "overlay",
+    "name": "アクションシート",
+    "enName": "Action Sheet",
+    "aliases": ["Options Menu", "選択メニュー", "共有シート"],
+    "summary": "特定の操作に対する選択肢を、下から縦に並べて提示するシート。iOS の標準表現。",
+    "purpose": "1つの対象に対する複数の操作を提示し、そのうち1つを選ばせる。破壊的操作は赤字、キャンセルは分離した位置、という視覚的な約束事がある。",
+    "whenToUse": [
+      "1つの対象に対する2〜6個の操作（共有・削除・編集）",
+      "破壊的な操作の確認を兼ねる（iOS で削除を押した後の確認）",
+      "モバイルで、コンテキストメニューの代わりとして"
+    ],
+    "whenNotToUse": [
+      "選択肢が多く、スクロールが必要 → ボトムシートのリスト",
+      "入力が必要 → モーダル／ボトムシート",
+      "デスクトップ → コンテキストメニューやドロップダウン"
+    ],
+    "realWorldExamples": [
+      { "app": "iOS 共有シート", "usage": "共有アイコンから開く、送信先とアクションの一覧。" },
+      { "app": "iOS 写真", "usage": "写真を削除する際に下から出る確認（「写真を削除」が赤字、下に「キャンセル」）。" },
+      { "app": "各種SNSアプリ", "usage": "投稿の「…」から「報告する／ミュート／リンクをコピー」等を表示する。" }
+    ],
+    "antiPatterns": [
+      "破壊的操作を通常色にして、他の項目と並べる（赤字＋最下部近くに置くのが慣習）",
+      "キャンセルがない（外側タップだけで閉じさせる）",
+      "項目が10個以上並び、選ぶのに時間がかかる",
+      "アイコンだけで文言がなく、何が起きるか分からない"
+    ],
+    "accessibility": [
+      "role=\"menu\" / \"dialog\" として実装し、上下キーで移動できるようにする",
+      "破壊的操作は色だけでなく、ラベル自体を明確にする（「削除」）",
+      "各項目のタップ領域を48dp以上にする"
+    ],
+    "platformNotes": {
+      "web": "<dialog> を下端に置いて実装。Web ではボトムシートと区別しないことも多い。",
+      "flutter": "showCupertinoModalPopup + CupertinoActionSheet（iOS 風）／showModalBottomSheet + ListTile（Material 風）。"
+    },
+    "related": ["bottom-sheet", "context-menu", "confirm-dialog", "share-button"],
+    "keywords": ["アクションシート", "選択肢", "action sheet", "共有シート"]
+  },
+  {
+    "id": "drawer-overlay",
+    "category": "overlay",
+    "name": "ドロワー（オーバーレイ）",
+    "enName": "Drawer / Side Panel",
+    "aliases": ["Side Panel", "Off-canvas", "スライドパネル"],
+    "summary": "画面の端からスライドして重なる補助パネル。ナビにも詳細表示にも使う。",
+    "purpose": "現在の画面を離れずに、補助的な情報や操作を横から呼び出す。ナビゲーション用途（左）と、詳細・設定・フィルタ用途（右）に大別される。",
+    "whenToUse": [
+      "一覧を見ながら詳細や編集をしたい（右ドロワー／サイドパネル）",
+      "フィルタ条件を設定して、結果への影響を見たい",
+      "モバイルのナビゲーション（左ドロワー）"
+    ],
+    "whenNotToUse": [
+      "内容が主役（ページ遷移した方が集中できる）",
+      "モバイルで幅が狭すぎて、中身が窮屈になる → ボトムシート",
+      "短い確認 → ダイアログ"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail", "usage": "左ドロワーのナビゲーション。デスクトップでは常設、モバイルではオーバーレイ。" },
+      { "app": "各種ECサイト (モバイル)", "usage": "「絞り込み」ボタンから右／左のパネルでフィルタ条件を設定する。" },
+      { "app": "Google Chat / Slack", "usage": "スレッドを右側パネルで開き、メインの会話を残したまま返信する。" }
+    ],
+    "antiPatterns": [
+      "背景のスクロールが止まらず、閉じた時に位置がずれる",
+      "オーバーレイの暗幕がなく、どこまでがパネルか分からない",
+      "閉じる手段がスワイプのみ",
+      "パネル内の変更が即時反映か、閉じてから反映かが分からない"
+    ],
+    "accessibility": [
+      "モーダル的に開く場合は role=\"dialog\" + aria-modal + フォーカストラップ",
+      "開閉ボタンに aria-expanded / aria-controls を設定する",
+      "閉じたらトリガーへフォーカスを戻す"
+    ],
+    "platformNotes": {
+      "web": "transform: translateX + 背面 inert。position: fixed で全高にする。",
+      "flutter": "Scaffold(endDrawer:)、または showGeneralDialog + SlideTransition で自作。"
+    },
+    "related": ["drawer-sidebar", "bottom-sheet", "modal-dialog", "search-and-filter"],
+    "keywords": ["ドロワー", "サイドパネル", "drawer", "スライド"]
+  },
+  {
+    "id": "toast-snackbar",
+    "category": "overlay",
+    "name": "トースト / スナックバー",
+    "enName": "Toast / Snackbar",
+    "aliases": ["Toast", "Snackbar", "フラッシュメッセージ", "通知バー"],
+    "summary": "操作結果を画面の端に一時的に表示し、自動で消える軽量な通知。",
+    "purpose": "操作が成功したことを、作業を中断させずに知らせる。Undo（元に戻す）を添えることで、確認ダイアログを省略できるのが最大の利点。",
+    "whenToUse": [
+      "保存・送信・削除などの完了通知",
+      "取り消し可能な操作の直後（「削除しました｜元に戻す」）",
+      "ユーザーの返答が不要な軽い情報"
+    ],
+    "whenNotToUse": [
+      "必ず読ませたい重要なエラー → ダイアログやインラインのバナー",
+      "アクションが必須の内容（自動で消えてしまう）",
+      "長文（1〜2行に収める）"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail", "usage": "メール削除・アーカイブ後の「取り消す」スナックバー。数秒で消える。" },
+      { "app": "Android 全般", "usage": "Material Design の Snackbar（画面下部、任意で1つのアクション）。" },
+      { "app": "各種Webアプリ", "usage": "「コピーしました」「保存しました」のトースト表示。" }
+    ],
+    "antiPatterns": [
+      "表示時間が短すぎて読めない（4〜6秒が目安、アクション付きはさらに長く）",
+      "複数のトーストが積み重なって画面を覆う（キューで1つずつ出す）",
+      "重要なエラーをトーストで流して、見逃される",
+      "FABやボトムナビの下に隠れる位置に出す",
+      "閉じる手段がなく、消えるまで操作を邪魔する"
+    ],
+    "accessibility": [
+      "role=\"status\"（aria-live=\"polite\"）で通知する。緊急時のみ role=\"alert\"",
+      "アクション付きの場合は自動消滅させず、キーボードで到達できるようにする",
+      "prefers-reduced-motion に配慮し、派手なアニメーションを避ける"
+    ],
+    "platformNotes": {
+      "web": "aria-live 領域を1つ用意し、そこにメッセージを差し込む実装が確実。",
+      "flutter": "ScaffoldMessenger.of(context).showSnackBar(SnackBar(action: SnackBarAction(...)))。"
+    },
+    "related": ["undo", "alert-banner", "modal-dialog", "copy-button"],
+    "keywords": ["トースト", "スナックバー", "toast", "snackbar", "通知"]
+  },
+  {
+    "id": "alert-banner",
+    "category": "overlay",
+    "name": "アラート / バナー",
+    "enName": "Alert / Banner / Inline Message",
+    "aliases": ["Banner", "Callout", "Inline Alert", "告知バー"],
+    "summary": "画面内に留まり続ける、状況を知らせる帯状のメッセージ。",
+    "purpose": "自動で消えては困る情報（障害・期限切れ・警告・成功）を、文脈のある位置に常設して伝える。深刻度に応じて色とアイコンを変える。",
+    "whenToUse": [
+      "アカウントの問題（支払い失敗、メール未確認）など、解決するまで残すべき通知",
+      "システム障害・メンテナンス告知",
+      "フォーム全体のエラーサマリ",
+      "破壊的操作の前の注意喚起"
+    ],
+    "whenNotToUse": [
+      "一時的な完了通知 → トースト",
+      "個別フィールドのエラー → インラインのバリデーション表示",
+      "常時表示して慣れられ、無視されるようになった告知（バナーブラインドネス）"
+    ],
+    "realWorldExamples": [
+      { "app": "GitHub", "usage": "リポジトリ上部の警告バナー（脆弱性アラート、アーカイブ済みリポジトリの表示など）。" },
+      { "app": "各種SaaS", "usage": "「お支払い方法の有効期限が切れています」を上部に固定表示し、更新導線を置く。" },
+      { "app": "Webサービス全般", "usage": "メンテナンス予告バナー。閉じても再訪時に再表示されるものが多い。" }
+    ],
+    "antiPatterns": [
+      "色だけで深刻度を示す（アイコンと見出し文言も変える）",
+      "「エラーが発生しました」だけで、原因も次の行動も書かない",
+      "閉じられないバナーを常時出し続ける",
+      "同時に3つも4つもバナーが積み上がり、コンテンツが押し下げられる"
+    ],
+    "accessibility": [
+      "重要度に応じて role=\"alert\"（即時）／role=\"status\"（控えめ）を使い分ける",
+      "色・アイコン・テキストの3点で意味を伝える（色覚特性への配慮）",
+      "解決のためのリンクやボタンをバナー内に置き、キーボードで到達可能にする",
+      "背景色と文字色のコントラスト比を 4.5:1 以上にする"
+    ],
+    "platformNotes": {
+      "web": "role=\"alert\" の div。位置はページ上部かフォーム直上が定番。",
+      "flutter": "MaterialBanner（ScaffoldMessenger.showMaterialBanner）や、Container での自作。"
+    },
+    "related": ["toast-snackbar", "validation-error", "three-states"],
+    "keywords": ["アラート", "バナー", "警告", "alert", "banner", "エラー表示"]
+  },
+  {
+    "id": "context-menu",
+    "category": "overlay",
+    "name": "コンテキストメニュー",
+    "enName": "Context Menu",
+    "aliases": ["Right-click Menu", "Long-press Menu", "More Menu", "…メニュー"],
+    "summary": "対象を右クリック／長押し／「…」タップで開く、その対象専用の操作一覧。",
+    "purpose": "対象ごとの操作を、UIに常時表示せずに提供する。画面をすっきり保てるが、発見しづらいので主要操作は別途露出させる必要がある。",
+    "whenToUse": [
+      "リストの各行に対する副次的な操作（名前の変更、複製、削除）",
+      "デスクトップの右クリック操作（コピー・貼り付け）",
+      "モバイルの「…」ボタンや長押しからの操作"
+    ],
+    "whenNotToUse": [
+      "その画面の主要操作（隠すと使われない）",
+      "選択肢が1つしかない（そのままボタンにする）",
+      "モバイルで右クリック相当がないのに、長押しのみに割り当てる"
+    ],
+    "realWorldExamples": [
+      { "app": "Google ドライブ", "usage": "ファイルを右クリック（またはモバイルの「⋮」）で、共有・ダウンロード・名前変更などのメニュー。" },
+      { "app": "iOS ホーム画面", "usage": "アプリアイコンの長押しでクイックアクションのメニューが出る（Haptic Touch）。" },
+      { "app": "Notion", "usage": "ブロック左の「⋮⋮」から、削除・複製・ブロックの種類変更などを行う。" }
+    ],
+    "antiPatterns": [
+      "長押しでしか開けず、その存在を示すヒントがない（「⋮」ボタンも併設する）",
+      "ブラウザ標準の右クリックメニューを奪い、コピーや検索ができなくなる",
+      "破壊的操作を先頭に置き、誤タップさせる（下部に置き、色で区別する）",
+      "画面端で見切れる（開く方向を自動反転させる）"
+    ],
+    "accessibility": [
+      "role=\"menu\" / \"menuitem\" とし、上下キー移動・Enter実行・Esc閉じを実装する",
+      "トリガーに aria-haspopup=\"menu\" と aria-expanded を設定する",
+      "長押し以外に、キーボード（Shift+F10 や Menu キー）とボタンからも開けるようにする"
+    ],
+    "platformNotes": {
+      "web": "contextmenu イベント + カスタムメニュー。標準メニューを潰す場合は代替を必ず用意する。",
+      "flutter": "PopupMenuButton / showMenu、長押しは GestureDetector(onLongPress) や CupertinoContextMenu。"
+    },
+    "related": ["popover", "action-sheet", "long-press", "swipe-actions"],
+    "keywords": ["コンテキストメニュー", "右クリック", "長押し", "context menu", "…"]
+  }
+]

@@ -1,0 +1,370 @@
+[
+  {
+    "id": "primary-button",
+    "category": "action",
+    "name": "プライマリボタン",
+    "enName": "Primary Button / Filled Button",
+    "aliases": ["CTA", "Filled Button", "主要ボタン", "実行ボタン"],
+    "summary": "その画面で最も進めてほしい1つの行動を表す、塗りつぶしの強いボタン。",
+    "purpose": "視覚的な重みで「次にすべきこと」を示す。1画面に1つ（多くても2つ）に絞ることで、はじめてプライマリとしての意味を持つ。",
+    "whenToUse": [
+      "フォームの送信・購入・次へ進む など、そのページのゴール",
+      "モーダルで推奨する選択肢",
+      "オンボーディングの「次へ」"
+    ],
+    "whenNotToUse": [
+      "同じ画面に3つも4つも置く（すべてが目立たなくなる）",
+      "破壊的操作（削除） → デストラクティブボタン",
+      "補助的な操作 → セカンダリ／ゴーストボタン"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon", "usage": "「カートに入れる」「今すぐ買う」。ページ内で最も強い色を割り当てる。" },
+      { "app": "各種SaaSの登録ページ", "usage": "「無料で始める」のCTAボタン。ページ内で唯一の塗りつぶしボタンにする。" },
+      { "app": "iOS / Android のシステムダイアログ", "usage": "推奨アクションを太字や塗りで強調する。" }
+    ],
+    "antiPatterns": [
+      "「送信」「OK」など、何が起きるか分からない汎用ラベル（動詞＋目的語にする：「予約を確定する」）",
+      "押した後の反応（ローディング・無効化）がなく、二重送信される",
+      "disabled にした理由を説明しない（なぜ押せないのか分からない）",
+      "コントラスト不足で、押せる要素に見えない"
+    ],
+    "accessibility": [
+      "<button> 要素を使う（div にクリックを付けない）。Enter / Space で作動すること",
+      "処理中は aria-busy と disabled を設定し、状態をテキストでも伝える",
+      "文字色と背景色のコントラスト比 4.5:1 以上、タップ領域 44pt/48dp 以上",
+      "フォーカスリングを消さない"
+    ],
+    "platformNotes": {
+      "web": "<button type=\"submit\">。フォーム内では type を明示しないと意図せず送信される。",
+      "flutter": "FilledButton / ElevatedButton。onPressed: null で無効化される。"
+    },
+    "related": ["secondary-button", "destructive-button", "ghost-button", "fab"],
+    "keywords": ["ボタン", "CTA", "プライマリ", "primary button", "送信"]
+  },
+  {
+    "id": "secondary-button",
+    "category": "action",
+    "name": "セカンダリボタン",
+    "enName": "Secondary Button / Outlined Button",
+    "aliases": ["Outlined Button", "Ghost Outline", "副ボタン"],
+    "summary": "プライマリの隣に置く、枠線ベースの控えめなボタン。",
+    "purpose": "重要だが主要ではない選択肢（キャンセル、戻る、別の手段）を提供する。プライマリとの視覚的コントラストで、優先順位を伝えるのが役割。",
+    "whenToUse": [
+      "プライマリと並ぶ代替アクション（「あとで」「キャンセル」「下書き保存」）",
+      "同列の複数アクションを並べたいが、どれも主役ではない",
+      "モーダルの「キャンセル」"
+    ],
+    "whenNotToUse": [
+      "実質的に主要な操作なのに控えめにして、見つけられない",
+      "プライマリと同じ強さで並べ、どちらを選ぶべきか分からなくする",
+      "破壊的操作を目立たせないために使う（重要な操作は明示する）"
+    ],
+    "realWorldExamples": [
+      { "app": "各種モーダルダイアログ", "usage": "「保存する（塗り）」の左に「キャンセル（枠線）」を置く。" },
+      { "app": "GitHub", "usage": "PR画面の「Merge（強調）」に対し、他の操作は控えめなボタンで並ぶ。" },
+      { "app": "Googleのアカウント画面", "usage": "推奨アクションは塗り、それ以外はテキスト／枠線ボタンで階層を作る。" }
+    ],
+    "antiPatterns": [
+      "枠線だけで色のコントラストが低く、押せると認識されない",
+      "プライマリとセカンダリの見分けが背景色のわずかな差しかない",
+      "キャンセルをプライマリの右に置き、確定と間違えさせる（プラットフォームの配置慣習に従う）"
+    ],
+    "accessibility": [
+      "枠線の色はコントラスト比 3:1 以上を確保する（非テキストコントラスト）",
+      "並び順は視覚順とDOM順を一致させ、キーボードでの移動と一致させる",
+      "プライマリとの差を色だけに頼らず、塗り／枠線の形状差でも伝える"
+    ],
+    "platformNotes": {
+      "web": "<button class=\"secondary\">。役割はスタイルの違いだけで、要素は同じ button。",
+      "flutter": "OutlinedButton。TextButton より強く、FilledButton より弱い位置づけ。"
+    },
+    "related": ["primary-button", "ghost-button", "modal-dialog"],
+    "keywords": ["セカンダリ", "枠線ボタン", "outlined", "キャンセル"]
+  },
+  {
+    "id": "ghost-button",
+    "category": "action",
+    "name": "ゴースト / テキストボタン",
+    "enName": "Ghost Button / Text Button",
+    "aliases": ["Text Button", "Tertiary Button", "透明ボタン"],
+    "summary": "背景も枠線もない、文字だけの最も控えめなボタン。",
+    "purpose": "レイアウトを邪魔せずに操作を置く。ツールバー・カード内・リスト行など、視覚的ノイズを増やしたくない場所で使う。",
+    "whenToUse": [
+      "カードやリスト行の中の補助操作（「詳細」「もっと見る」）",
+      "ツールバーやアプリバーのアクション",
+      "3番目以降の優先度のアクション"
+    ],
+    "whenNotToUse": [
+      "重要な操作（見落とされる）",
+      "リンクと混在して、どちらが遷移でどちらが実行か分からない場合",
+      "周囲のテキストと区別がつかない配置"
+    ],
+    "realWorldExamples": [
+      { "app": "Material Design のダイアログ", "usage": "「キャンセル」「OK」をテキストボタンで並べるのが Material の標準形。" },
+      { "app": "iOS のナビゲーションバー", "usage": "右上の「完了」「編集」などは、塗りのないテキストボタン。" },
+      { "app": "各種アプリのカードUI", "usage": "カード下部の「共有」「詳細」といった補助アクション。" }
+    ],
+    "antiPatterns": [
+      "本文テキストと同じ色・太さで、押せることが分からない",
+      "タップ領域が文字サイズぴったりで小さい（周囲にパディングを取る）",
+      "ホバー／押下時のフィードバックがない"
+    ],
+    "accessibility": [
+      "テキストのコントラスト比 4.5:1 以上を確保する",
+      "タップ領域を 44pt/48dp まで広げる（見た目は小さくても可）",
+      "hover / focus / active の状態変化を必ず用意する"
+    ],
+    "platformNotes": {
+      "web": "<button> に背景なしのスタイル。padding でヒット領域を確保する。",
+      "flutter": "TextButton。IconButton も実質このカテゴリ。"
+    },
+    "related": ["primary-button", "secondary-button", "link", "icon-button"],
+    "keywords": ["ゴースト", "テキストボタン", "text button", "控えめ"]
+  },
+  {
+    "id": "destructive-button",
+    "category": "action",
+    "name": "デストラクティブボタン",
+    "enName": "Destructive / Danger Button",
+    "aliases": ["Danger Button", "Delete Button", "危険操作ボタン"],
+    "summary": "削除など、取り消しの効かない操作を表す赤系のボタン。",
+    "purpose": "結果が重大な操作であることを、色と配置で事前に警告する。実行前の確認、または実行後のUndoのどちらかを必ずセットにする。",
+    "whenToUse": [
+      "データの完全削除、アカウント解約、メンバーの除名",
+      "元に戻せない、または戻すコストが高い操作",
+      "設定画面の「危険な操作」セクション"
+    ],
+    "whenNotToUse": [
+      "取り消せる操作（アーカイブ、非表示）に赤を使う（赤の意味が薄れる）",
+      "赤を単なるアクセントカラーとして多用しているデザイン",
+      "頻繁に押す操作を赤にする"
+    ],
+    "realWorldExamples": [
+      { "app": "GitHub", "usage": "Settings の Danger Zone。赤枠のセクションに削除系操作を隔離し、確認ではリポジトリ名の入力を求める。" },
+      { "app": "iOS", "usage": "アクションシートやスワイプ削除で、破壊的操作を赤字で示す。" },
+      { "app": "各種SaaS", "usage": "「アカウントを削除」を設定画面の最下部の独立セクションに置く。" }
+    ],
+    "antiPatterns": [
+      "確認もUndoもなく即座に削除する",
+      "確認ダイアログのボタンが「OK / キャンセル」で、どちらが削除か曖昧",
+      "削除ボタンを他の操作の隣に密着させ、誤タップを誘発する",
+      "赤色だけで危険性を示し、色覚特性のあるユーザーに伝わらない"
+    ],
+    "accessibility": [
+      "ラベルに操作対象を含める（「プロジェクトを削除」）",
+      "色だけでなく、アイコン・確認ステップ・文言で危険性を伝える",
+      "確認ダイアログのデフォルトフォーカスは、安全な選択肢（キャンセル）に置く"
+    ],
+    "platformNotes": {
+      "web": "<button class=\"danger\">。確認モーダルとセットで実装する。",
+      "flutter": "FilledButton(style: FilledButton.styleFrom(backgroundColor: colorScheme.error))。"
+    },
+    "related": ["confirm-dialog", "undo", "action-sheet", "swipe-actions"],
+    "keywords": ["削除", "危険", "destructive", "danger", "赤ボタン"]
+  },
+  {
+    "id": "link",
+    "category": "action",
+    "name": "リンク",
+    "enName": "Link / Hyperlink",
+    "aliases": ["Anchor", "テキストリンク", "ハイパーリンク"],
+    "summary": "別の場所へ移動することを示すテキスト要素。ボタンとは役割が異なる。",
+    "purpose": "「移動する」という意味を担う。ボタンが「何かを実行する」のに対し、リンクは「どこかへ行く」。この使い分けがブラウザの標準機能（新規タブ、コピー、履歴）を守る。",
+    "whenToUse": [
+      "別ページ・別サイト・ページ内の別位置へ移動する",
+      "ファイルのダウンロード（URLとして意味がある）",
+      "ユーザーが新規タブで開いたり、URLをコピーしたい対象"
+    ],
+    "whenNotToUse": [
+      "その場で何かを実行する（保存・削除・開閉） → ボタン",
+      "リンクに見えるボタン、ボタンに見えるリンク（意味と見た目を一致させる）"
+    ],
+    "realWorldExamples": [
+      { "app": "Wikipedia", "usage": "本文中の青いテキストリンク。下線と色で本文と区別する。" },
+      { "app": "各種Webサービスのフッター", "usage": "利用規約・プライバシーポリシーへのリンク。" },
+      { "app": "GitHub", "usage": "ファイルパスやユーザー名がリンクになっており、新規タブで開ける。" }
+    ],
+    "antiPatterns": [
+      "「こちら」「詳細」だけのリンクテキスト（リンク単体で行き先が分からない）",
+      "色だけで区別し、下線も何もない（色覚特性のあるユーザーが本文と区別できない）",
+      "href のない <a> や、<div onclick> でのリンク実装（キーボードで到達できない）",
+      "外部リンク・新規タブであることを予告しない"
+    ],
+    "accessibility": [
+      "リンクテキストは単体で意味が通るようにする（スクリーンリーダーはリンク一覧を読み上げる）",
+      "本文中のリンクは下線などテキスト装飾でも区別する",
+      "target=\"_blank\" には rel=\"noopener\" と、新規タブで開く旨の表示を添える",
+      "アイコンのみのリンクには aria-label を付ける"
+    ],
+    "platformNotes": {
+      "web": "<a href>。SPA でも href を持たせるとミドルクリックや共有が機能する。",
+      "flutter": "InkWell + url_launcher、または RichText の TextSpan + TapGestureRecognizer。"
+    },
+    "related": ["ghost-button", "primary-button", "breadcrumbs"],
+    "keywords": ["リンク", "link", "アンカー", "遷移"]
+  },
+  {
+    "id": "icon-button",
+    "category": "action",
+    "name": "アイコンボタン",
+    "enName": "Icon Button",
+    "aliases": ["Icon-only Button", "アイコンのみボタン"],
+    "summary": "アイコンだけで機能を表す、省スペースなボタン。",
+    "purpose": "ツールバーやリスト行など、ラベルを置く余地がない場所に操作を配置する。意味が広く共有されたアイコン（×、検索、共有、ゴミ箱）に限って有効。",
+    "whenToUse": [
+      "アイコンの意味が普遍的（閉じる、検索、戻る、削除、共有、お気に入り）",
+      "アプリバー・ツールバー・リスト行の末尾など、スペースが限られる",
+      "同じ操作が繰り返し現れ、学習コストが償却される"
+    ],
+    "whenNotToUse": [
+      "アイコンの意味が曖昧（オリジナルの機能、抽象的な概念）",
+      "初見ユーザーが必ず使う重要操作 → ラベル付きボタン",
+      "似たアイコンが並び、区別がつかない"
+    ],
+    "realWorldExamples": [
+      { "app": "X (Twitter)", "usage": "投稿下部の返信・リポスト・いいね・共有アイコン。数値を隣に添える。" },
+      { "app": "Gmail", "usage": "メール表示時のアーカイブ・削除・返信などのツールバーアイコン。" },
+      { "app": "Figma / Photoshop", "usage": "ツールバーのアイコン群。ホバーで名前とショートカットを表示する。" }
+    ],
+    "antiPatterns": [
+      "aria-label を付けず、スクリーンリーダーで「ボタン」としか読まれない",
+      "タップ領域がアイコンサイズ（16〜24px）のままで、押しづらい",
+      "独自アイコンの意味を、ツールチップだけに依存して説明する（モバイルで読めない）",
+      "アイコンを5個以上並べて、視覚的に区別できない"
+    ],
+    "accessibility": [
+      "必ず aria-label（または視覚的に隠したテキスト）で名前を与える",
+      "タップ領域は 44×44pt / 48×48dp 以上。padding で確保する",
+      "トグル型（お気に入り等）は aria-pressed で状態を伝える",
+      "重要な操作はアイコン＋ラベルの併記を検討する"
+    ],
+    "platformNotes": {
+      "web": "<button aria-label=\"削除\"><svg aria-hidden=\"true\">。SVG には aria-hidden を付ける。",
+      "flutter": "IconButton(tooltip: '削除')。tooltip がセマンティクスラベルにもなる。"
+    },
+    "related": ["tooltip", "ghost-button", "app-bar", "fab"],
+    "keywords": ["アイコンボタン", "icon button", "アイコン"]
+  },
+  {
+    "id": "split-button",
+    "category": "action",
+    "name": "スプリットボタン",
+    "enName": "Split Button / Dropdown Button",
+    "aliases": ["Menu Button", "分割ボタン", "ドロップダウンボタン"],
+    "summary": "既定の操作を実行する本体と、別候補を開く▼部分が一体化したボタン。",
+    "purpose": "「よく使う1つ」を1クリックで実行しつつ、関連する代替手段も同じ場所から選べるようにする。頻度の偏りがある操作群に有効。",
+    "whenToUse": [
+      "既定の操作が明確に決まっていて、9割はそれを使う",
+      "同種の派生操作が2〜5個ある（保存／別名で保存／コピーを保存）",
+      "ツールバーの省スペース化"
+    ],
+    "whenNotToUse": [
+      "どれが既定か決められない（普通のドロップダウンメニューにする）",
+      "選択肢が1つしかない → 通常のボタン",
+      "モバイルの狭い画面（▼部分が小さくなりすぎる）"
+    ],
+    "realWorldExamples": [
+      { "app": "GitHub", "usage": "Pull Request の「Merge pull request」ボタン。▼から Squash / Rebase を選べる。" },
+      { "app": "Microsoft Office / Google ドキュメント", "usage": "「貼り付け」「印刷」など、既定動作＋オプションを持つツールバーボタン。" },
+      { "app": "各種IDE", "usage": "「実行」ボタンの横に▼で実行構成を選ぶ。" }
+    ],
+    "antiPatterns": [
+      "本体と▼の境界が分からず、意図せず実行してしまう（視覚的な区切りを入れる）",
+      "▼部分のタップ領域が小さすぎる",
+      "選んだ選択肢が既定に変わるのか変わらないのかが分からない",
+      "メニューを開いたのに、既定操作がメニュー内に重複表示されない"
+    ],
+    "accessibility": [
+      "2つの独立したボタンとして実装し、それぞれに名前を付ける（「マージする」「マージ方法を選択」）",
+      "▼側に aria-haspopup=\"menu\" と aria-expanded を設定する",
+      "メニューは上下キー操作・Esc閉じに対応する"
+    ],
+    "platformNotes": {
+      "web": "button 2つを隣接配置し、境界線で区切る。メニューは role=\"menu\"。",
+      "flutter": "Row に FilledButton と PopupMenuButton を並べて一体に見えるようスタイリングする。"
+    },
+    "related": ["primary-button", "context-menu", "select"],
+    "keywords": ["スプリットボタン", "split button", "ドロップダウンボタン", "▼"]
+  },
+  {
+    "id": "copy-button",
+    "category": "action",
+    "name": "コピーボタン",
+    "enName": "Copy to Clipboard Button",
+    "aliases": ["Copy to Clipboard", "クリップボードコピー"],
+    "summary": "テキストをワンタップでクリップボードにコピーし、成功を即座に伝えるボタン。",
+    "purpose": "選択→コピーという面倒な操作を1タップにする。コピーされた確信を与えるフィードバック（アイコンの変化やトースト）が本体の半分を占める。",
+    "whenToUse": [
+      "コードスニペット、APIキー、招待リンク、ID、住所など、貼り付ける前提の値",
+      "モバイルでのテキスト選択が難しい場面",
+      "長い文字列（手入力させたくない）"
+    ],
+    "whenNotToUse": [
+      "コピーする理由がない普通の本文",
+      "機密情報を確認なしにコピーさせる（表示のマスクと併用する）"
+    ],
+    "realWorldExamples": [
+      { "app": "GitHub", "usage": "コードブロック右上のコピーアイコン。押すとチェックマークに変わる。" },
+      { "app": "各種パスワードマネージャ", "usage": "パスワードのコピーボタン。一定時間後にクリップボードを自動クリアする実装もある。" },
+      { "app": "Zoom / Google Meet", "usage": "会議リンクのコピーボタン。「リンクをコピーしました」と表示する。" }
+    ],
+    "antiPatterns": [
+      "コピーできたのか分からない（アイコン変化 or トーストを必ず出す）",
+      "成功表示が一瞬で消える／逆に残り続ける（2秒程度で元に戻す）",
+      "コピー失敗（権限・非セキュアコンテキスト）時のフォールバックがない",
+      "何がコピーされたのか分からない（対象を明示する）"
+    ],
+    "accessibility": [
+      "aria-label を「〇〇をコピー」とし、対象を明示する",
+      "コピー完了を aria-live=\"polite\" で通知する（アイコン変化だけでは伝わらない）",
+      "キーボードでも到達・実行できるようにする"
+    ],
+    "platformNotes": {
+      "web": "navigator.clipboard.writeText()（HTTPS 必須）。失敗時は選択＋execCommand へフォールバック。",
+      "flutter": "Clipboard.setData(ClipboardData(text: ...)) + SnackBar での通知。"
+    },
+    "related": ["toast-snackbar", "icon-button", "share-button"],
+    "keywords": ["コピー", "クリップボード", "copy", "コピーボタン"]
+  },
+  {
+    "id": "share-button",
+    "category": "action",
+    "name": "共有ボタン",
+    "enName": "Share Button",
+    "aliases": ["Share Sheet Trigger", "シェアボタン"],
+    "summary": "コンテンツを他のアプリや人へ送るための、OS標準の共有機能を呼び出すボタン。",
+    "purpose": "自前で共有先を並べるのではなく、OSの共有シートに委ねることで、ユーザーが普段使うアプリへ最短で送れるようにする。",
+    "whenToUse": [
+      "URL・画像・テキストを外部へ送る可能性がある",
+      "モバイルで、OSの共有シートが使える環境",
+      "SNS拡散を促したいコンテンツ"
+    ],
+    "whenNotToUse": [
+      "共有先が自サービス内に限定される（アプリ内共有UIを作る）",
+      "共有できない機密コンテンツ",
+      "デスクトップWeb（Web Share API 非対応環境ではリンクコピーにフォールバック）"
+    ],
+    "realWorldExamples": [
+      { "app": "iOS 全般", "usage": "四角＋上矢印の共有アイコンから、OSの共有シートを開く。" },
+      { "app": "YouTube", "usage": "動画下の「共有」から、リンクコピー・SNS・再生位置指定の共有ができる。" },
+      { "app": "Instagram", "usage": "投稿の紙飛行機アイコンから、DM送信やストーリーズへの共有を行う。" }
+    ],
+    "antiPatterns": [
+      "OSの共有シートを使わず、独自のSNSボタンを10個並べる",
+      "共有されるURLがトラッキングパラメータだらけで汚い",
+      "共有時のタイトル・説明・画像（OGP）が設定されておらず、貼り付け先で意味不明になる",
+      "非対応環境でボタンだけ表示され、押しても何も起きない"
+    ],
+    "accessibility": [
+      "aria-label=\"共有\" を付け、アイコンの意味を明示する",
+      "Web Share API 非対応時は、リンクコピーなどの代替を必ず提供する",
+      "共有結果（成功・キャンセル）に応じたフィードバックを出す"
+    ],
+    "platformNotes": {
+      "web": "navigator.share()（HTTPS・ユーザー操作起点が必須、対応ブラウザが限られる）。非対応時はコピーへフォールバック。",
+      "flutter": "share_plus パッケージが定番。OS の共有シートを呼び出す。"
+    },
+    "related": ["copy-button", "action-sheet", "icon-button"],
+    "keywords": ["共有", "シェア", "share", "共有ボタン"]
+  }
+]

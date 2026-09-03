@@ -1,0 +1,416 @@
+[
+  {
+    "id": "onboarding",
+    "category": "pattern",
+    "name": "オンボーディング",
+    "enName": "Onboarding",
+    "aliases": ["Welcome Tour", "Coach Marks", "初回チュートリアル", "ウォークスルー"],
+    "summary": "初回利用者に価値と使い方を伝え、最初の成功体験まで導く一連の画面。",
+    "purpose": "「何ができるアプリか」を数画面で伝え、離脱を防ぐ。機能説明より、ユーザーが最初の価値を得る（Aha moment）までの距離を縮めることが本質。",
+    "whenToUse": [
+      "アプリの価値が起動直後には伝わらない",
+      "初期設定（通知許可、プロフィール、興味の選択）が体験の質を左右する",
+      "新機能を既存ユーザーに知らせたい（機能ツアー）"
+    ],
+    "whenNotToUse": [
+      "使い方が自明なアプリで、5画面のスライドを見せる（そのまま離脱される）",
+      "UIの分かりにくさをチュートリアルで補おうとしている（UI自体を直すべき）",
+      "スキップできない強制チュートリアル"
+    ],
+    "realWorldExamples": [
+      { "app": "Duolingo", "usage": "アカウント作成前に、目的・レベルの質問に答えさせ、いきなり最初のレッスンを体験させる。" },
+      { "app": "各種SNS", "usage": "初回に興味のあるトピックやおすすめアカウントを選ばせ、空のフィードを避ける。" },
+      { "app": "Slack", "usage": "ワークスペース作成時に、チャンネル作成とメンバー招待をステップで案内する。" }
+    ],
+    "antiPatterns": [
+      "スキップできない・戻れない",
+      "権限リクエストをいきなり並べる（理由を説明してから求める）",
+      "スライドが5枚以上あり、内容が抽象的なイラストと標語だけ",
+      "1度で終わり、あとから見返す方法がない（ヘルプに残す）"
+    ],
+    "accessibility": [
+      "スキップボタンを常に見える位置に置き、キーボードでも到達可能にする",
+      "ページ切り替えを aria-live で通知し、現在位置（3/5）を伝える",
+      "自動で進むスライドは避けるか、一時停止できるようにする"
+    ],
+    "platformNotes": {
+      "web": "ステップをURLに持たせて中断・再開できるようにする。",
+      "flutter": "PageView + SmoothPageIndicator 相当の自作ドット。初回判定は SharedPreferences など。"
+    },
+    "related": ["wizard-stepper", "permission-prompt", "empty-state", "carousel"],
+    "keywords": ["オンボーディング", "チュートリアル", "初回", "onboarding", "ウォークスルー"]
+  },
+  {
+    "id": "auth-form",
+    "category": "pattern",
+    "name": "ログイン / サインアップ",
+    "enName": "Login / Sign-up Form",
+    "aliases": ["Authentication", "Sign in", "認証フォーム"],
+    "summary": "認証情報を入力してアカウントにアクセスさせる、最も離脱の起きやすい画面。",
+    "purpose": "本人確認を最小の摩擦で通す。入力項目数・エラーの分かりやすさ・パスワードマネージャとの相性が、そのまま完了率に直結する。",
+    "whenToUse": [
+      "個人データを扱うサービス",
+      "複数端末での同期が必要",
+      "ソーシャルログイン／マジックリンク／パスキーなど、複数の手段を提供する"
+    ],
+    "whenNotToUse": [
+      "体験する前に登録を強制する（ゲスト利用を許し、必要になった時点で登録させる）",
+      "1回しか使わない機能のために会員登録を求める"
+    ],
+    "realWorldExamples": [
+      { "app": "各種Webサービス", "usage": "メール＋パスワードに加え、Google / Apple でのソーシャルログインを併設する。" },
+      { "app": "Slack", "usage": "パスワードの代わりにメールへマジックリンクを送るログイン方式を提供する。" },
+      { "app": "Amazon", "usage": "メールアドレスを先に入力させ、既存ユーザーか新規かで次の画面を分岐させる。" }
+    ],
+    "antiPatterns": [
+      "パスワードの入力欄を2つ用意して確認させる（表示切替ボタンの方が有効）",
+      "「メールアドレスまたはパスワードが違います」以外の情報を出さない一方で、登録済みかどうかは別の画面で漏らしている",
+      "パスワードのペーストを禁止する（パスワードマネージャの利用を妨げる）",
+      "パスワード要件を入力後にしか表示しない",
+      "autocomplete 属性がなく、自動入力が効かない"
+    ],
+    "accessibility": [
+      "autocomplete=\"username\" / \"current-password\" / \"new-password\" を正しく指定する",
+      "パスワードの表示切替ボタンに aria-pressed と適切なラベルを付ける",
+      "エラーは aria-live で通知し、該当フィールドにフォーカスを移す",
+      "CAPTCHA には音声・代替手段を用意する"
+    ],
+    "platformNotes": {
+      "web": "<form> でのネイティブ送信、type=\"password\"、autocomplete 指定が必須級。パスキー（WebAuthn）も選択肢。",
+      "flutter": "TextFormField + Form + GlobalKey<FormState> でバリデーション。obscureText でマスク。"
+    },
+    "related": ["text-field", "pin-input", "validation-error", "onboarding"],
+    "keywords": ["ログイン", "サインアップ", "認証", "login", "会員登録"]
+  },
+  {
+    "id": "search-and-filter",
+    "category": "pattern",
+    "name": "検索とフィルタ",
+    "enName": "Search & Filter",
+    "aliases": ["Faceted Search", "絞り込み", "ファセット検索"],
+    "summary": "キーワード検索と複数条件の絞り込みを組み合わせて、目的の項目に到達させるパターン。",
+    "purpose": "大量のアイテムから候補を段階的に狭める。適用中の条件が常に見えていること、いつでも1つずつ外せることが設計の要。",
+    "whenToUse": [
+      "アイテム数が多く、属性で絞り込める（EC、不動産、求人、宿泊）",
+      "ユーザーの目的が明確でない探索型の利用がある",
+      "条件の組み合わせを保存・共有したい"
+    ],
+    "whenNotToUse": [
+      "アイテム数が少ない（絞り込みの手間の方が大きい）",
+      "属性が整備されておらず、絞り込んでも0件ばかりになる"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon", "usage": "左サイドの絞り込み（価格帯・ブランド・評価）と、適用中条件の表示。0件を避けるため各条件の件数を併記する。" },
+      { "app": "Airbnb", "usage": "フィルタモーダルで条件を設定し、「〇件の宿を表示」と適用後の件数をボタンに出す。" },
+      { "app": "メルカリ / 各種フリマ", "usage": "モバイルでは下からのシートでフィルタを設定し、適用中条件をチップで一覧表示する。" }
+    ],
+    "antiPatterns": [
+      "適用中の条件が画面に見えず、なぜ結果が少ないのか分からない",
+      "条件を1つ外すのに、全部リセットするしかない",
+      "0件になる条件を選択可能なまま出す（各選択肢に件数を出す、または選べなくする）",
+      "モバイルでフィルタを開くと、結果が全く見えなくなる（適用後の件数をボタンに出す）",
+      "リロードや戻る操作で条件が消える（URLに保持する）"
+    ],
+    "accessibility": [
+      "結果件数の変化を aria-live で通知する",
+      "適用中の条件チップに「〇〇の絞り込みを解除」という個別ラベルを付ける",
+      "フィルタパネルはモーダルとして正しくフォーカス管理する",
+      "「すべてクリア」を必ず用意する"
+    ],
+    "platformNotes": {
+      "web": "条件をクエリパラメータに反映し、共有・再訪・戻るに耐えるようにする。",
+      "flutter": "showModalBottomSheet でのフィルタUI + 状態管理。適用はシートを閉じる時にまとめて行うとよい。"
+    },
+    "related": ["search-bar", "chip", "sort", "empty-state", "drawer-overlay"],
+    "keywords": ["検索", "フィルタ", "絞り込み", "filter", "ファセット"]
+  },
+  {
+    "id": "sort",
+    "category": "pattern",
+    "name": "ソート（並べ替え）",
+    "enName": "Sorting",
+    "aliases": ["Order by", "並び替え", "並べ替え"],
+    "summary": "一覧の並び順を、ユーザーの目的に合わせて変更させる仕組み。",
+    "purpose": "同じ集合を別の観点から見せる。フィルタが「何を見るか」を決めるのに対し、ソートは「どの順で見るか」を決める。両者を混同しないUI設計が重要。",
+    "whenToUse": [
+      "一覧の件数が多く、優先順位の基準が人によって違う（価格・新着・人気・評価）",
+      "テーブルの列単位の並べ替え",
+      "既定の並び順（おすすめ順など）に納得しないユーザーがいる"
+    ],
+    "whenNotToUse": [
+      "並び順に意味がない、または1つしかない",
+      "件数が少なく、一目で全部見える",
+      "フィルタと同じUIに混ぜて、違いが分からなくなる場合"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon", "usage": "検索結果右上の「並べ替え：おすすめ順／価格の安い順／新着順」ドロップダウン。" },
+      { "app": "Google スプレッドシート / Notion", "usage": "列ヘッダから昇順・降順を指定し、現在のソート状態を矢印で示す。" },
+      { "app": "各種ファイル管理アプリ", "usage": "名前順・更新日順・サイズ順の切り替え。" }
+    ],
+    "antiPatterns": [
+      "現在の並び順が画面のどこにも表示されていない",
+      "昇順・降順の矢印の向きが直感と逆（↑が降順など）",
+      "ソートを変えるとフィルタ条件やページ位置がリセットされる",
+      "並べ替えの選択肢が10個以上ある"
+    ],
+    "accessibility": [
+      "テーブルは aria-sort=\"ascending|descending|none\" で状態を伝える",
+      "並べ替え完了を aria-live で通知する（「価格の安い順に並べ替えました」）",
+      "並び順の変更後もフォーカス位置を保つ"
+    ],
+    "platformNotes": {
+      "web": "<select> かメニュー。状態はURLのクエリに持たせる。",
+      "flutter": "DropdownButton や PopupMenuButton、DataTable の sortColumnIndex / sortAscending。"
+    },
+    "related": ["search-and-filter", "table", "select", "list"],
+    "keywords": ["ソート", "並べ替え", "sort", "順番"]
+  },
+  {
+    "id": "undo",
+    "category": "pattern",
+    "name": "Undo（元に戻す）",
+    "enName": "Undo",
+    "aliases": ["取り消し", "元に戻す", "Undo Snackbar"],
+    "summary": "実行した操作を後から取り消せるようにする、確認ダイアログの代替パターン。",
+    "purpose": "「事前に確認する」のではなく「事後に取り消せる」ようにすることで、確認ダイアログの摩擦を取り除きつつ安全性を保つ。頻度の高い操作ほど効果が大きい。",
+    "whenToUse": [
+      "頻繁に行う操作（削除、アーカイブ、既読、並べ替え）",
+      "誤操作のコストが中程度で、技術的に巻き戻せる",
+      "確認ダイアログが煩わしくなるほど繰り返される操作"
+    ],
+    "whenNotToUse": [
+      "本当に取り返しのつかない操作（アカウント削除、送金） → 明示的な確認",
+      "取り消しの実装が不可能（外部への送信済みなど）",
+      "取り消し期限が長すぎて、状態管理が破綻する場合"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail", "usage": "メールのアーカイブ・削除直後のスナックバー「元に戻す」。送信取り消し（数秒の遅延送信）も同じ思想。" },
+      { "app": "Google ドキュメント", "usage": "Ctrl/Cmd+Z による編集の取り消し。操作履歴として長く保持される。" },
+      { "app": "各種タスク管理アプリ", "usage": "タスク完了時に「完了しました｜元に戻す」を表示する。" }
+    ],
+    "antiPatterns": [
+      "Undo の表示時間が短く、気づく前に消える",
+      "Undo を押しても部分的にしか戻らない（元の位置・順序も復元する）",
+      "確認ダイアログとUndoの両方を出して、二重に手間をかけさせる",
+      "複数操作を連続した時に、どれが取り消されるか分からない"
+    ],
+    "accessibility": [
+      "Undo を含むスナックバーは自動で消さない、または十分に長く表示する",
+      "キーボードで到達できる位置に置く（フォーカス順の考慮）",
+      "取り消し結果も aria-live で通知する"
+    ],
+    "platformNotes": {
+      "web": "楽観的更新＋一定時間後に確定（サーバ送信を遅延させる実装が確実）。",
+      "flutter": "SnackBar(action: SnackBarAction(label: '元に戻す'))。Dismissible と組み合わせるのが定番。"
+    },
+    "related": ["toast-snackbar", "confirm-dialog", "swipe-actions", "destructive-button"],
+    "keywords": ["Undo", "元に戻す", "取り消し", "やり直し"]
+  },
+  {
+    "id": "confirm-dialog",
+    "category": "pattern",
+    "name": "確認ダイアログ",
+    "enName": "Confirmation Dialog",
+    "aliases": ["Are you sure?", "確認モーダル", "二段階確認"],
+    "summary": "取り返しのつかない操作の直前に、意図を確認するダイアログ。",
+    "purpose": "誤操作による損失を防ぐ。ただし多用すると読まずにOKを押す習慣を生むため、本当に必要な場面に限定し、代わりにUndoを使えないかをまず検討する。",
+    "whenToUse": [
+      "取り消し不能な操作（完全削除、公開、送金、解約）",
+      "影響範囲が大きい（他人にも影響する、大量のデータが消える）",
+      "誤クリックしやすい位置にある破壊的操作"
+    ],
+    "whenNotToUse": [
+      "取り消し可能な操作 → Undo の方が摩擦が少ない",
+      "頻繁に行う操作（確認疲れで無意識にOKを押すようになる）",
+      "単なる完了通知（確認を求めていない）"
+    ],
+    "realWorldExamples": [
+      { "app": "GitHub", "usage": "リポジトリ削除時に、リポジトリ名を正確に入力させる強い確認（type-to-confirm）。" },
+      { "app": "各種SaaSの解約フロー", "usage": "失うものを明示したうえで、解約ボタンを押させる。" },
+      { "app": "iOS", "usage": "アプリ削除時に、データも消える旨を明記した確認アラートを出す。" }
+    ],
+    "antiPatterns": [
+      "ボタンが「OK / キャンセル」（どちらが何をするか分からない。「削除する / やめる」にする）",
+      "何が起きるか説明せず「よろしいですか？」だけ",
+      "危険な方をデフォルトフォーカス・目立つ配置にする",
+      "すべての操作に確認を出し、確認の意味を失わせる"
+    ],
+    "accessibility": [
+      "role=\"alertdialog\" + aria-describedby で本文を関連付ける",
+      "初期フォーカスは安全な選択肢（キャンセル）に置く",
+      "Esc でキャンセルできるようにする",
+      "ボタンラベルは動詞で、単体で意味が通るようにする"
+    ],
+    "platformNotes": {
+      "web": "<dialog> + role=\"alertdialog\"。window.confirm はスタイルもラベルも制御できないので基本は避ける。",
+      "flutter": "showDialog + AlertDialog(actions: [TextButton('やめる'), FilledButton('削除する')])。"
+    },
+    "related": ["modal-dialog", "destructive-button", "undo", "action-sheet"],
+    "keywords": ["確認", "confirm", "ダイアログ", "削除確認"]
+  },
+  {
+    "id": "validation-error",
+    "category": "pattern",
+    "name": "バリデーション / エラー表示",
+    "enName": "Form Validation & Error Messages",
+    "aliases": ["Inline Validation", "入力チェック", "エラーメッセージ"],
+    "summary": "入力の誤りを検出し、どこを・なぜ・どう直せばよいかを伝える仕組み。",
+    "purpose": "フォーム完了率を左右する最大の要因。エラーは「責める」ものではなく「直し方を教える」もの。タイミング・場所・文言の3点で設計する。",
+    "whenToUse": [
+      "形式が決まった入力（メール、電話、パスワード要件）",
+      "サーバ側でしか判定できない検証（重複、在庫切れ）",
+      "送信前に確実に弾きたい必須項目"
+    ],
+    "whenNotToUse": [
+      "入力の1文字目からエラーを出す（打ち終わる前に赤くしない）",
+      "本来受け入れられる形式を弾く（全角スペース、ハイフンの有無は正規化する）"
+    ],
+    "realWorldExamples": [
+      { "app": "各種登録フォーム", "usage": "パスワード要件を入力中にチェックリストで満たしたものから✓にする（リアルタイムの肯定的フィードバック）。" },
+      { "app": "Amazon の住所入力", "usage": "郵便番号から住所を自動補完し、そもそも誤りが起きにくくする。" },
+      { "app": "GitHub", "usage": "ユーザー名の重複を入力中に非同期チェックし、その場で可否を表示する。" }
+    ],
+    "antiPatterns": [
+      "エラーをページ上部にまとめるだけで、どのフィールドか分からない",
+      "「入力内容に誤りがあります」だけで、どう直すか書かない",
+      "エラー時に入力内容をクリアする（絶対にやってはいけない）",
+      "赤色のみでエラーを示す（アイコンとテキストを併用する）",
+      "送信ボタンを押すまで何のエラーも出さない、または押せなくして理由も言わない"
+    ],
+    "accessibility": [
+      "aria-invalid=\"true\" と aria-describedby でメッセージをフィールドに紐づける",
+      "送信時のエラーサマリを role=\"alert\" で提示し、各項目へのアンカーリンクを置く",
+      "最初のエラーフィールドへフォーカスを移す",
+      "色・アイコン・テキストの3点で伝える（WCAG 1.4.1 色の使用）"
+    ],
+    "platformNotes": {
+      "web": "HTML5 の制約検証（required, pattern, type）＋ novalidate でカスタム表示。blur 時に検証、修正中は即時に解除するのが定石。",
+      "flutter": "Form + TextFormField(validator:) と autovalidateMode: AutovalidateMode.onUserInteraction。"
+    },
+    "related": ["text-field", "alert-banner", "auth-form", "three-states"],
+    "keywords": ["バリデーション", "エラー", "入力チェック", "validation", "エラーメッセージ"]
+  },
+  {
+    "id": "three-states",
+    "category": "pattern",
+    "name": "ローディング / エラー / 空 の3状態",
+    "enName": "Loading / Error / Empty States",
+    "aliases": ["UI States", "非理想状態", "Edge States"],
+    "summary": "データ表示画面が必ず持つべき、成功以外の3つの状態の設計。",
+    "purpose": "実装時に忘れられがちな「データがない・失敗した・まだ来ていない」を明示的に設計する。この3つを設計しないUIは、実運用で必ず破綻する。",
+    "whenToUse": [
+      "非同期でデータを取得するすべての画面",
+      "ネットワークが不安定になりうるモバイル",
+      "検索・フィルタの結果表示"
+    ],
+    "whenNotToUse": [
+      "静的コンテンツで、そもそも取得が発生しない画面"
+    ],
+    "realWorldExamples": [
+      { "app": "Instagram / X", "usage": "読み込み中はスケルトン、通信失敗時は「再試行」ボタン付きの表示、投稿0件時は作成を促す表示。" },
+      { "app": "Gmail", "usage": "オフライン時に専用の表示を出し、復帰後に自動で再同期する。" },
+      { "app": "Netflix", "usage": "読み込み中のプレースホルダ行と、エラー時のコード付きメッセージ。" }
+    ],
+    "antiPatterns": [
+      "エラーなのに空状態を表示し、「データがない」と誤解させる",
+      "エラー画面に再試行手段がない",
+      "エラーメッセージが技術的すぎる（500 Internal Server Error をそのまま出す）",
+      "ローディングが永遠に回り続け、タイムアウトしない",
+      "部分的な失敗（一部の要素だけ取得失敗）を無視して空白にする"
+    ],
+    "accessibility": [
+      "状態の変化を aria-live で通知する（読み込み完了、エラー発生）",
+      "エラーは role=\"alert\"、読み込みは aria-busy で表現する",
+      "再試行ボタンにフォーカスを移すか、到達しやすい位置に置く"
+    ],
+    "platformNotes": {
+      "web": "状態を列挙型（idle/loading/success/error/empty）で管理し、分岐を1箇所に集約すると抜けが減る。",
+      "flutter": "FutureBuilder / StreamBuilder の connectionState と hasError、データ0件を必ず分岐する。"
+    },
+    "related": ["skeleton", "empty-state", "progress-indicator", "alert-banner"],
+    "keywords": ["状態", "ローディング", "エラー", "空", "loading error empty"]
+  },
+  {
+    "id": "dark-mode-toggle",
+    "category": "pattern",
+    "name": "ダークモード切替",
+    "enName": "Dark Mode / Theme Toggle",
+    "aliases": ["Theme Switcher", "外観モード", "ライト/ダーク"],
+    "summary": "ライト・ダーク・システム連動の3つから外観を選ばせる仕組み。",
+    "purpose": "環境光やユーザーの好みに合わせて可読性と快適性を上げる。実装上は「色をトークン化できているか」を試す試金石でもある。",
+    "whenToUse": [
+      "夜間や暗所での利用が多いアプリ",
+      "長時間の閲覧（読書、動画、コード）",
+      "OSがダークモードを持つプラットフォーム全般（システム連動は必須級）"
+    ],
+    "whenNotToUse": [
+      "ブランド表現上、色が固定されている必要がある",
+      "色をトークン化しておらず、ダーク側のコントラストを検証できない",
+      "システム連動を無視して常に片方に固定する"
+    ],
+    "realWorldExamples": [
+      { "app": "X (Twitter)", "usage": "「デフォルト／ダークブルー／ブラック」から選べる表示設定。" },
+      { "app": "iOS / Android", "usage": "OS設定の外観モード。アプリは既定でこれに追従するのが望ましい。" },
+      { "app": "GitHub", "usage": "ライト／ダーク／システム同期に加え、テーマの種類も選べる。" }
+    ],
+    "antiPatterns": [
+      "純黒(#000)と純白(#fff)の文字でコントラストが強すぎ、目が疲れる（ダークは #121212 前後＋やや落とした白）",
+      "ライトの色をそのまま反転しただけで、彩度の高い色が浮いて見える",
+      "画像・図版・グラフがダーク背景で読めない",
+      "設定が保存されず、リロードでライトに戻る（選択を永続化する）",
+      "切り替え時に一瞬白く光る（初期描画前にテーマを適用する）"
+    ],
+    "accessibility": [
+      "両モードでコントラスト比 4.5:1（本文）／3:1（大きな文字・UI部品）を満たすか検証する",
+      "システム設定（prefers-color-scheme）を既定にし、上書きも許す3択にする",
+      "切り替えボタンの状態を aria-pressed やラベルで明示する"
+    ],
+    "platformNotes": {
+      "web": "CSS カスタムプロパティ＋prefers-color-scheme、data-theme 属性で上書き。localStorage に保存し、描画前に適用する。",
+      "flutter": "MaterialApp(theme:, darkTheme:, themeMode: ThemeMode.system/light/dark)。ColorScheme.fromSeed が便利。"
+    },
+    "related": ["toggle-switch", "segmented-control"],
+    "keywords": ["ダークモード", "テーマ", "dark mode", "外観", "配色"]
+  },
+  {
+    "id": "permission-prompt",
+    "category": "pattern",
+    "name": "通知・権限リクエスト",
+    "enName": "Permission Prompt / Priming",
+    "aliases": ["Pre-permission", "Priming", "許可ダイアログ"],
+    "summary": "通知・位置情報・カメラなどのOS権限を、適切なタイミングで求めるパターン。",
+    "purpose": "OSの許可ダイアログは基本的に1度しか出せない。拒否されると復帰が難しいため、事前に理由を説明する画面（プライミング）を挟んで承諾率を上げる。",
+    "whenToUse": [
+      "その機能を使う直前（写真を選ぶ時にフォトライブラリ権限を求める）",
+      "ユーザーが価値を理解した後（初回起動直後ではなく、数回使ってから通知を求める）",
+      "事前説明で「何のために・何が得られるか」を伝えられる場合"
+    ],
+    "whenNotToUse": [
+      "起動直後にすべての権限をまとめて要求する",
+      "機能を使う予定がないのに先回りして求める",
+      "拒否したユーザーに繰り返し求める（設定への導線を示すに留める）"
+    ],
+    "realWorldExamples": [
+      { "app": "iOS のアプリ全般", "usage": "OSの権限ダイアログの前に、アプリ独自の説明画面を出して理由を伝える（プライミング）。" },
+      { "app": "Google マップ", "usage": "経路検索など位置情報が必要な操作の時点で、初めて権限を求める。" },
+      { "app": "各種メッセージアプリ", "usage": "通知を許可すると何が届くかを説明してから、OSダイアログを表示する。" }
+    ],
+    "antiPatterns": [
+      "初回起動で通知・位置情報・連絡先をまとめて要求する（大半が拒否される）",
+      "拒否された後もアプリ内ダイアログを毎回出し続ける",
+      "権限がない状態のフォールバック体験を用意していない（機能が壊れる）",
+      "「許可しないと使えません」と脅す（正当な理由がない限り避ける）"
+    ],
+    "accessibility": [
+      "プライミング画面は通常のダイアログとしてフォーカス管理・Esc閉じを実装する",
+      "「今はしない」の選択肢を明示し、後から設定できる場所を案内する",
+      "権限が必要な理由を、平易な言葉で1〜2文で書く"
+    ],
+    "platformNotes": {
+      "web": "Notification.requestPermission() はユーザー操作起点で呼ぶ。ブラウザは自動要求をブロックする傾向にある。",
+      "flutter": "permission_handler パッケージ。iOS は Info.plist の usage description が必須。"
+    },
+    "related": ["onboarding", "modal-dialog", "alert-banner"],
+    "keywords": ["権限", "通知許可", "パーミッション", "permission", "プライミング"]
+  }
+]

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Web/スマホアプリのUIコンポーネントを、名前・使いどころ・実アプリの採用例つきで学べるカタログ。全て実際に触れる動くデモつき。" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>UI Catalog — 触って学ぶ UI コンポーネント辞典</title>
+    <script>
+      // 初期描画前にテーマを適用して「白い一瞬」を防ぐ（dark-mode-toggle のアンチパターン対策）
+      (function () {
+        try {
+          var saved = localStorage.getItem('ui-catalog-theme');
+          if (saved === 'light' || saved === 'dark') {
+            document.documentElement.setAttribute('data-theme', saved);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

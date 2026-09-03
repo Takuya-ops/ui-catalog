@@ -1,0 +1,450 @@
+[
+  {
+    "id": "app-bar",
+    "category": "navigation",
+    "name": "ヘッダー / アプリバー",
+    "enName": "App Bar / Header / Navigation Bar",
+    "aliases": ["Top Bar", "Toolbar", "ナビゲーションバー", "ヘッダ"],
+    "summary": "画面最上部に固定され、現在地・戻る・主要アクションを常に示す帯。",
+    "purpose": "「今どの画面にいるか」と「ここで何ができるか」を、スクロールしても失われない位置に置く。左＝戻る／中央＝タイトル／右＝アクション、が世界共通の配置慣習。",
+    "whenToUse": [
+      "画面にタイトルが必要（＝どこにいるか説明が要る）",
+      "戻る・検索・共有など、その画面のグローバルな操作を置きたい",
+      "スクロール中も参照・操作させたい"
+    ],
+    "whenNotToUse": [
+      "没入体験が主目的（動画全画面、カメラ、ゲーム）→ タップで出し入れする",
+      "縦幅が極端に貴重で、タイトルが自明な画面"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail (モバイル)", "usage": "上部バーにメニュー（ハンバーガー）・検索・アカウントアイコンを配置。" },
+      { "app": "iOS 設定", "usage": "スクロールするとラージタイトルが縮んで小さいタイトルに変わる（Large Title の縮退）。" },
+      { "app": "YouTube", "usage": "ロゴ＋検索＋通知＋アカウント。下スクロールで隠れ、上スクロールで再表示される。" }
+    ],
+    "antiPatterns": [
+      "アクションアイコンを5個以上並べて、意味が判別できない（3個以内＋「その他」メニューに集約）",
+      "戻るボタンの位置がOSの慣習と違う（iOSは左上、Androidは左上＋システムバック）",
+      "タイトルが長すぎて省略され、どの画面か分からない",
+      "スクロールで隠れるのに、そこにしか置いていない重要な操作がある"
+    ],
+    "accessibility": [
+      "<header> と role=\"banner\"、ナビゲーションは <nav> でランドマーク化する",
+      "アイコンのみのボタンには必ず aria-label を付ける",
+      "iOS のセーフエリア（ノッチ／ダイナミックアイランド）を避けてコンテンツを置く"
+    ],
+    "platformNotes": {
+      "web": "position: sticky; top: 0 のヘッダー。スクロール連動の表示制御は IntersectionObserver が便利。",
+      "flutter": "AppBar / SliverAppBar（pinned, floating, snap でスクロール挙動を制御）。Cupertino は CupertinoNavigationBar。"
+    },
+    "related": ["hamburger-menu", "tab-bar", "breadcrumbs", "safe-area"],
+    "keywords": ["ヘッダー", "アプリバー", "ナビバー", "app bar", "上部"]
+  },
+  {
+    "id": "bottom-navigation",
+    "category": "navigation",
+    "name": "ボトムナビゲーション",
+    "enName": "Bottom Navigation / Tab Bar",
+    "aliases": ["Tab Bar (iOS)", "Bottom Tabs", "下部タブ"],
+    "summary": "画面下部に3〜5個の主要セクションを常時表示する、モバイルの主要ナビ。",
+    "purpose": "アプリのトップレベルの行き先を、親指が届く位置に常に見せる。相互に切り替えても各タブの状態（スクロール位置・入力）は保持されるのが原則。",
+    "whenToUse": [
+      "トップレベルの行き先が3〜5個で、頻繁に行き来する",
+      "モバイルアプリで、片手操作を重視する",
+      "各セクションが対等な関係（親子ではない）"
+    ],
+    "whenNotToUse": [
+      "行き先が6個以上 → ドロワーやその他タブへ集約",
+      "セクション間の移動が稀（設定など）→ ドロワーやメニューに置く",
+      "デスクトップWeb → 横幅を活かしたトップナビやサイドバーが適切"
+    ],
+    "realWorldExamples": [
+      { "app": "Instagram", "usage": "ホーム／検索／リール／ショップまたは投稿／プロフィールの下部タブ。" },
+      { "app": "X (Twitter)", "usage": "ホーム／検索／コミュニティ／通知／DM。" },
+      { "app": "LINE", "usage": "ホーム／トーク／VOOM／ニュース／ウォレット。未読数をバッジで重ねる。" }
+    ],
+    "antiPatterns": [
+      "タブを切り替えるたびにスクロール位置がリセットされる（各タブのナビゲーションスタックを保持する）",
+      "アイコンだけでラベルを出さない（意味が伝わらないアイコンが多数ある）",
+      "選択中タブが色以外で区別できない（塗りつぶし／アウトラインの切り替えを併用）",
+      "中央にFABを置いて、実質4タブなのに5タブに見せる（役割が違うものを混ぜない）"
+    ],
+    "accessibility": [
+      "<nav> + role=\"tablist\" 相当の構造にし、現在地を aria-current=\"page\" で示す",
+      "ラベル文字は縮小しすぎない（最低11px程度）。アイコン＋ラベルの併記が最も確実",
+      "セーフエリア（ホームインジケータ）の分だけ下パディングを確保する",
+      "タップ領域は48dp以上。バッジは装飾ではなく件数を読み上げ可能にする"
+    ],
+    "platformNotes": {
+      "web": "position: fixed; bottom: 0 + env(safe-area-inset-bottom)。PWAで有効。",
+      "flutter": "Scaffold(bottomNavigationBar: NavigationBar / BottomNavigationBar)。状態保持には IndexedStack や go_router の StatefulShellRoute。"
+    },
+    "related": ["tab-bar", "drawer-sidebar", "fab", "safe-area", "badge"],
+    "keywords": ["ボトムナビ", "下部タブ", "tab bar", "bottom navigation"]
+  },
+  {
+    "id": "tab-bar",
+    "category": "navigation",
+    "name": "タブ",
+    "enName": "Tabs",
+    "aliases": ["Tab Bar", "Top Tabs", "Scrollable Tabs", "タブビュー"],
+    "summary": "同じ階層の内容を、横並びの見出しで切り替えるUI。",
+    "purpose": "同一コンテキスト内の並列な情報を、画面遷移せずに切り替える。「同じものの別の見方」を示す記号として使う。",
+    "whenToUse": [
+      "内容が対等で、同時に見る必要がない（概要／レビュー／仕様）",
+      "切り替えが軽く、行き来が多い",
+      "項目が多い場合はスクロール可能タブにできる"
+    ],
+    "whenNotToUse": [
+      "内容を並べて比較したい → 分割表示やテーブル",
+      "順序があり必ず全部通る → ウィザード / ステッパー",
+      "画面のトップレベルの行き先 → ボトムナビゲーション"
+    ],
+    "realWorldExamples": [
+      { "app": "X (Twitter)", "usage": "タイムライン上部の「おすすめ／フォロー中」タブ。左右スワイプでも切り替わる。" },
+      { "app": "App Store", "usage": "アプリ詳細内のセグメント切り替えや、ランキングのカテゴリタブ。" },
+      { "app": "GitHub", "usage": "リポジトリの Code / Issues / Pull requests / Actions タブ。URLも切り替わる。" }
+    ],
+    "antiPatterns": [
+      "タブ内にさらにタブを入れる（階層が分からなくなる）",
+      "タブの切り替えでデータが毎回リセットされ、戻ると入力が消える",
+      "選択中のタブが目立たず、どこにいるか分からない",
+      "タブが画面幅に収まらないのに、スクロールできることを示さない（端で切れて見せる工夫が必要）"
+    ],
+    "accessibility": [
+      "WAI-ARIA の tabs パターン：role=\"tablist\" / \"tab\" / \"tabpanel\"、aria-selected、aria-controls",
+      "左右矢印キーでタブ移動、Tab キーはパネルへ移動（ロービングtabindex）",
+      "タブ切り替えでURLも変わるようにすると、共有・戻る操作に強くなる"
+    ],
+    "platformNotes": {
+      "web": "role=\"tablist\" のカスタム実装が基本。URLのハッシュやクエリと同期させる。",
+      "flutter": "TabBar + TabBarView + TabController（DefaultTabController で簡潔に書ける）。isScrollable: true で横スクロール。"
+    },
+    "related": ["segmented-control", "bottom-navigation", "app-bar"],
+    "keywords": ["タブ", "tab", "切り替え", "タブバー"]
+  },
+  {
+    "id": "drawer-sidebar",
+    "category": "navigation",
+    "name": "サイドバー / ドロワー",
+    "enName": "Sidebar / Navigation Drawer",
+    "aliases": ["Side Nav", "Navigation Drawer", "サイドメニュー"],
+    "summary": "画面の横から現れる（または常設の）縦長のナビゲーション領域。",
+    "purpose": "行き先が多く階層があるアプリで、一覧性の高いナビゲーションを提供する。デスクトップでは常設、モバイルでは overlay として出し入れするのが定石。",
+    "whenToUse": [
+      "行き先が6個以上、またはグループ分けが必要",
+      "デスクトップの横幅が余っている（常設サイドバー）",
+      "ワークスペース／アカウント切り替えなど、階層のあるナビ"
+    ],
+    "whenNotToUse": [
+      "主要な行き先が3〜5個 → ボトムナビゲーション（常に見える方が使われる）",
+      "モバイルで最も使う機能を隠してしまう場合（隠すと利用率は確実に下がる）"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail (モバイル)", "usage": "ハンバーガーから開くドロワー。受信トレイ・スター付き・ラベル一覧を階層表示する。" },
+      { "app": "Slack", "usage": "常設サイドバーにチャンネル・DMを一覧。未読は太字＋バッジで示す。" },
+      { "app": "Notion", "usage": "左サイドバーのページツリー。ドラッグで並べ替え、折りたたみができる。" }
+    ],
+    "antiPatterns": [
+      "主要導線をすべてドロワーに隠す（発見されず使われない）",
+      "オーバーレイ表示なのに、外側タップ・Escで閉じられない",
+      "開いた時に背景がスクロールしてしまう（背面のスクロールロックが必要）",
+      "モバイルで常設サイドバーを無理に表示し、コンテンツ幅を潰す"
+    ],
+    "accessibility": [
+      "オーバーレイ時はフォーカストラップを行い、閉じたら開いたボタンにフォーカスを戻す",
+      "role=\"dialog\" + aria-modal（モーダルドロワーの場合）／<nav> ランドマーク（常設の場合）",
+      "現在地を aria-current で示す。スワイプで開く場合もボタンを必ず用意する"
+    ],
+    "platformNotes": {
+      "web": "transform: translateX で出し入れ。<dialog> や inert 属性で背面を無効化するのが現代的。",
+      "flutter": "Scaffold(drawer: / endDrawer:) + Drawer。常設は Row + NavigationRail / NavigationDrawer。"
+    },
+    "related": ["hamburger-menu", "bottom-navigation", "drawer-overlay"],
+    "keywords": ["サイドバー", "ドロワー", "サイドメニュー", "drawer", "sidebar"]
+  },
+  {
+    "id": "hamburger-menu",
+    "category": "navigation",
+    "name": "ハンバーガーメニュー",
+    "enName": "Hamburger Menu",
+    "aliases": ["Menu Button", "三本線", "≡ ボタン"],
+    "summary": "三本線アイコンで、隠れたナビゲーションを開くボタン。",
+    "purpose": "狭い画面でナビゲーション項目を畳んでおくためのトリガー。アイコン自体は「メニューがある」という記号で、中身はドロワーやシートで開く。",
+    "whenToUse": [
+      "モバイル幅で、ナビゲーション項目が多く常時表示できない",
+      "二次的な導線（設定・ヘルプ・アカウント）をまとめる",
+      "デスクトップとモバイルでナビの表示方法を切り替えるレスポンシブ設計"
+    ],
+    "whenNotToUse": [
+      "主要な行き先が3〜5個しかない → ボトムナビやトップタブで露出させる",
+      "その中の項目が最重要（隠すとクリック率が大きく落ちる）"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail (モバイル)", "usage": "左上の三本線からナビゲーションドロワーを開く。" },
+      { "app": "多くの企業サイトのモバイル表示", "usage": "デスクトップの横並びメニューを、モバイルでは三本線に畳む。" },
+      { "app": "Google ドライブ (モバイル)", "usage": "三本線からマイドライブ・共有アイテム・ゴミ箱などへ移動する。" }
+    ],
+    "antiPatterns": [
+      "「MENU」等のラベルもなく、アイコンの意味が伝わらない層に配慮しない",
+      "開閉アイコンが状態に応じて変化しない（開いている時は×にするのが親切）",
+      "デスクトップでも常に畳んで、広い画面を活かさない",
+      "中身が3項目しかないのに畳む（タップを1回増やしただけ）"
+    ],
+    "accessibility": [
+      "aria-label=\"メニュー\"、aria-expanded、aria-controls を設定する",
+      "開閉のフォーカス管理（開いたらドロワー内へ、閉じたらボタンへ戻す）",
+      "44×44pt 以上のタップ領域を確保する"
+    ],
+    "platformNotes": {
+      "web": "<button aria-expanded> + CSS のメディアクエリで表示切り替え。",
+      "flutter": "Scaffold に drawer を渡すと AppBar に自動で表示される（IconButton(Icons.menu) 相当）。"
+    },
+    "related": ["drawer-sidebar", "app-bar", "context-menu"],
+    "keywords": ["ハンバーガー", "三本線", "メニュー", "hamburger"]
+  },
+  {
+    "id": "breadcrumbs",
+    "category": "navigation",
+    "name": "パンくずリスト",
+    "enName": "Breadcrumbs",
+    "aliases": ["Breadcrumb Trail", "階層ナビ", "パンくず"],
+    "summary": "現在地までの階層を「ホーム > カテゴリ > 商品」の形で示す小さなナビ。",
+    "purpose": "深い階層構造の中で現在地を示し、1段上へ戻る導線を与える。検索エンジンやSNS経由で途中の階層に着地したユーザーの迷子を防ぐ。",
+    "whenToUse": [
+      "階層が3層以上ある（ECのカテゴリ、ドキュメント、ファイルシステム）",
+      "外部から深い階層に直接着地することがある",
+      "1段上・2段上への移動が実際に有用"
+    ],
+    "whenNotToUse": [
+      "階層が1〜2層しかない（戻るボタンで十分）",
+      "モバイルの狭い幅で長い階層を折り返して表示する（省略や最終1段のみ表示にする）",
+      "階層ではなく、ユーザーの遷移履歴を出そうとしている（それは戻るの役割）"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon", "usage": "商品ページ上部のカテゴリ階層表示。上位カテゴリへ戻れる。" },
+      { "app": "GitHub", "usage": "リポジトリ内ファイル閲覧時のパス表示（repo / src / components / Button.tsx）。各要素がリンク。" },
+      { "app": "各種ドキュメントサイト", "usage": "ガイド > 導入 > インストール、のような階層表示。" }
+    ],
+    "antiPatterns": [
+      "最後の要素（現在地）をリンクにする（現在地はリンクにしない）",
+      "履歴を出してパンくずと称する（階層構造を示すのが本来の役割）",
+      "モバイルで折り返して2行3行になる（先頭省略 … を使う）",
+      "区切り文字を装飾要素として読み上げさせる"
+    ],
+    "accessibility": [
+      "<nav aria-label=\"パンくずリスト\"> + <ol> でマークアップする",
+      "現在地に aria-current=\"page\" を付ける",
+      "区切り文字は CSS の ::before で描画し、読み上げから外す",
+      "構造化データ（BreadcrumbList）を入れると検索結果にも階層が出る"
+    ],
+    "platformNotes": {
+      "web": "<nav><ol><li><a>。SEO の観点でも有効なパターン。",
+      "flutter": "標準ウィジェットはないので Wrap + TextButton + Icon(chevron_right) で構成する。"
+    },
+    "related": ["app-bar", "pagination", "tab-bar"],
+    "keywords": ["パンくず", "階層", "breadcrumb", "現在地"]
+  },
+  {
+    "id": "pagination",
+    "category": "navigation",
+    "name": "ページネーション",
+    "enName": "Pagination",
+    "aliases": ["Pager", "ページ送り", "ページャ"],
+    "summary": "長い一覧をページに分割し、番号や前後ボタンで移動させるUI。",
+    "purpose": "一覧の全体量を示しつつ、特定の位置へ直接ジャンプできるようにする。「何件中どこを見ているか」が分かるのが無限スクロールとの決定的な差。",
+    "whenToUse": [
+      "全体件数や位置の把握が重要（検索結果、管理画面、注文履歴）",
+      "特定のページに戻る・共有する必要がある（URLにページ番号を持てる）",
+      "フッターに到達させたい（無限スクロールだとフッターが押し出される）"
+    ],
+    "whenNotToUse": [
+      "モバイルの探索的なフィード → 無限スクロールやもっと見るボタン",
+      "件数が1ページに収まる"
+    ],
+    "realWorldExamples": [
+      { "app": "Google 検索", "usage": "検索結果下部のページ送り。ページ番号で位置を把握できる。" },
+      { "app": "Amazon", "usage": "検索結果一覧の下部に「1 2 3 … 次へ」。総ページ数が見える。" },
+      { "app": "GitHub", "usage": "Issue / PR 一覧の Previous / Next。管理系の一覧では位置の把握が重要。" }
+    ],
+    "antiPatterns": [
+      "ページを移動しても画面上部にスクロールしない",
+      "現在ページが視覚的に分からない",
+      "ページ番号が100個並ぶ（前後数ページ＋最初/最後＋… に省略する）",
+      "ページ移動でフィルタ条件がリセットされる"
+    ],
+    "accessibility": [
+      "<nav aria-label=\"ページネーション\"> でランドマーク化し、現在ページに aria-current=\"page\"",
+      "「次へ」だけでなく「3ページ目へ」のように、リンク単体で意味が通る名前を付ける",
+      "ページ切り替え後にフォーカスを一覧の先頭（見出し）へ移す"
+    ],
+    "platformNotes": {
+      "web": "?page=2 のようにURLへ状態を持たせるのが基本。rel=\"next/prev\" も併用できる。",
+      "flutter": "PageView（横スワイプのページ送り）や、リスト下部にページ番号ボタンを自作する。"
+    },
+    "related": ["infinite-scroll", "table", "breadcrumbs"],
+    "keywords": ["ページネーション", "ページ送り", "pagination", "ページャ"]
+  },
+  {
+    "id": "wizard-stepper",
+    "category": "navigation",
+    "name": "ステッパー / ウィザード",
+    "enName": "Stepper / Wizard / Multi-step Form",
+    "aliases": ["Progress Steps", "Multi-step Form", "ステップナビ", "段階フォーム"],
+    "summary": "長いタスクを複数ステップに分割し、進行状況を示しながら順に進めさせるUI。",
+    "purpose": "入力項目が多いタスクの心理的負荷を下げ、「あと何ステップか」を可視化して離脱を防ぐ。ステップ間で検証を分割できるのも利点。",
+    "whenToUse": [
+      "手順に順序があり、前の入力が後の選択肢に影響する（住所→配送方法→支払い）",
+      "項目数が多く、1画面に出すと圧倒される",
+      "途中保存・中断再開が必要"
+    ],
+    "whenNotToUse": [
+      "項目が5個程度しかない（1画面で完結させた方が速い）",
+      "ユーザーが全体像を先に見て自由に埋めたい（アコーディオン式の1画面フォームが向く）"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon の注文手続き", "usage": "配送先 → 配送オプション → 支払い方法 → 確認、の段階的フロー。" },
+      { "app": "各種オンライン口座開設", "usage": "本人情報 → 本人確認書類 → 審査待ち、をステップ表示する。" },
+      { "app": "SaaS のセットアップウィザード", "usage": "初期設定を順に進め、完了したステップにチェックを付ける。" }
+    ],
+    "antiPatterns": [
+      "戻るとそれまでの入力が消える（各ステップの状態は必ず保持する）",
+      "残りステップ数を示さない（先が見えないと離脱する）",
+      "最終確認画面がない、または修正のために最初からやり直させる",
+      "ステップを細かく割りすぎ、1画面1項目にして操作回数を増やす"
+    ],
+    "accessibility": [
+      "各ステップの状態（完了／現在／未着手）をテキストでも伝える（aria-current=\"step\"）",
+      "ステップ移動時にフォーカスを新しい見出しへ移す",
+      "エラーがあるステップを一覧上でも示し、そこへジャンプできるようにする"
+    ],
+    "platformNotes": {
+      "web": "<ol> でステップを表現し、状態はクラス＋aria属性で示す。URLにステップを持たせると再開しやすい。",
+      "flutter": "Stepper ウィジェット（horizontal / vertical）。currentStep と StepState で状態を制御する。"
+    },
+    "related": ["progress-indicator", "onboarding", "validation-error", "pagination"],
+    "keywords": ["ウィザード", "ステップ", "stepper", "多段フォーム", "手順"]
+  },
+  {
+    "id": "fab",
+    "category": "navigation",
+    "name": "FAB（フローティングアクションボタン）",
+    "enName": "Floating Action Button",
+    "aliases": ["FAB", "浮動ボタン", "Extended FAB"],
+    "summary": "画面に浮いて常時表示される、その画面で最も重要な1アクションのボタン。",
+    "purpose": "画面の主要な生成アクション（新規作成・投稿）を、スクロール位置に関係なく親指の届く場所に置く。Material Design 固有の概念。",
+    "whenToUse": [
+      "その画面で圧倒的に多く使われる操作が1つある（新規作成・撮影・追加）",
+      "リストを見ながらいつでも作成に入りたい",
+      "Android / Material デザインのアプリ"
+    ],
+    "whenNotToUse": [
+      "主要アクションが複数ある（FABは原則1画面1つ）",
+      "破壊的な操作（削除など）をFABにする",
+      "iOS の標準的な画面（HIG ではナビゲーションバー右上の＋が慣習）"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail (Android)", "usage": "右下の「作成」ボタン。スクロールすると縮小し、アイコンのみになる。" },
+      { "app": "Google Keep", "usage": "新規メモ作成のFAB。種類（リスト・手書き）を選ぶボタンも並ぶ。" },
+      { "app": "Google ドライブ", "usage": "右下の「＋新規」FAB。タップでアップロード等のメニューが開く。" }
+    ],
+    "antiPatterns": [
+      "リストの最後の項目やボトムナビをFABが覆い隠す（下部に余白を確保する）",
+      "アイコンの意味が曖昧で、何が起きるか分からない（重要なら Extended FAB でラベルを付ける）",
+      "1画面に複数のFABを置く",
+      "スクロールしても絶対に隠れず、コンテンツの閲覧を邪魔し続ける"
+    ],
+    "accessibility": [
+      "aria-label で動作を明示する（「新しいメモを作成」）",
+      "コンテンツの最後に十分な余白を入れ、FABが最終行を隠さないようにする",
+      "キーボード操作時のフォーカス順で、迷子にならない位置に置く"
+    ],
+    "platformNotes": {
+      "web": "position: fixed の丸ボタン。Material 以外のデザインでは使わない選択も普通。",
+      "flutter": "Scaffold(floatingActionButton:) + FloatingActionButton / .extended。位置は floatingActionButtonLocation で制御。"
+    },
+    "related": ["primary-button", "bottom-navigation", "action-sheet"],
+    "keywords": ["FAB", "フローティング", "浮動ボタン", "新規作成"]
+  },
+  {
+    "id": "segmented-control",
+    "category": "navigation",
+    "name": "セグメンテッドコントロール",
+    "enName": "Segmented Control",
+    "aliases": ["Segmented Buttons", "Toggle Group", "セグメント"],
+    "summary": "2〜5個の選択肢を横並びの一体型ボタンで切り替えるUI。iOS発祥。",
+    "purpose": "同じデータの表示方法や絞り込みを、1タップで切り替える。ラジオボタンより省スペースで、タブより「フィルタ／表示切替」の意味が強い。",
+    "whenToUse": [
+      "選択肢が2〜5個で、ラベルが短い（日／週／月、すべて／未読）",
+      "その場で表示が切り替わる（画面遷移ではない）",
+      "iOS 系デザイン、またはツールバー内の表示切替"
+    ],
+    "whenNotToUse": [
+      "選択肢が6個以上、またはラベルが長い → セレクトやタブ",
+      "画面のトップレベル遷移 → タブ／ボトムナビ",
+      "複数選択が必要 → チップやチェックボックス"
+    ],
+    "realWorldExamples": [
+      { "app": "iOS カレンダー", "usage": "日／週／月／年 の表示切替。" },
+      { "app": "iOS 純正アプリ全般", "usage": "UISegmentedControl として HIG に定義された標準部品。" },
+      { "app": "Google マップ", "usage": "経路検索の移動手段（車／公共交通機関／徒歩など）の切り替え。" }
+    ],
+    "antiPatterns": [
+      "選択中セグメントが分かりにくい（背景色＋文字色の両方で差をつける）",
+      "セグメントごとに文字数が違いすぎて幅がガタつく",
+      "押した後に読み込みが走るのに、選択状態が即座に変わらない",
+      "実質タブなのにセグメンテッドコントロールで表現し、URLが変わらず共有できない"
+    ],
+    "accessibility": [
+      "ラジオグループ（role=\"radiogroup\"）またはタブとして実装し、矢印キーで移動できるようにする",
+      "選択状態を aria-checked / aria-selected で伝える",
+      "各セグメントのタップ領域を44pt以上確保する"
+    ],
+    "platformNotes": {
+      "web": "ラジオ input を視覚的にボタン化する実装が堅実。",
+      "flutter": "SegmentedButton（Material 3）／CupertinoSegmentedControl・CupertinoSlidingSegmentedControl。"
+    },
+    "related": ["tab-bar", "radio", "toggle-switch", "chip"],
+    "keywords": ["セグメント", "切り替え", "segmented", "表示切替"]
+  },
+  {
+    "id": "command-palette",
+    "category": "navigation",
+    "name": "コマンドパレット",
+    "enName": "Command Palette",
+    "aliases": ["Quick Switcher", "Cmd+K", "コマンドバー"],
+    "summary": "キーボードショートカットで開き、検索して機能・ページへ直接飛ぶUI。",
+    "purpose": "階層をたどらずに、あらゆる機能とコンテンツへ「名前で」到達させる。パワーユーザーの操作速度を劇的に上げる、メニューの補完的存在。",
+    "whenToUse": [
+      "機能数が多く、メニュー階層が深いツール系アプリ",
+      "キーボード中心のユーザーが多い（エディタ、開発者ツール、業務SaaS）",
+      "ナビゲーションと操作実行を1つの入口に統合したい"
+    ],
+    "whenNotToUse": [
+      "モバイル専用アプリ（物理キーボードがない）",
+      "機能が少なく、メニューで十分見渡せる",
+      "これだけを唯一の導線にする（発見できない人が必ずいる）"
+    ],
+    "realWorldExamples": [
+      { "app": "VS Code", "usage": "Cmd/Ctrl+Shift+P のコマンドパレット。全コマンドを名前で検索・実行できる。" },
+      { "app": "Notion", "usage": "Cmd/Ctrl+K のクイック検索でページへ即移動。" },
+      { "app": "Slack", "usage": "Cmd/Ctrl+K のクイックスイッチャーでチャンネル・DMへ移動。" }
+    ],
+    "antiPatterns": [
+      "ショートカットの存在をどこにも表示しない（ヘッダーに ⌘K と表示するのが定番）",
+      "検索が完全一致のみで、あいまい検索（fuzzy）に対応していない",
+      "実行できるコマンドと移動先が混在し、何が起きるか分からない（アイコンやセクションで分ける）",
+      "Esc で閉じられない／閉じるとフォーカスが失われる"
+    ],
+    "accessibility": [
+      "モーダルダイアログとして実装し、フォーカストラップと Esc 閉じを実装する",
+      "combobox + listbox パターンで、上下キー選択・Enter実行を提供する",
+      "結果件数の変化を aria-live で通知する"
+    ],
+    "platformNotes": {
+      "web": "<dialog> + 入力 + 結果リスト。キーバインドは keydown で metaKey/ctrlKey を判定する。",
+      "flutter": "showDialog + Autocomplete、または SearchAnchor。デスクトップ版では Shortcuts/Actions でキーバインドを定義する。"
+    },
+    "related": ["search-bar", "autocomplete", "modal-dialog", "context-menu"],
+    "keywords": ["コマンドパレット", "Cmd+K", "クイック検索", "command palette"]
+  }
+]

@@ -1,0 +1,578 @@
+[
+  {
+    "id": "card",
+    "category": "display",
+    "name": "カード",
+    "enName": "Card",
+    "aliases": ["Tile", "パネル", "カードUI"],
+    "summary": "関連する情報を1つのまとまりとして囲む、タップ可能な情報の単位。",
+    "purpose": "画像・タイトル・説明・アクションといった異種の情報を1つのオブジェクトとして知覚させる。グリッドやリストに並べて、比較・選択させるのが主な用途。",
+    "whenToUse": [
+      "1件あたりの情報量が多く、画像を伴う（商品、宿、記事、動画）",
+      "アイテム同士が独立していて、それぞれが遷移先を持つ",
+      "レスポンシブに列数を変えて並べたい"
+    ],
+    "whenNotToUse": [
+      "1行1項目のシンプルな情報 → リスト（カードは余白を食い、一覧性が落ちる）",
+      "厳密な数値比較 → テーブル",
+      "すべての要素をカードにして、階層がなくなっている（カードの乱用）"
+    ],
+    "realWorldExamples": [
+      { "app": "Airbnb", "usage": "宿泊先の一覧カード。写真カルーセル＋価格＋評価＋お気に入りボタンを1枚に収める。" },
+      { "app": "Google Play / App Store", "usage": "アプリ紹介カード。アイコン・名前・評価・インストールボタン。" },
+      { "app": "X (Twitter)", "usage": "リンクを貼ると生成される OGP カード（画像＋タイトル＋ドメイン）。" }
+    ],
+    "antiPatterns": [
+      "カード全体がリンクなのに、中にもボタンやリンクを入れ子にする（クリック領域が競合する）",
+      "影・枠線・背景色をすべて盛って、視覚的ノイズになる",
+      "カードの高さが内容によってバラバラで、グリッドが崩れる",
+      "情報が2行しかないのにカードにして、スクロール量を無駄に増やす"
+    ],
+    "accessibility": [
+      "カード全体をリンクにする場合は、見出しの中にリンクを置き、疑似要素で領域を広げる手法が安全",
+      "画像には意味のある alt を付ける（装飾なら空 alt）",
+      "カード内の主要アクションはキーボードで個別に到達できるようにする"
+    ],
+    "platformNotes": {
+      "web": "<article> + 見出し。CSS Grid の auto-fill/minmax で列数を自動調整するのが定番。",
+      "flutter": "Card + InkWell（波紋を出すなら Material の上に置く）。clipBehavior で角丸に画像を合わせる。"
+    },
+    "related": ["list", "carousel", "avatar", "badge"],
+    "keywords": ["カード", "card", "タイル", "一覧"]
+  },
+  {
+    "id": "list",
+    "category": "display",
+    "name": "リスト",
+    "enName": "List / List View",
+    "aliases": ["List Tile", "テーブルビュー(iOS)", "一覧"],
+    "summary": "同じ形式の項目を縦に積み上げる、モバイルで最も使われる情報表示。",
+    "purpose": "均質なアイテムを高い一覧性で走査させる。行の左にアイコン／サムネ、中央にテキスト、右に補助情報やシェブロン、という構造が標準形。",
+    "whenToUse": [
+      "同じ種類のアイテムが多数並ぶ（メール、チャット、設定、通知）",
+      "縦スクロールで走査させたい",
+      "行タップで詳細へ遷移する（マスター・ディテール）"
+    ],
+    "whenNotToUse": [
+      "複数の属性を横並びで比較したい → テーブル",
+      "画像が主役で視覚的に選ばせたい → カードやグリッド"
+    ],
+    "realWorldExamples": [
+      { "app": "LINE", "usage": "トーク一覧。アイコン＋名前＋最新メッセージ＋時刻＋未読バッジという典型的な行構成。" },
+      { "app": "Gmail", "usage": "受信トレイのメール一覧。未読は太字、スワイプでアーカイブ。" },
+      { "app": "iOS 設定", "usage": "グループ化されたリスト（Grouped Table View）。セクションヘッダで分類する。" }
+    ],
+    "antiPatterns": [
+      "1行の高さが小さすぎてタップミスする（最低44〜48pt）",
+      "区切り線を全て消して、どこまでが1行か分からない",
+      "項目が数千件あるのに仮想化せず、スクロールがカクつく",
+      "行の右端シェブロンがないのに、タップできることが分からない"
+    ],
+    "accessibility": [
+      "<ul>/<li> でリスト構造をマークアップし、件数が読み上げられるようにする",
+      "行全体をリンク／ボタンにし、タップ領域を広く取る",
+      "セクション見出しを <h2> などで階層化する",
+      "大量データは仮想スクロールを使うが、スクリーンリーダー用に件数と位置を伝える"
+    ],
+    "platformNotes": {
+      "web": "<ul> + CSS。仮想化は react-window などか、content-visibility: auto。",
+      "flutter": "ListView.builder（遅延生成）+ ListTile。区切りは ListView.separated。"
+    },
+    "related": ["card", "table", "swipe-actions", "infinite-scroll"],
+    "keywords": ["リスト", "一覧", "list", "行"]
+  },
+  {
+    "id": "table",
+    "category": "display",
+    "name": "テーブル",
+    "enName": "Table / Data Grid",
+    "aliases": ["Data Grid", "表", "データテーブル"],
+    "summary": "行と列で構造化データを表示し、比較・並べ替え・集計を可能にする。",
+    "purpose": "複数の属性を持つデータを、列単位で比較させる。並べ替え・フィルタ・ページングと組み合わせて、大量データの分析を支える。",
+    "whenToUse": [
+      "同じ属性を持つデータを横方向に比較する（売上、在庫、ユーザー一覧）",
+      "並べ替えや絞り込みで分析させる",
+      "デスクトップの管理画面"
+    ],
+    "whenNotToUse": [
+      "モバイルの狭い幅（横スクロールは使いづらい → カード形式に組み替える）",
+      "属性が2〜3個しかない → リストで十分",
+      "レイアウト目的で表を使う（table レイアウトは論外）"
+    ],
+    "realWorldExamples": [
+      { "app": "Notion", "usage": "データベースのテーブルビュー。列の型（テキスト・選択・日付）ごとに編集UIが変わる。" },
+      { "app": "Google スプレッドシート", "usage": "行ヘッダ・列ヘッダの固定、セル選択、並べ替え。" },
+      { "app": "各種管理画面 (SaaS)", "usage": "ユーザー一覧・請求一覧。列ヘッダクリックでソート、行選択で一括操作。" }
+    ],
+    "antiPatterns": [
+      "モバイルでそのまま縮小表示して文字が読めない（カード化かスクロール可能にする）",
+      "ヘッダ行が固定されず、スクロールすると何の列か分からなくなる",
+      "1セルに情報を詰め込みすぎて、列の意味が崩れる",
+      "ソート可能な列とそうでない列の区別が付かない"
+    ],
+    "accessibility": [
+      "<table><thead><th scope=\"col\"> を正しく使う（div の集合で表を作らない）",
+      "<caption> で表の目的を説明する",
+      "ソート状態を aria-sort=\"ascending|descending\" で伝える",
+      "横スクロール領域は tabindex=\"0\" と role=\"region\" でキーボードスクロール可能にする"
+    ],
+    "platformNotes": {
+      "web": "<table>。position: sticky で thead を固定できる。",
+      "flutter": "DataTable / PaginatedDataTable、大量データは Table + SingleChildScrollView(horizontal)。"
+    },
+    "related": ["list", "pagination", "sort", "search-and-filter"],
+    "keywords": ["テーブル", "表", "table", "データ", "グリッド"]
+  },
+  {
+    "id": "avatar",
+    "category": "display",
+    "name": "アバター",
+    "enName": "Avatar",
+    "aliases": ["Profile Picture", "アイコン", "プロフィール画像"],
+    "summary": "人・組織を表す小さな円形（または角丸）の画像。",
+    "purpose": "誰の発言・操作かを一目で識別させる。画像がない場合はイニシャルや既定アイコンにフォールバックし、常に同じ形・サイズを保つのが原則。",
+    "whenToUse": [
+      "ユーザーが複数登場する（チャット、コメント、共同編集）",
+      "アカウントの現在ログイン状態を示す",
+      "複数人を重ねて表示する（Avatar Group）"
+    ],
+    "whenNotToUse": [
+      "1人しか登場せず、識別の必要がない",
+      "画像が意味を持たない場面で装飾として並べる"
+    ],
+    "realWorldExamples": [
+      { "app": "Slack", "usage": "メッセージ左のアバター。オンライン状態を右下の小さな丸（プレゼンス）で重ねる。" },
+      { "app": "GitHub", "usage": "ユーザーアバター。ホバーでプロフィールのポップオーバーが出る。" },
+      { "app": "Google ドキュメント", "usage": "同時編集者のアバターを右上に並べ、カーソル色と対応させる。" }
+    ],
+    "antiPatterns": [
+      "画像がない時に壊れた画像アイコンを出す（イニシャル or 既定アイコンにフォールバック）",
+      "縦横比を無視して画像が歪む（object-fit: cover）",
+      "アバターだけで人物を示し、名前をどこにも書かない",
+      "イニシャルの背景色をランダムにしすぎて、コントラストが確保できない"
+    ],
+    "accessibility": [
+      "alt には人物名を入れる（「アバター」ではなく「山田太郎」）。名前が隣にあるなら alt=\"\" で重複を避ける",
+      "オンライン状態は色だけでなく aria-label でも伝える",
+      "Avatar Group の「+3」は「他3名」と読み上げられるようにする"
+    ],
+    "platformNotes": {
+      "web": "border-radius: 50% + object-fit: cover。onerror でフォールバック。",
+      "flutter": "CircleAvatar（backgroundImage / child でイニシャル）。Stack で状態ドットを重ねる。"
+    },
+    "related": ["badge", "list", "popover"],
+    "keywords": ["アバター", "アイコン", "プロフィール", "avatar"]
+  },
+  {
+    "id": "badge",
+    "category": "display",
+    "name": "バッジ",
+    "enName": "Badge",
+    "aliases": ["Notification Badge", "Counter", "未読バッジ", "ドットバッジ"],
+    "summary": "アイコンや項目に重ねて、件数や状態を知らせる小さな印。",
+    "purpose": "「ここに新しい何かがある」を、画面を占有せずに伝える。数値バッジ（何件か重要）とドットバッジ（存在だけ伝える）を使い分ける。",
+    "whenToUse": [
+      "未読・未処理の件数を知らせる（通知、メッセージ、カート）",
+      "アイコンだけのナビゲーションに状態を添える",
+      "件数が重要でない場合はドット（●）で控えめに"
+    ],
+    "whenNotToUse": [
+      "常時1以上の数字が出続ける（バッジが無視される・ストレスになる）",
+      "ラベルの代わりに使う（バッジは補助情報）",
+      "重要な情報をバッジだけで伝える（見落とされる）"
+    ],
+    "realWorldExamples": [
+      { "app": "iOS ホーム画面", "usage": "アプリアイコン右上の赤い未読件数バッジ。" },
+      { "app": "LINE", "usage": "トークタブとトーク行の未読件数バッジ。既読で消える。" },
+      { "app": "各種ECサイト", "usage": "カートアイコンに入っている商品点数を重ねる。" }
+    ],
+    "antiPatterns": [
+      "999+ を超える数を出し続ける（丸めるか、ドットに切り替える）",
+      "バッジを見て開いても、何が新しいのか分からない（新着箇所をハイライトする）",
+      "赤バッジを重要でない通知にも使い、色の意味が薄れる",
+      "バッジがアイコンを覆って、元の意味が読めない"
+    ],
+    "accessibility": [
+      "件数はアイコンの aria-label に含める（「通知、未読3件」）",
+      "色だけに依存しない（形・数値でも判別できるように）",
+      "件数の変化は aria-live=\"polite\" で控えめに通知する"
+    ],
+    "platformNotes": {
+      "web": "position: absolute で重ねる。数値は視覚的に隠したテキストでも提供する。",
+      "flutter": "Badge ウィジェット（Material 3）。Badge(label: Text('3'), child: Icon(...))。"
+    },
+    "related": ["chip", "bottom-navigation", "avatar", "toast-snackbar"],
+    "keywords": ["バッジ", "未読", "件数", "badge", "通知"]
+  },
+  {
+    "id": "chip",
+    "category": "display",
+    "name": "チップ",
+    "enName": "Chip",
+    "aliases": ["Tag", "Pill", "Filter Chip", "タグ"],
+    "summary": "小さな角丸の要素で、属性・フィルタ・選択済みの値を表す。",
+    "purpose": "短い情報の断片を、独立した操作可能な単位として見せる。Material Design では用途別に Assist / Filter / Input / Suggestion の4種類に分類される。",
+    "whenToUse": [
+      "適用中のフィルタ条件を可視化し、個別に外させる（Filter Chip）",
+      "記事・商品のタグやカテゴリを並べる",
+      "入力された値のトークン表示（Input Chip）",
+      "サジェストの候補を並べる（Suggestion Chip）"
+    ],
+    "whenNotToUse": [
+      "主要アクション → ボタン（チップはボタンより軽い存在として使う）",
+      "1つしか選べないのに複数選択に見える形にする",
+      "長文をチップに入れる"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail", "usage": "検索結果上部の絞り込みチップ（添付ファイルあり／未読 など）。" },
+      { "app": "YouTube", "usage": "ホーム上部の横スクロールするトピックチップ（すべて／音楽／ゲーム…）。" },
+      { "app": "Google 検索", "usage": "検索結果の上部に関連キーワードのチップを並べる。" }
+    ],
+    "antiPatterns": [
+      "選択状態が分かりにくい（枠線のみ→塗りつぶし、＋チェックアイコンで示す）",
+      "チップなのにクリックできない・できるものと混在して見分けがつかない",
+      "削除の×が小さすぎる",
+      "チップが折り返して画面の半分を占める（横スクロールや「+3」集約を使う）"
+    ],
+    "accessibility": [
+      "フィルタチップはトグルボタン（aria-pressed）またはチェックボックスとして実装する",
+      "削除ボタンには「〇〇を削除」という個別の名前を付ける",
+      "横スクロール領域はキーボードでもスクロールできるようにする"
+    ],
+    "platformNotes": {
+      "web": "<button aria-pressed> の並び。overflow-x: auto でスクロールチップ列にする。",
+      "flutter": "FilterChip / ChoiceChip / InputChip / ActionChip を用途で使い分ける。"
+    },
+    "related": ["tag-input", "search-and-filter", "badge", "segmented-control"],
+    "keywords": ["チップ", "タグ", "chip", "フィルタ", "ピル"]
+  },
+  {
+    "id": "timeline",
+    "category": "display",
+    "name": "タイムライン",
+    "enName": "Timeline / Activity Feed",
+    "aliases": ["Activity Log", "Stepper (状態表示)", "履歴表示"],
+    "summary": "出来事を時系列に沿って縦線で結び、進行や履歴を示すUI。",
+    "purpose": "「何が・いつ・どの順で起きたか」を一目で把握させる。完了・進行中・未着手の状態を並べることで、現在地と残りも同時に伝えられる。",
+    "whenToUse": [
+      "配送状況・申請の進捗など、順序のある状態遷移",
+      "変更履歴・監査ログ・コメントの流れ",
+      "プロジェクトのマイルストーン表示"
+    ],
+    "whenNotToUse": [
+      "順序に意味がないデータ（単なるリストでよい）",
+      "件数が非常に多く、時系列よりも検索・絞り込みが重要な場合"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon / ヤマト運輸などの配送追跡", "usage": "「発送済み → 輸送中 → 配達中 → 配達完了」を縦のタイムラインで表示。" },
+      { "app": "GitHub", "usage": "Issue / PR のイベント履歴（コメント、ラベル追加、クローズ）を時系列に並べる。" },
+      { "app": "各種SNS", "usage": "投稿のフィード。時刻を相対表記（3分前）で示す。" }
+    ],
+    "antiPatterns": [
+      "絶対時刻を一切出さず「3日前」だけにする（ホバーやサブテキストで絶対時刻も出す）",
+      "現在地（今どの段階か）が視覚的に分からない",
+      "全イベントを同じ重要度で並べ、重要な節目が埋もれる",
+      "タイムゾーンを明示しない"
+    ],
+    "accessibility": [
+      "<ol> で順序を持つリストとしてマークアップする",
+      "状態（完了／進行中）をアイコンの色だけでなくテキストでも示す",
+      "<time datetime> を使い、機械可読な日時を持たせる"
+    ],
+    "platformNotes": {
+      "web": "<ol> + 疑似要素で縦線とドットを描画する。",
+      "flutter": "Column + Container(線) の自作、または Stepper(type: StepperType.vertical) を状態表示に流用する。"
+    },
+    "related": ["wizard-stepper", "list", "progress-indicator"],
+    "keywords": ["タイムライン", "履歴", "時系列", "timeline", "進捗"]
+  },
+  {
+    "id": "accordion",
+    "category": "display",
+    "name": "アコーディオン / 折りたたみ",
+    "enName": "Accordion / Disclosure / Collapsible",
+    "aliases": ["Disclosure", "Expander", "Toggle List", "折りたたみ", "開閉パネル"],
+    "summary": "見出しをタップすると中身が展開／折りたたまれる、縦方向の情報圧縮UI。",
+    "purpose": "見出しだけを並べて全体像を見渡させ、必要な部分だけ開かせる。スクロール量を減らしつつ、情報の階層構造を保つのが目的。",
+    "whenToUse": [
+      "FAQ など、見出しで目的の項目を探して1つだけ読む",
+      "設定画面の詳細オプションを、既定では隠しておく",
+      "モバイルで長いコンテンツを段階的に見せる"
+    ],
+    "whenNotToUse": [
+      "ユーザーがほぼ全項目を読む必要がある（開く手間が増えるだけ）",
+      "中身が短く、そのまま並べても問題ない",
+      "検索やCtrl+Fで見つけたい重要情報を隠す（閉じていると検索にヒットしない実装は特に危険）"
+    ],
+    "realWorldExamples": [
+      { "app": "Notion", "usage": "トグルリスト（▶）。見出しの下に任意のブロックを畳んで入れられる。" },
+      { "app": "多くのFAQ / ヘルプセンター", "usage": "質問をタップすると回答が展開される。" },
+      { "app": "Amazon の商品ページ", "usage": "商品仕様・配送情報などのセクションを折りたたんで表示する。" }
+    ],
+    "antiPatterns": [
+      "開閉のアイコン（▶/▼、＋/−）がなく、開けることが分からない",
+      "1つ開くと他が閉じる（排他）仕様なのに、それが予期できない",
+      "アニメーションが遅すぎて操作がもたつく（150〜250ms程度）",
+      "重要な情報や必須の入力項目を初期状態で畳んでおく"
+    ],
+    "accessibility": [
+      "見出しは <button aria-expanded aria-controls> にする（div にクリックを付けない）",
+      "中身のパネルに id を振り、見出しと関連付ける",
+      "ネイティブの <details>/<summary> はキーボード・ページ内検索に強い（ブラウザによっては閉じた中身も検索可能）",
+      "開閉時にフォーカスを奪わない（開いた内容へ自動移動させない）"
+    ],
+    "platformNotes": {
+      "web": "<details><summary> が最も安全。デザイン都合で自作するなら aria-expanded を必ず実装。",
+      "flutter": "ExpansionTile / ExpansionPanelList。AnimatedSize や AnimatedCrossFade で高さのアニメーションを付ける。"
+    },
+    "related": ["list", "tab-bar", "popover"],
+    "keywords": ["アコーディオン", "折りたたみ", "トグルリスト", "accordion", "開閉", "展開"]
+  },
+  {
+    "id": "tooltip",
+    "category": "display",
+    "name": "ツールチップ",
+    "enName": "Tooltip",
+    "aliases": ["Hint", "Hover Text", "吹き出しヒント"],
+    "summary": "要素にホバー／フォーカスした時に出る、ごく短い補足テキスト。",
+    "purpose": "アイコンボタンの名称や、省略された文字列の全文など「知らなくても操作はできるが、あると助かる」補足を、画面を占有せずに提供する。",
+    "whenToUse": [
+      "アイコンのみのボタンの名前を補う",
+      "省略表示されたテキストの全文を見せる",
+      "専門用語の短い説明"
+    ],
+    "whenNotToUse": [
+      "タッチデバイスのみの環境（ホバーが存在しない）→ ラベルを常時表示するか、ポップオーバーにする",
+      "操作に必須の情報（隠してはいけない）",
+      "長文・リンク・ボタンを含む → ポップオーバー"
+    ],
+    "realWorldExamples": [
+      { "app": "Figma", "usage": "ツールバーのアイコンにホバーすると、名前とショートカットが表示される。" },
+      { "app": "GitHub", "usage": "アイコンボタンやアバターにホバーした際の補足表示。" },
+      { "app": "デスクトップOS全般", "usage": "ツールバーアイコンのホバーヒント（Tooltip の語源的な用法）。" }
+    ],
+    "antiPatterns": [
+      "重要情報をツールチップだけに入れる（モバイルで永遠に読めない）",
+      "ホバーした瞬間に出る／消えるのが速すぎる（200〜500msの遅延と、猶予を持たせる）",
+      "ツールチップ内にリンクやボタンを入れる（マウスを移すと消えてしまう）",
+      "画面端で見切れる（配置の自動反転を実装する）"
+    ],
+    "accessibility": [
+      "キーボードフォーカスでも表示されること（hover 限定にしない）",
+      "role=\"tooltip\" と aria-describedby で対象と関連付ける",
+      "Esc で閉じられること、ホバー中は消えないこと（WCAG 1.4.13 Content on Hover or Focus）",
+      "アイコンボタンには aria-label も別途付ける（ツールチップだけに頼らない）"
+    ],
+    "platformNotes": {
+      "web": "title 属性は表示が遅く制御できないので、通常は自作＋aria-describedby。Popover API や anchor positioning も選択肢。",
+      "flutter": "Tooltip ウィジェットで child を包む。長押しでも表示されるためモバイルでも機能する。"
+    },
+    "related": ["popover", "icon-button", "context-menu"],
+    "keywords": ["ツールチップ", "ヒント", "tooltip", "吹き出し"]
+  },
+  {
+    "id": "popover",
+    "category": "display",
+    "name": "ポップオーバー",
+    "enName": "Popover",
+    "aliases": ["Popup", "Flyout", "Hover Card", "吹き出しパネル"],
+    "summary": "起点となる要素にぶら下がる形で開く、操作可能な小さいパネル。",
+    "purpose": "画面遷移もモーダルも使わずに、その要素に関する詳細や操作をその場で提供する。ツールチップと違い、中にリンク・ボタン・フォームを置ける。",
+    "whenToUse": [
+      "プロフィールの詳細プレビュー（ホバーカード）",
+      "その要素に対する設定・オプションのミニパネル",
+      "軽い確認や、絞り込みメニュー"
+    ],
+    "whenNotToUse": [
+      "内容が多く、スクロールが必要なほど → モーダルや別画面",
+      "モバイルの狭い画面（ボトムシートの方が扱いやすい）",
+      "単なる説明テキスト → ツールチップ"
+    ],
+    "realWorldExamples": [
+      { "app": "GitHub", "usage": "ユーザー名やアバターにホバーすると出るプロフィールのホバーカード。" },
+      { "app": "Slack", "usage": "メンバー名をクリックすると出るプロフィールパネル（DM送信などのアクション付き）。" },
+      { "app": "Google カレンダー", "usage": "予定をクリックすると詳細と編集・削除ボタンがポップオーバーで開く。" }
+    ],
+    "antiPatterns": [
+      "外側クリックや Esc で閉じられない",
+      "起点要素から離れた位置に出て、何に関するパネルか分からない",
+      "ホバーで開くのに、マウスをパネルへ動かす途中で閉じてしまう",
+      "ポップオーバーの中からさらにポップオーバーを開く"
+    ],
+    "accessibility": [
+      "開閉ボタンに aria-expanded / aria-haspopup を設定する",
+      "開いたらフォーカスをパネル内へ移し、閉じたら起点へ戻す",
+      "Esc・外側クリックで閉じる。フォーカスがパネル外へ出たら閉じる"
+    ],
+    "platformNotes": {
+      "web": "HTML の Popover API（popover 属性）や <dialog>、CSS Anchor Positioning が使えるようになってきた。",
+      "flutter": "PopupMenuButton、showMenu、または Overlay + CompositedTransformFollower で自作する。"
+    },
+    "related": ["tooltip", "context-menu", "modal-dialog", "bottom-sheet"],
+    "keywords": ["ポップオーバー", "popover", "吹き出し", "パネル"]
+  },
+  {
+    "id": "carousel",
+    "category": "display",
+    "name": "カルーセル",
+    "enName": "Carousel / Slider",
+    "aliases": ["Slideshow", "Image Slider", "横スクロールリスト", "スライダー(画像)"],
+    "summary": "複数のアイテムを横方向に切り替えて見せるUI。自動再生型と手動スクロール型がある。",
+    "purpose": "限られた縦幅で多数のアイテムを提示する。特にモバイルでは「横スクロールできるリスト」として、カテゴリごとの回遊を促す用途が主流。",
+    "whenToUse": [
+      "同じ種類のアイテムを、カテゴリ単位で少しずつ見せる（動画・商品・おすすめ）",
+      "1つの商品の複数枚の写真を見せる（ギャラリー）",
+      "縦幅を節約しつつ、探索を促したい"
+    ],
+    "whenNotToUse": [
+      "重要な情報を自動でスライドさせる（見逃される。ヒーローカルーセルはクリック率が低いことで知られる）",
+      "アイテムを比較して選ばせたい → グリッド",
+      "件数が3件以下（そのまま並べればよい）"
+    ],
+    "realWorldExamples": [
+      { "app": "Netflix", "usage": "ジャンルごとの横スクロール行。端に次のアイテムを覗かせて、続きがあることを示す。" },
+      { "app": "App Store", "usage": "Today タブや「おすすめ」の横スクロールカード。" },
+      { "app": "Amazon / 各種EC", "usage": "商品ページの写真ギャラリーと、「この商品を見た人はこれも見ています」の横並び。" }
+    ],
+    "antiPatterns": [
+      "自動再生を止められない（一時停止ボタンは WCAG 2.2.2 の要件）",
+      "次のアイテムが完全に隠れていて、スクロールできることに気づかない（peek＝次を少し見せる）",
+      "ドットインジケータが小さすぎて、何枚あるか・今何枚目か分からない",
+      "モバイルで矢印ボタンだけ用意し、スワイプできない"
+    ],
+    "accessibility": [
+      "自動再生は一時停止可能にし、ホバー／フォーカス時は止める",
+      "前後ボタンをキーボードで操作でき、現在位置を aria-live で伝える",
+      "スクロールコンテナに role=\"region\" と aria-label、tabindex=\"0\" を付ける",
+      "prefers-reduced-motion に対応して自動アニメーションを止める"
+    ],
+    "platformNotes": {
+      "web": "overflow-x: auto + scroll-snap-type: x mandatory でJSなしの実装が可能。",
+      "flutter": "PageView（1画面ずつ）／ListView(scrollDirection: Axis.horizontal)／CarouselView（Material 3）。"
+    },
+    "related": ["card", "pagination", "infinite-scroll"],
+    "keywords": ["カルーセル", "スライダー", "横スクロール", "carousel", "ギャラリー"]
+  },
+  {
+    "id": "empty-state",
+    "category": "display",
+    "name": "空状態",
+    "enName": "Empty State",
+    "aliases": ["Zero State", "Blank State", "ゼロ件表示"],
+    "summary": "データが0件のときに表示する、説明と次の一歩を示す画面。",
+    "purpose": "「壊れているのか、まだ何もないのか」を明確にし、ユーザーが取るべき次の行動へ導く。初回利用者にとっては事実上のオンボーディングになる。",
+    "whenToUse": [
+      "初回利用でデータがまだない（First Use）",
+      "検索・フィルタの結果が0件（No Results）",
+      "すべて完了して項目がなくなった（Task Complete）"
+    ],
+    "whenNotToUse": [
+      "読み込み中に空状態を出してしまう（それはスケルトンやスピナーの役割）",
+      "エラーで取得できていないのに「0件です」と表示する（誤解を招く）"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail", "usage": "受信トレイを空にすると「受信トレイは空です」と達成を称える表示になる。" },
+      { "app": "Notion", "usage": "新規ページで、テンプレートやAIの候補を提示して最初の一歩を促す。" },
+      { "app": "Slack", "usage": "検索結果0件時に、検索条件の見直し方を提案する。" }
+    ],
+    "antiPatterns": [
+      "「データがありません」だけで終わる（次に何をすればよいか書く）",
+      "3種類の空状態（初回／0件／完了）をすべて同じ文言で済ませる",
+      "イラストだけ大きく、肝心の行動導線（ボタン）がない",
+      "エラー状態と空状態を区別せず、原因が分からない"
+    ],
+    "accessibility": [
+      "見出し（<h2>など）と説明文で構造化する",
+      "状態変化（0件になった）を aria-live で伝える",
+      "イラストは装飾として alt=\"\" にし、意味はテキストで伝える"
+    ],
+    "platformNotes": {
+      "web": "コンテンツ領域に中央寄せのブロックを置く。CTAボタンを1つに絞る。",
+      "flutter": "Column + Icon + Text + FilledButton を Center で配置。ListView が空のときに差し替える。"
+    },
+    "related": ["three-states", "skeleton", "search-bar", "onboarding"],
+    "keywords": ["空状態", "0件", "empty state", "ゼロ件", "データなし"]
+  },
+  {
+    "id": "skeleton",
+    "category": "display",
+    "name": "スケルトン",
+    "enName": "Skeleton Screen / Shimmer",
+    "aliases": ["Shimmer", "Placeholder Loading", "骨組み表示"],
+    "summary": "読み込み中に、これから出る内容の形を灰色のブロックで先に見せるUI。",
+    "purpose": "レイアウトの完成形を先に提示することで、体感待ち時間を短縮し、読み込み完了時のガタつき（レイアウトシフト）を防ぐ。",
+    "whenToUse": [
+      "レイアウトが事前に分かっているコンテンツ（フィード、カード一覧、記事）",
+      "読み込みが 0.5〜3秒程度かかる",
+      "初回表示（既にデータがある更新時はスピナーの方が邪魔にならないこともある）"
+    ],
+    "whenNotToUse": [
+      "待ち時間が非常に短い（点滅してかえって煩わしい）",
+      "読み込み結果の形が予測できない",
+      "10秒以上かかる処理 → 進捗バーや説明テキストで状況を伝える"
+    ],
+    "realWorldExamples": [
+      { "app": "Facebook / Instagram", "usage": "フィード読み込み中に、投稿カードの形をしたグレーのプレースホルダを表示する。" },
+      { "app": "YouTube", "usage": "サムネイル・タイトル・チャンネル名の位置にスケルトンを出す。" },
+      { "app": "LinkedIn", "usage": "スケルトンスクリーンを早期に採用した例として知られる。" }
+    ],
+    "antiPatterns": [
+      "実際のレイアウトと形が違い、表示された瞬間に画面が飛ぶ",
+      "アニメーションが激しく、目が疲れる（prefers-reduced-motion を尊重する）",
+      "エラー時もスケルトンが出続け、永遠に読み込み中に見える（タイムアウトを設ける）",
+      "スケルトンの数が実データとかけ離れている"
+    ],
+    "accessibility": [
+      "領域に aria-busy=\"true\" を設定し、完了時に false へ戻す",
+      "スクリーンリーダーには「読み込み中」と1回だけ伝え、無数のプレースホルダを読ませない（aria-hidden）",
+      "点滅・シマーは prefers-reduced-motion で停止する"
+    ],
+    "platformNotes": {
+      "web": "CSS の linear-gradient + background-position アニメーション。",
+      "flutter": "Container(色) の並び＋ shimmer パッケージ、または AnimatedOpacity での自作。"
+    },
+    "related": ["progress-indicator", "three-states", "empty-state"],
+    "keywords": ["スケルトン", "読み込み", "shimmer", "プレースホルダ", "loading"]
+  },
+  {
+    "id": "progress-indicator",
+    "category": "display",
+    "name": "プログレスバー / スピナー",
+    "enName": "Progress Bar / Spinner / Activity Indicator",
+    "aliases": ["Loader", "Activity Indicator", "ローディング", "進捗バー"],
+    "summary": "処理中であることと、可能なら進捗率を示すUI。確定型と不確定型がある。",
+    "purpose": "システムが動いていることを伝え、待機を許容させる。所要時間が計算できるなら確定型（％表示）、できないなら不確定型（回転）を使う。",
+    "whenToUse": [
+      "1秒以上かかる処理（それ以下なら何も出さない方がよい場合が多い）",
+      "アップロード・ダウンロードなど、進捗が計算できる → 確定型プログレスバー",
+      "所要時間が読めない通信 → 不確定型スピナー"
+    ],
+    "whenNotToUse": [
+      "レイアウトが分かっているコンテンツの初回読み込み → スケルトン",
+      "一瞬で終わる処理にスピナーを出して点滅させる",
+      "10秒以上かかるのに何の説明もなく回し続ける"
+    ],
+    "realWorldExamples": [
+      { "app": "Google ドライブ", "usage": "ファイルアップロード時の確定型プログレスと、完了・失敗の表示。" },
+      { "app": "YouTube", "usage": "動画のバッファリング中のスピナーと、シークバー上のバッファ済み範囲表示。" },
+      { "app": "iOS / Android のアプリ更新", "usage": "アイコン上の円形プログレスでダウンロード進捗を表す。" }
+    ],
+    "antiPatterns": [
+      "進捗が計算できるのにスピナーで済ませる（不安が増す）",
+      "99%で止まり続ける（残り時間の見積りが誤っている）",
+      "ボタン押下後にスピナーだけ出して、ボタンを無効化せず二重送信を許す",
+      "画面全体をブロックするローディングを多用し、操作を奪う"
+    ],
+    "accessibility": [
+      "role=\"progressbar\" + aria-valuenow / valuemin / valuemax（不確定型は valuenow を省略）",
+      "進捗の節目（開始・完了・失敗）を aria-live で通知する",
+      "処理中はボタンを disabled にし、状態をテキストでも示す（「送信中…」）"
+    ],
+    "platformNotes": {
+      "web": "<progress> 要素、またはカスタム div + role=\"progressbar\"。",
+      "flutter": "LinearProgressIndicator / CircularProgressIndicator（value を渡すと確定型、null で不確定型）。"
+    },
+    "related": ["skeleton", "three-states", "file-uploader", "toast-snackbar"],
+    "keywords": ["プログレス", "スピナー", "ローディング", "進捗", "loading"]
+  }
+]

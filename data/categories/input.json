@@ -1,0 +1,613 @@
+[
+  {
+    "id": "text-field",
+    "category": "input",
+    "name": "テキストフィールド",
+    "enName": "Text Field",
+    "aliases": ["Text Input", "Input", "単一行入力", "テキストボックス"],
+    "summary": "1行の自由入力を受け取る、もっとも基本的な入力UI。",
+    "purpose": "氏名・メールアドレス・電話番号など、選択肢を用意できない短い自由入力を受け取る。ラベル・プレースホルダ・ヘルプテキスト・エラーテキストの4点セットで構成するのが定石。",
+    "whenToUse": [
+      "入力値の候補が事前に列挙できない（氏名・住所・メールなど）",
+      "入力が1行に収まる短さである",
+      "既存データの編集も同じUIで行いたい"
+    ],
+    "whenNotToUse": [
+      "選択肢が5個以下に決まっている → ラジオボタンやセグメンテッドコントロール",
+      "長文を入力させたい → テキストエリア",
+      "候補が大量にあり、そこから選ばせたい → オートコンプリート"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon", "usage": "配送先住所の入力フォーム。氏名・番地などを1行ずつのテキストフィールドで受け取る。" },
+      { "app": "X (Twitter)", "usage": "ログイン画面のユーザー名／メールアドレス入力。" },
+      { "app": "Google アカウント", "usage": "プロフィール編集の姓・名フィールド。入力形式のヒントを下部に表示する。" }
+    ],
+    "antiPatterns": [
+      "プレースホルダをラベル代わりにする（入力を始めた瞬間に何の欄か分からなくなる／スクリーンリーダーが読み上げない場合がある）",
+      "入力途中の1文字目からエラーを赤く出す（入力完了＝blur 後か、送信時に検証する）",
+      "電話番号やクレジットカードでハイフンや空白を許容せず弾く（受け取ってから正規化する）",
+      "枠線を消しきったフラットすぎるデザインで、入力欄だと気づかせない"
+    ],
+    "accessibility": [
+      "必ず <label for> または aria-label で名前を与える。プレースホルダだけはNG",
+      "エラーは aria-invalid と aria-describedby でフィールドに紐づけ、色だけでなくテキストでも伝える",
+      "inputmode / autocomplete / type を正しく指定するとモバイルのキーボードと自動入力が最適化される",
+      "タップ領域は最低 44×44pt（iOS HIG）／48×48dp（Material）を確保する"
+    ],
+    "platformNotes": {
+      "web": "<input type=\"text|email|tel|url\"> + <label>。autocomplete=\"name\" などの指定でブラウザの自動入力が効く。",
+      "flutter": "TextField / TextFormField。InputDecoration(labelText, helperText, errorText)、keyboardType、textInputAction を設定する。"
+    },
+    "related": ["textarea", "autocomplete", "search-bar", "validation-error"],
+    "keywords": ["テキスト", "input", "フォーム", "入力欄", "text field"]
+  },
+  {
+    "id": "textarea",
+    "category": "input",
+    "name": "テキストエリア",
+    "enName": "Textarea / Multiline Text Field",
+    "aliases": ["Multiline Input", "複数行入力", "本文入力"],
+    "summary": "改行を含む長文を入力させるための複数行の入力欄。",
+    "purpose": "感想・問い合わせ内容・投稿本文など、量が読めない自由記述を受け取る。行数が視覚的に「これくらい書いてよい」という期待値を伝える役割も持つ。",
+    "whenToUse": [
+      "改行を含む文章を入力させる",
+      "入力量が人によって大きく変わる",
+      "文字数制限のカウンタを見せながら書かせたい"
+    ],
+    "whenNotToUse": [
+      "1行で収まる項目（氏名・件名） → テキストフィールド",
+      "リッチテキストや画像埋め込みが必要 → リッチテキストエディタ"
+    ],
+    "realWorldExamples": [
+      { "app": "GitHub", "usage": "Issue / Pull Request の本文入力。Markdown プレビュー付きのテキストエリア。" },
+      { "app": "Gmail", "usage": "メール本文の作成エリア。" },
+      { "app": "X (Twitter)", "usage": "ポスト作成欄。入力に応じて高さが伸び、残り文字数をリング状に表示する。" }
+    ],
+    "antiPatterns": [
+      "高さが2行しかないのに長文を求める（書ける量の期待値と実際がズレる）",
+      "文字数制限を超えた瞬間に入力を切り捨てる（超過分を赤く見せて、ユーザーに削らせる）",
+      "リサイズを一律で禁止する（デスクトップでは resize: vertical を許すと親切）",
+      "自動保存がないのに長文を要求し、リロードで消える"
+    ],
+    "accessibility": [
+      "ラベルを必ず関連付ける。文字数カウンタは aria-live=\"polite\" で控えめに通知する",
+      "Enter は改行、送信は明示的なボタンにする（Cmd/Ctrl+Enter 送信を足すのは可）",
+      "自動リサイズしても、フォーカス位置が画面外に出ないようスクロール追従させる"
+    ],
+    "platformNotes": {
+      "web": "<textarea rows> または contenteditable。自動リサイズは scrollHeight を高さに反映する実装が一般的。",
+      "flutter": "TextField(maxLines: null, minLines: 3, keyboardType: TextInputType.multiline)。maxLength でカウンタが自動表示される。"
+    },
+    "related": ["text-field", "validation-error"],
+    "keywords": ["テキストエリア", "複数行", "本文", "textarea"]
+  },
+  {
+    "id": "checkbox",
+    "category": "input",
+    "name": "チェックボックス",
+    "enName": "Checkbox",
+    "aliases": ["チェックボックス", "複数選択"],
+    "summary": "独立したON/OFFを複数選べる選択UI。0個も全部もあり得る。",
+    "purpose": "複数の選択肢から任意の数（0個以上）を選ばせる。または単独で「規約に同意する」のような二値の意思表示を取る。選択肢が全て見えていることが前提。",
+    "whenToUse": [
+      "複数選択が可能で、選択肢が画面に収まる程度の数（〜10個目安）",
+      "「同意する」「次回から表示しない」など単独のON/OFF（設定の即時反映ではない）",
+      "親子関係のある絞り込み（中間状態＝indeterminate を使える）"
+    ],
+    "whenNotToUse": [
+      "1つしか選べない → ラジオボタン",
+      "設定画面で即座に反映される二値 → トグル / スイッチ",
+      "選択肢が20個を超える → 検索付きのマルチセレクトやオートコンプリート"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon", "usage": "検索結果左側の絞り込み（ブランド・配送オプションなど）を複数選択する。" },
+      { "app": "Gmail", "usage": "メール一覧の各行の選択。ヘッダのチェックで全選択／一部選択の中間状態を表す。" },
+      { "app": "Google フォーム", "usage": "「チェックボックス」形式の設問（複数回答可）。" }
+    ],
+    "antiPatterns": [
+      "チェックボックスなのに1つしか選べない挙動にする（ラジオボタンを使う）",
+      "ラベル文字をクリックしても切り替わらない（label と結びつけていない）",
+      "否定形のラベル（「メールを受け取らない」）にして、チェックの意味を二重否定にする",
+      "設定画面で即時反映なのにチェックボックスを使う（モバイルではトグルが期待される）"
+    ],
+    "accessibility": [
+      "<input type=\"checkbox\"> + <label> で、ラベルタップでも切り替わるようにする",
+      "3状態を使う場合は indeterminate（aria-checked=\"mixed\"）を正しく設定する",
+      "グループには <fieldset> + <legend>（またはrole=\"group\" + aria-labelledby）で見出しを与える",
+      "色や✓の形だけでなく、状態がテキストでも判別できるようにする"
+    ],
+    "platformNotes": {
+      "web": "<input type=\"checkbox\">。indeterminate は JS からのみ設定可能（HTML属性はない）。",
+      "flutter": "Checkbox / CheckboxListTile。tristate: true で null（中間状態）を扱える。"
+    },
+    "related": ["radio", "toggle-switch", "search-and-filter"],
+    "keywords": ["チェック", "複数選択", "checkbox", "同意"]
+  },
+  {
+    "id": "radio",
+    "category": "input",
+    "name": "ラジオボタン",
+    "enName": "Radio Button",
+    "aliases": ["Radio Group", "単一選択"],
+    "summary": "複数の選択肢から必ず1つだけを選ばせる選択UI。全選択肢が同時に見える。",
+    "purpose": "排他的な選択肢を一覧で比較させながら1つ選ばせる。選択肢を隠さないので、ドロップダウンより比較・検討がしやすい。",
+    "whenToUse": [
+      "選択肢が2〜6個程度で、すべて見せて比較させたい（配送方法・支払い方法・プランなど）",
+      "デフォルト値を明示したい（最も安全・一般的な選択肢を初期選択にする）"
+    ],
+    "whenNotToUse": [
+      "選択肢が7個以上 → セレクト / ドロップダウン",
+      "複数選べる → チェックボックス",
+      "2択かつ即時反映のON/OFF → トグル / スイッチ",
+      "2〜4択で画面幅に収まり、切り替えが軽い → セグメンテッドコントロール"
+    ],
+    "realWorldExamples": [
+      { "app": "Google フォーム", "usage": "「ラジオボタン」形式の設問（単一回答）。" },
+      { "app": "Amazon", "usage": "注文手続きでの配送スピード（お急ぎ便／通常配送）の選択。" },
+      { "app": "各種サブスクの申込画面", "usage": "月額プラン／年額プランの選択。年額側に「2ヶ月分お得」などの補足を添える。" }
+    ],
+    "antiPatterns": [
+      "一度選ぶと解除できないのに、初期状態で何も選ばれていない（必須なら安全なデフォルトを選択済みにする）",
+      "選択肢が1つしかないラジオボタン（チェックボックスにするか、そもそも選ばせない）",
+      "選択肢ごとに説明文の長さが極端に違い、比較しづらい",
+      "ラジオボタンで複数選択できてしまう実装ミス（name 属性の付け忘れ）"
+    ],
+    "accessibility": [
+      "同じ name でグループ化し、矢印キーでグループ内を移動できるようにする（ネイティブなら自動）",
+      "<fieldset> + <legend> で「何を選ぶグループか」を伝える",
+      "ラベル全体をクリック／タップ可能にし、行全体をヒット領域にする"
+    ],
+    "platformNotes": {
+      "web": "<input type=\"radio\" name=\"group\">。同一 name が排他制御の鍵。",
+      "flutter": "Radio<T> / RadioListTile<T>。groupValue と value の一致で選択状態を表す。"
+    },
+    "related": ["checkbox", "select", "segmented-control"],
+    "keywords": ["ラジオ", "単一選択", "radio", "択一"]
+  },
+  {
+    "id": "toggle-switch",
+    "category": "input",
+    "name": "トグル / スイッチ",
+    "enName": "Toggle / Switch",
+    "aliases": ["Switch", "Toggle Switch", "オンオフスイッチ"],
+    "summary": "設定を即座にON/OFFする物理スイッチのメタファ。押した瞬間に効く。",
+    "purpose": "「保存」ボタンを押さずにその場で反映される二値設定を切り替える。物理スイッチのメタファなので、ユーザーは即時反映を期待する。",
+    "whenToUse": [
+      "設定画面で、切り替えた瞬間に効果が出る項目（通知ON/OFF、ダークモード、機内モード）",
+      "ONとOFFがそれぞれ意味を持つ対称的な二値",
+      "モバイルアプリの設定リスト（プラットフォームの標準表現）"
+    ],
+    "whenNotToUse": [
+      "フォームの一部で「保存」を押して初めて反映される → チェックボックス",
+      "利用規約への同意など、法的に明示的な意思表示が必要な場面 → チェックボックス",
+      "3状態以上ある（ON / OFF / 自動） → セグメンテッドコントロールやセレクト"
+    ],
+    "realWorldExamples": [
+      { "app": "iOS 設定", "usage": "機内モード・Wi-Fi・Bluetooth など。切り替えた瞬間に反映される代表例。" },
+      { "app": "Android 設定 / クイック設定", "usage": "Material Design の Switch。ON時はサム（つまみ）に色とアイコンが付く。" },
+      { "app": "X (Twitter) の設定", "usage": "通知やプライバシー項目の個別ON/OFF。" }
+    ],
+    "antiPatterns": [
+      "トグルなのに「保存」ボタンを押さないと反映されない（期待を裏切る最も典型的な誤用）",
+      "ラベルが「通知をオフにしない」のような否定形で、ONの意味が分からない",
+      "色だけで状態を示し、色覚特性のあるユーザーがON/OFFを判別できない",
+      "通信が必要な処理で、失敗したのにトグルがONのまま残る（楽観的更新の巻き戻しを実装する）"
+    ],
+    "accessibility": [
+      "role=\"switch\" と aria-checked を使う（またはネイティブの checkbox に role=\"switch\"）",
+      "ラベルは肯定形・名詞句で（「ダークモード」「メール通知」）。状態はスイッチ側が伝える",
+      "サムの位置に加えて、ONで色＋アイコン／OFFで無色などの二重符号化を行う",
+      "非同期処理中は disabled にするか、ローディングを示して二度押しを防ぐ"
+    ],
+    "platformNotes": {
+      "web": "<button role=\"switch\" aria-checked> か <input type=\"checkbox\" role=\"switch\">。ネイティブ要素にCSSを当てるのが安全。",
+      "flutter": "Switch / SwitchListTile。Cupertino では CupertinoSwitch。SwitchListTile なら行全体がタップ領域になる。"
+    },
+    "related": ["checkbox", "dark-mode-toggle", "segmented-control"],
+    "keywords": ["トグル", "スイッチ", "switch", "オンオフ", "設定"]
+  },
+  {
+    "id": "slider",
+    "category": "input",
+    "name": "スライダー",
+    "enName": "Slider",
+    "aliases": ["Range Slider", "つまみ", "レンジ入力"],
+    "summary": "連続的（または段階的）な数値を、つまみをドラッグして選ぶUI。",
+    "purpose": "正確な数値よりも「だいたいこのくらい」の感覚が重要な値を、視覚的に素早く調整させる。上限・下限が一目で分かるのが利点。",
+    "whenToUse": [
+      "音量・明るさ・再生位置など、変化が即座に体感できる値",
+      "価格帯・年齢帯など範囲での絞り込み（レンジスライダー）",
+      "厳密な値でなくてよく、上下限が明確な値"
+    ],
+    "whenNotToUse": [
+      "正確な数値入力が必要（金額・年齢の1歳刻み） → テキストフィールドやステッパーを併用",
+      "選択肢が3〜4個しかない → セグメンテッドコントロール",
+      "モバイルで細かい刻みが必要（指の太さで精度が出ない）"
+    ],
+    "realWorldExamples": [
+      { "app": "iOS コントロールセンター", "usage": "画面の明るさ・音量の調整。ドラッグ中に即座に反映される。" },
+      { "app": "YouTube / Spotify", "usage": "再生位置のシークバー。現在位置とバッファ済み範囲を同時に見せる。" },
+      { "app": "Airbnb", "usage": "検索フィルタの価格帯を、下限・上限2つのつまみを持つレンジスライダーで指定する。" }
+    ],
+    "antiPatterns": [
+      "現在値を数値で表示しない（今いくつなのか分からない）",
+      "つまみが小さすぎてタップできない（ヒット領域は最低44pt確保）",
+      "ドラッグ中に重い再検索を毎フレーム走らせる（離した時＝change で確定する）",
+      "0〜1000000 のような広すぎるレンジを1本のスライダーに載せる"
+    ],
+    "accessibility": [
+      "role=\"slider\" と aria-valuenow / valuemin / valuemax / valuetext を設定する",
+      "矢印キー（1刻み）・PageUp/Down（大きい刻み）・Home/End（両端）でのキーボード操作を必ず用意する",
+      "現在値をテキストでも表示し、スクリーンリーダーとマウス両方から読めるようにする",
+      "タッチ操作向けにつまみを大きくし、トラックのタップでもジャンプできるようにする"
+    ],
+    "platformNotes": {
+      "web": "<input type=\"range\">。レンジ（2つまみ）はネイティブにないので、2本重ねるか専用実装が必要。",
+      "flutter": "Slider / RangeSlider。divisions で刻みを指定、label でつまみ上に値を表示できる。"
+    },
+    "related": ["stepper-input", "progress-indicator", "search-and-filter"],
+    "keywords": ["スライダー", "slider", "音量", "範囲", "レンジ"]
+  },
+  {
+    "id": "stepper-input",
+    "category": "input",
+    "name": "ステッパー（数値増減）",
+    "enName": "Stepper / Number Input",
+    "aliases": ["Quantity Picker", "Spinner", "数量入力", "プラスマイナスボタン"],
+    "summary": "−／＋ボタンで小さな数値を1つずつ増減させる入力UI。",
+    "purpose": "1〜10程度の小さな整数（数量・人数）を、キーボードを出さずに素早く指定させる。タップだけで完結するのでモバイルと相性が良い。",
+    "whenToUse": [
+      "想定される値が小さく、増減の回数が少ない（カート内の数量、予約人数）",
+      "モバイルでキーボードを開かせたくない",
+      "上限・下限が決まっている"
+    ],
+    "whenNotToUse": [
+      "値が大きくなりうる（100個など）→ 直接入力できるテキストフィールドを併設",
+      "連続量の調整 → スライダー",
+      "0にすることが「削除」を意味するなら、削除アクションを別に用意する"
+    ],
+    "realWorldExamples": [
+      { "app": "Uber Eats / 出前館", "usage": "商品の注文数量を −／＋ で調整する。1未満にすると削除の確認になる。" },
+      { "app": "Airbnb", "usage": "ゲスト人数（大人・子供・幼児）の指定。カテゴリごとにステッパーを並べる。" },
+      { "app": "航空券・ホテル予約サイト", "usage": "搭乗者数・部屋数の指定。" }
+    ],
+    "antiPatterns": [
+      "上限に達してもボタンが押せてしまう（到達したら disabled にし、理由も伝える）",
+      "中央の数値を直接編集できず、20回タップさせる",
+      "−／＋ボタンが小さく隣接しすぎて誤タップする（間に十分な間隔と数値表示を置く）",
+      "長押しでの連続増減も、直接入力も用意しない"
+    ],
+    "accessibility": [
+      "各ボタンに「1つ増やす」「1つ減らす」といった aria-label を付ける",
+      "現在値の変化を aria-live で伝えるか、role=\"spinbutton\" + aria-valuenow を使う",
+      "disabled の理由（在庫上限など）をテキストで補足する"
+    ],
+    "platformNotes": {
+      "web": "<input type=\"number\"> か、ボタン2つ + 表示のカスタム実装（スピナー矢印が小さいので後者が主流）。",
+      "flutter": "標準ウィジェットはないので IconButton × 2 + Text で構成する。Cupertino には CupertinoStepper 相当の実装例がある。"
+    },
+    "related": ["slider", "text-field", "wizard-stepper"],
+    "keywords": ["ステッパー", "数量", "個数", "stepper", "プラスマイナス"]
+  },
+  {
+    "id": "select",
+    "category": "input",
+    "name": "セレクト / ドロップダウン",
+    "enName": "Select / Dropdown",
+    "aliases": ["Combo Box", "プルダウン", "選択リスト"],
+    "summary": "折りたたまれたリストから1つ（または複数）を選ぶ、省スペースな選択UI。",
+    "purpose": "選択肢が多くて画面に並べきれないとき、普段は畳んでおき、必要なときだけ展開して選ばせる。省スペースと引き換えに、選択肢が見えないコストを払う。",
+    "whenToUse": [
+      "選択肢が7個以上あり、ラジオボタンでは場所を取りすぎる",
+      "都道府県・国・年月など、ユーザーが既に答えを知っている定型リスト",
+      "画面の縦幅を節約したいフォーム"
+    ],
+    "whenNotToUse": [
+      "選択肢が2〜5個 → ラジオボタン／セグメンテッドコントロール（1タップで済む）",
+      "選択肢が数十〜数百 → 検索できるオートコンプリート",
+      "選択肢を比較して考えさせたい（畳むと比較できない）"
+    ],
+    "realWorldExamples": [
+      { "app": "Google フォーム", "usage": "「プルダウン」形式の設問。" },
+      { "app": "各種ECサイト", "usage": "商品ページのサイズ・カラー選択、都道府県の選択。" },
+      { "app": "GitHub", "usage": "ブランチ切り替えのドロップダウン。項目が多いため検索フィールドが内蔵されている。" }
+    ],
+    "antiPatterns": [
+      "「選択してください」を選択肢の1つとして残し、それを選べてしまう（未選択はプレースホルダとして扱い disabled に）",
+      "生年月日の「年」を100項目のドロップダウンにする（テキスト入力の方が速い）",
+      "ネイティブの select をやめて自作したのに、キーボード操作と型入力ジャンプが効かない",
+      "モバイルでカスタムドロップダウンにして、OSのホイールピッカーの快適さを捨てる"
+    ],
+    "accessibility": [
+      "ネイティブ <select> を第一候補にする（OSごとの最適なUIとキーボード操作が無料で手に入る）",
+      "自作する場合は role=\"combobox\" / \"listbox\" / \"option\"、aria-expanded、aria-activedescendant を実装する",
+      "Esc で閉じる、上下キーで移動、Enter で確定、フォーカスを開閉元に戻す、を必ず満たす"
+    ],
+    "platformNotes": {
+      "web": "<select> + <option>（<optgroup> でグループ化）。カスタムUIは相当な実装コストがかかる。",
+      "flutter": "DropdownButton / DropdownButtonFormField、または showModalBottomSheet でのリスト選択。Cupertino では CupertinoPicker。"
+    },
+    "related": ["radio", "autocomplete", "sort", "segmented-control"],
+    "keywords": ["セレクト", "ドロップダウン", "プルダウン", "select", "選択"]
+  },
+  {
+    "id": "autocomplete",
+    "category": "input",
+    "name": "オートコンプリート",
+    "enName": "Autocomplete / Typeahead",
+    "aliases": ["Combobox", "Suggest", "サジェスト", "インクリメンタルサーチ"],
+    "summary": "入力に応じて候補を絞り込んで提示し、選択させる入力UI。",
+    "purpose": "候補が多すぎてリストで選べない／完全一致のタイプが大変な項目を、数文字の入力で特定させる。入力の自由度と選択の確実さの両立が狙い。",
+    "whenToUse": [
+      "選択肢が数十〜数百万（住所、駅名、ユーザー、タグ、商品）",
+      "表記ゆれを吸収して正規化した値を保存したい",
+      "候補外の自由入力も許したい（フリーソロ）／許したくない（厳格モード）を選べる"
+    ],
+    "whenNotToUse": [
+      "選択肢が10個以下 → セレクトやラジオ",
+      "ユーザーが候補名を知らず、探索的に選びたい → カテゴリ階層やフィルタ"
+    ],
+    "realWorldExamples": [
+      { "app": "Google 検索", "usage": "検索窓に入力するとサジェストがドロップダウンで出る。上下キーで選択できる。" },
+      { "app": "Slack", "usage": "@ を入力するとメンション候補、# でチャンネル候補が絞り込まれる。" },
+      { "app": "GitHub", "usage": "Issue 作成時の担当者・ラベル選択、コード検索のファイルパス補完。" }
+    ],
+    "antiPatterns": [
+      "1文字ごとにAPIを叩く（デバウンスし、最低文字数を設ける）",
+      "古いレスポンスが後から届いて候補が入れ替わる（リクエストの順序管理・キャンセルが必要）",
+      "候補0件のときに何も出さない（「候補がありません」と、次の行動を示す）",
+      "マウスでしか選べず、キーボードの上下・Enterが効かない"
+    ],
+    "accessibility": [
+      "WAI-ARIA の combobox パターンに従う（role=\"combobox\", aria-expanded, aria-controls, aria-activedescendant）",
+      "候補件数の変化を aria-live で通知する（「5件の候補」）",
+      "Esc で候補を閉じ、入力値は保持する。フォーカスは入力欄から動かさない"
+    ],
+    "platformNotes": {
+      "web": "<input> + <ul role=\"listbox\">。<datalist> は簡易だがスタイリングとキーボード挙動の制御が効かない。",
+      "flutter": "Autocomplete<T> / RawAutocomplete、または SearchAnchor（Material 3 の検索ビュー）。"
+    },
+    "related": ["search-bar", "select", "tag-input", "search-and-filter"],
+    "keywords": ["オートコンプリート", "サジェスト", "補完", "autocomplete", "typeahead"]
+  },
+  {
+    "id": "date-time-picker",
+    "category": "input",
+    "name": "日付 / 時刻ピッカー",
+    "enName": "Date & Time Picker",
+    "aliases": ["Calendar Picker", "カレンダー", "Date Range Picker"],
+    "summary": "カレンダーやホイールから日付・時刻を選ばせる専用の入力UI。",
+    "purpose": "曜日・月末・営業日といった「カレンダーを見ないと分からない文脈」を伴う日付選択を助ける。入力形式の揺れ（2026/1/5 と 26-01-05）も防げる。",
+    "whenToUse": [
+      "曜日や前後関係が判断材料になる（予約・スケジュール・宿泊日）",
+      "選択可能な日に制限がある（休業日・在庫なしをグレーアウトできる）",
+      "期間（開始〜終了）を選ばせたい"
+    ],
+    "whenNotToUse": [
+      "生年月日など、ユーザーが正確に暗記していて過去に大きく遡る値 → テキスト入力（YYYY/MM/DD）の方が速い",
+      "「今日」「明日」のような相対指定で十分な場合 → クイック選択チップ"
+    ],
+    "realWorldExamples": [
+      { "app": "Airbnb", "usage": "チェックイン／チェックアウトのレンジ選択カレンダー。空き状況や料金を日付上に表示する。" },
+      { "app": "Google カレンダー", "usage": "予定作成時の日付・時刻選択。開始を変えると終了が連動する。" },
+      { "app": "iOS 純正アプリ", "usage": "ホイール型の UIDatePicker。ドラッグ中にハプティクスのフィードバックがある。" }
+    ],
+    "antiPatterns": [
+      "テキストでの直接入力を一切許さない（キーボード派とスクリーンリーダー利用者が困る）",
+      "終了日に開始日より前の日付を選べてしまう（選択済みの開始日以降だけを有効にする）",
+      "タイムゾーンを明示せず、ユーザーの端末時刻とサーバ時刻がズレる",
+      "モバイルで小さすぎるカレンダーセルを表示して誤タップさせる"
+    ],
+    "accessibility": [
+      "カレンダーはグリッド（role=\"grid\"）として実装し、矢印キーで日移動、PageUp/Down で月移動できるようにする",
+      "選択不可の日は disabled にしたうえで、理由を伝える",
+      "テキスト入力とピッカーの両方を提供し、フォーマット例をヘルプテキストで示す"
+    ],
+    "platformNotes": {
+      "web": "<input type=\"date|time|datetime-local\">（UIはブラウザ依存）。デザイン統一が必要なら自作かライブラリ。",
+      "flutter": "showDatePicker / showDateRangePicker / showTimePicker。Cupertino は CupertinoDatePicker（ホイール）。"
+    },
+    "related": ["select", "text-field", "modal-dialog"],
+    "keywords": ["日付", "カレンダー", "時刻", "date picker", "予約"]
+  },
+  {
+    "id": "file-uploader",
+    "category": "input",
+    "name": "ファイルアップローダー",
+    "enName": "File Uploader / Dropzone",
+    "aliases": ["Dropzone", "File Picker", "添付", "ドラッグ&ドロップ"],
+    "summary": "端末上のファイルを選択・ドロップしてアップロードさせるUI。",
+    "purpose": "画像・書類などのファイルを取り込む。選択→プレビュー→進捗→完了／失敗、という一連の状態遷移を見せることが本体。",
+    "whenToUse": [
+      "画像・PDF・CSV などのファイルを受け取る",
+      "複数ファイルをまとめて扱わせたい",
+      "アップロードに時間がかかり、進捗の可視化が必要"
+    ],
+    "whenNotToUse": [
+      "カメラでその場撮影が主目的（モバイルではカメラ起動を優先的に提示する）",
+      "テキストのコピペで済む内容をファイルにさせている"
+    ],
+    "realWorldExamples": [
+      { "app": "Slack", "usage": "メッセージ入力欄へのドラッグ&ドロップ添付。ドロップ可能領域がハイライトされる。" },
+      { "app": "GitHub", "usage": "Issue 本文への画像ドロップ。アップロード中はプレースホルダの Markdown が挿入される。" },
+      { "app": "Google ドライブ", "usage": "ウィンドウへのドロップでアップロード開始、右下に個別の進捗が並ぶ。" }
+    ],
+    "antiPatterns": [
+      "ドラッグ&ドロップだけを用意し、クリックでのファイル選択ボタンがない",
+      "対応形式・上限サイズを事前に書かず、失敗して初めて伝える",
+      "アップロード中にキャンセルできない／進捗が出ない",
+      "失敗したファイルを黙って捨てる（どれが失敗したか、再試行できるかを示す）"
+    ],
+    "accessibility": [
+      "見た目をカスタムしても、実体は <input type=\"file\"> をキーボードでフォーカス・起動できるようにする",
+      "ドロップ領域は「ファイルを選択」ボタンとしても機能させる",
+      "進捗は aria-live または role=\"progressbar\" で伝え、完了・失敗も読み上げる"
+    ],
+    "platformNotes": {
+      "web": "<input type=\"file\" accept multiple> + Drag&Drop API（dragover の preventDefault が必須）。進捗は XHR/fetch のストリームで取得。",
+      "flutter": "file_picker / image_picker パッケージが定番。Web の DnD 相当は別途実装が必要。"
+    },
+    "related": ["progress-indicator", "toast-snackbar", "validation-error"],
+    "keywords": ["アップロード", "ファイル", "添付", "ドロップ", "upload"]
+  },
+  {
+    "id": "search-bar",
+    "category": "input",
+    "name": "検索バー",
+    "enName": "Search Bar / Search Field",
+    "aliases": ["Search Input", "検索窓", "サーチボックス"],
+    "summary": "キーワードでコンテンツを探すための入力欄。虫眼鏡アイコンが共通の記号。",
+    "purpose": "階層をたどらずに目的の情報へ直接ジャンプさせる。コンテンツ量が多いサービスでは、ナビゲーションと並ぶ主要な導線になる。",
+    "whenToUse": [
+      "コンテンツ件数が多く、一覧の走査では見つけられない",
+      "ユーザーが探したいものの名前を知っている",
+      "履歴・人気検索・サジェストで探索を助けられる"
+    ],
+    "whenNotToUse": [
+      "コンテンツが10件程度しかない（一覧を見せるだけでよい）",
+      "何を検索できるか分からない状態（まずカテゴリやフィルタで探索させる）"
+    ],
+    "realWorldExamples": [
+      { "app": "YouTube", "usage": "画面上部の検索バー。入力中にサジェスト、確定後は結果一覧とフィルタを表示する。" },
+      { "app": "Notion", "usage": "Cmd/Ctrl+K でどこからでも呼び出せる検索。最近開いたページも並ぶ。" },
+      { "app": "App Store", "usage": "タブの1つが検索。フォーカス前は人気キーワードを提示する。" }
+    ],
+    "antiPatterns": [
+      "検索結果0件で行き止まりにする（表記ゆれ提案・条件の緩和・人気コンテンツを出す）",
+      "入力内容をクリアするボタン（×）がない",
+      "検索したのに元の条件が消え、やり直しになる（クエリをURLに残す）",
+      "アイコンだけの検索ボタンで、押すまで何も起きないことが分からない"
+    ],
+    "accessibility": [
+      "<input type=\"search\"> と role=\"search\" のランドマークを使う",
+      "件数と結果の更新を aria-live で通知する",
+      "モバイルでは Enter（検索）キーを表示（enterkeyhint=\"search\"）"
+    ],
+    "platformNotes": {
+      "web": "<form role=\"search\"> + <input type=\"search\">。URL のクエリパラメータに検索語を保持するのが定石。",
+      "flutter": "SearchBar / SearchAnchor（Material 3）、CupertinoSearchTextField。"
+    },
+    "related": ["autocomplete", "search-and-filter", "empty-state"],
+    "keywords": ["検索", "search", "サーチ", "虫眼鏡"]
+  },
+  {
+    "id": "tag-input",
+    "category": "input",
+    "name": "タグ入力",
+    "enName": "Tag Input / Token Field",
+    "aliases": ["Chips Input", "Token Field", "マルチセレクト", "宛先入力"],
+    "summary": "入力した値をチップ（トークン）化して積み上げる、複数値の入力UI。",
+    "purpose": "個数が可変の複数値（タグ・宛先・スキル）を1つの入力欄で扱う。確定した値がチップとして視覚的に分離されるので、個別削除がしやすい。",
+    "whenToUse": [
+      "複数の短い値を任意の数だけ受け取る（タグ、キーワード、メール宛先）",
+      "既存候補からの選択と、新規作成の両方を許したい",
+      "選択済みの値を常に一覧で見せたい"
+    ],
+    "whenNotToUse": [
+      "選択肢が固定で少ない → チェックボックス",
+      "1つしか選ばない → オートコンプリート（単一選択）"
+    ],
+    "realWorldExamples": [
+      { "app": "Gmail", "usage": "宛先（To / Cc）欄。確定したアドレスがチップになり、×で個別に外せる。" },
+      { "app": "GitHub", "usage": "Issue の Labels / Assignees。候補から選ぶ形式のトークン表示。" },
+      { "app": "Qiita / Zenn", "usage": "記事投稿時のタグ入力。候補サジェストと新規タグ作成を併用する。" }
+    ],
+    "antiPatterns": [
+      "区切り文字（Enter / カンマ / スペース）のルールが不明で、意図せず1つのタグにまとまる",
+      "Backspace で直前のチップを消せない（学習された操作なので必ず対応する）",
+      "タグ数の上限を超えた時にエラーだけ出して、どれを消せばよいか示さない",
+      "チップの×が小さすぎてモバイルで押せない"
+    ],
+    "accessibility": [
+      "チップのリストは role=\"list\" 相当にし、各削除ボタンに「〇〇を削除」の名前を付ける",
+      "追加・削除の結果を aria-live で通知する",
+      "キーボードだけで、追加・移動・削除がすべて行えるようにする"
+    ],
+    "platformNotes": {
+      "web": "<input> + チップの描画を自前で行う。IME 変換中の Enter を確定と誤認しない処理（compositionend）が重要。",
+      "flutter": "Wrap + InputChip/Chip と TextField の組み合わせ。onDeleted でチップを外す。"
+    },
+    "related": ["chip", "autocomplete", "checkbox"],
+    "keywords": ["タグ", "チップ", "宛先", "token", "複数入力"]
+  },
+  {
+    "id": "rating",
+    "category": "input",
+    "name": "レーティング（星評価）",
+    "enName": "Rating / Star Rating",
+    "aliases": ["Star Rating", "評価", "スコア入力"],
+    "summary": "星などの記号で満足度を5段階前後で表す、入力にも表示にも使えるUI。",
+    "purpose": "定性的な満足度を、書かせずに1タップで集める。同時に、集計結果を一目で比較できる表示部品としても機能する。",
+    "whenToUse": [
+      "購入・利用後のフィードバック収集（レビュー）",
+      "一覧で品質を比較させたい（平均点＋件数の表示）",
+      "入力ハードルを最小にしたい（自由記述は任意にする）"
+    ],
+    "whenNotToUse": [
+      "0か1かの二値評価（👍/👎の方が速く、判断も容易）",
+      "評価軸が複数ある（清潔さ・立地など）のに1つの星でまとめてしまう場合"
+    ],
+    "realWorldExamples": [
+      { "app": "Amazon", "usage": "商品の星評価。平均値・件数・分布バーをセットで表示し、絞り込み条件にもなる。" },
+      { "app": "Google マップ", "usage": "店舗の口コミ投稿時の星評価と、一覧での平均点表示。" },
+      { "app": "Uber", "usage": "乗車後のドライバー評価。1タップで完了し、低評価時のみ理由を聞く。" }
+    ],
+    "antiPatterns": [
+      "平均値だけ見せて件数を出さない（1件の5.0と500件の4.6が同列に見える）",
+      "半分の星の切り上げ・切り捨てが表示と数値で食い違う",
+      "評価を取り消せない・変更できない",
+      "星の意味（1が最低か最高か）が不明"
+    ],
+    "accessibility": [
+      "入力時はラジオグループとして実装し、矢印キーで選べるようにする",
+      "表示時は aria-label に「5点中4.6点、口コミ523件」のようにテキストで書く",
+      "星の色と塗りだけでなく、数値も併記する"
+    ],
+    "platformNotes": {
+      "web": "ラジオボタン群を視覚的に星にするのが定番（CSSの :checked + 兄弟セレクタ）。",
+      "flutter": "IconButton や GestureDetector + Icon(Icons.star) の組み合わせ。表示のみなら Icon の並びで十分。"
+    },
+    "related": ["radio", "badge", "card"],
+    "keywords": ["評価", "星", "レビュー", "rating", "スコア"]
+  },
+  {
+    "id": "pin-input",
+    "category": "input",
+    "name": "PIN / 認証コード入力",
+    "enName": "PIN Input / OTP Input",
+    "aliases": ["OTP Input", "Verification Code", "ワンタイムパスワード", "セグメント入力"],
+    "summary": "桁ごとにマスを分けた、短い数字コード専用の入力UI。",
+    "purpose": "SMSやアプリで受け取った4〜6桁のコードを、桁数を視覚的に示しながら素早く入力させる。入力の進捗が一目で分かるのが利点。",
+    "whenToUse": [
+      "2段階認証やメール確認のワンタイムコード",
+      "アプリのロック解除PIN",
+      "桁数が固定で短い（4〜8桁）"
+    ],
+    "whenNotToUse": [
+      "桁数が可変・長い（クーポンコード等） → 通常のテキストフィールド",
+      "英数字混在で貼り付けが多い場合（分割入力は貼り付けと相性が悪いことがある）"
+    ],
+    "realWorldExamples": [
+      { "app": "各種SMS認証", "usage": "6桁コードの入力。iOS/Android はSMSから自動入力の候補を提示する。" },
+      { "app": "銀行・証券アプリ", "usage": "起動時のPINロック解除。入力済みの桁を●で表す。" },
+      { "app": "Apple / Google のログイン", "usage": "確認コードの入力画面。再送までのカウントダウンを併記する。" }
+    ],
+    "antiPatterns": [
+      "コードのペーストを受け付けない（6桁を1マスずつ分解して埋めるのが正しい実装）",
+      "自動入力（autocomplete=\"one-time-code\"）に対応せず、アプリ切り替えを強いる",
+      "誤入力時に全桁クリアして最初から打ち直させる",
+      "コードの有効期限や再送手段を画面に出さない"
+    ],
+    "accessibility": [
+      "autocomplete=\"one-time-code\" と inputmode=\"numeric\" を指定する",
+      "全体を1つのグループとしてラベル付けし、「6桁のうち3桁目」のように位置を伝える",
+      "Backspace で前のマスへ戻る、ペーストで一括入力、の2つは必須"
+    ],
+    "platformNotes": {
+      "web": "input を桁数分並べるか、1つの input を分割表示する。後者の方がペースト・自動入力に強い。",
+      "flutter": "TextField を複数並べて FocusNode で連結する実装、または pinput などのパッケージ。"
+    },
+    "related": ["text-field", "auth-form", "validation-error"],
+    "keywords": ["PIN", "OTP", "認証コード", "2段階認証", "ワンタイム"]
+  }
+]

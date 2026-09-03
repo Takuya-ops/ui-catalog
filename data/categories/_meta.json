@@ -1,0 +1,63 @@
+{
+  "title": "UI Catalog",
+  "subtitle": "Web / モバイルアプリの UI パターンを、名前・使いどころ・実例つきで学ぶ",
+  "version": "1.0.0",
+  "categories": [
+    {
+      "id": "input",
+      "name": "入力系",
+      "enName": "Input",
+      "emoji": "✏️",
+      "color": "#3b82f6",
+      "description": "ユーザーから値を受け取るためのUI。選択肢の数・入力の自由度・入力コストで使い分ける。"
+    },
+    {
+      "id": "navigation",
+      "name": "ナビゲーション系",
+      "enName": "Navigation",
+      "emoji": "🧭",
+      "color": "#8b5cf6",
+      "description": "アプリ内の「今どこにいるか」「どこへ行けるか」を示すUI。画面階層の深さと項目数で選ぶ。"
+    },
+    {
+      "id": "display",
+      "name": "情報表示系",
+      "enName": "Data Display",
+      "emoji": "📊",
+      "color": "#10b981",
+      "description": "情報を読みやすく構造化して見せるUI。一覧性・密度・比較のしやすさが判断軸。"
+    },
+    {
+      "id": "overlay",
+      "name": "オーバーレイ系",
+      "enName": "Overlay",
+      "emoji": "🪟",
+      "color": "#f59e0b",
+      "description": "既存の画面の上に重ねて表示するUI。ユーザーの流れを止める強さの順に使い分ける。"
+    },
+    {
+      "id": "action",
+      "name": "アクション系",
+      "enName": "Action",
+      "emoji": "🎯",
+      "color": "#ef4444",
+      "description": "ユーザーが操作を実行するためのUI。視覚的な強さ＝重要度の階層をつくる。"
+    },
+    {
+      "id": "mobile",
+      "name": "ジェスチャー・モバイル特有",
+      "enName": "Gesture & Mobile",
+      "emoji": "📱",
+      "color": "#ec4899",
+      "description": "タッチ操作と小さい画面ならではのUI。発見しづらいので必ず代替手段を用意する。"
+    },
+    {
+      "id": "pattern",
+      "name": "パターン系",
+      "enName": "Pattern",
+      "emoji": "🧩",
+      "color": "#06b6d4",
+      "description": "複数のコンポーネントを組み合わせた定番の設計パターン。画面単位の設計図。"
+    }
+  ]
+}

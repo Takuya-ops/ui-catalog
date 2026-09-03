@@ -1,0 +1,4706 @@
+{
+  "title": "UI Catalog",
+  "subtitle": "Web / モバイルアプリの UI パターンを、名前・使いどころ・実例つきで学ぶ",
+  "version": "1.0.0",
+  "categories": [
+    {
+      "id": "input",
+      "name": "入力系",
+      "enName": "Input",
+      "emoji": "✏️",
+      "color": "#3b82f6",
+      "description": "ユーザーから値を受け取るためのUI。選択肢の数・入力の自由度・入力コストで使い分ける。"
+    },
+    {
+      "id": "navigation",
+      "name": "ナビゲーション系",
+      "enName": "Navigation",
+      "emoji": "🧭",
+      "color": "#8b5cf6",
+      "description": "アプリ内の「今どこにいるか」「どこへ行けるか」を示すUI。画面階層の深さと項目数で選ぶ。"
+    },
+    {
+      "id": "display",
+      "name": "情報表示系",
+      "enName": "Data Display",
+      "emoji": "📊",
+      "color": "#10b981",
+      "description": "情報を読みやすく構造化して見せるUI。一覧性・密度・比較のしやすさが判断軸。"
+    },
+    {
+      "id": "overlay",
+      "name": "オーバーレイ系",
+      "enName": "Overlay",
+      "emoji": "🪟",
+      "color": "#f59e0b",
+      "description": "既存の画面の上に重ねて表示するUI。ユーザーの流れを止める強さの順に使い分ける。"
+    },
+    {
+      "id": "action",
+      "name": "アクション系",
+      "enName": "Action",
+      "emoji": "🎯",
+      "color": "#ef4444",
+      "description": "ユーザーが操作を実行するためのUI。視覚的な強さ＝重要度の階層をつくる。"
+    },
+    {
+      "id": "mobile",
+      "name": "ジェスチャー・モバイル特有",
+      "enName": "Gesture & Mobile",
+      "emoji": "📱",
+      "color": "#ec4899",
+      "description": "タッチ操作と小さい画面ならではのUI。発見しづらいので必ず代替手段を用意する。"
+    },
+    {
+      "id": "pattern",
+      "name": "パターン系",
+      "enName": "Pattern",
+      "emoji": "🧩",
+      "color": "#06b6d4",
+      "description": "複数のコンポーネントを組み合わせた定番の設計パターン。画面単位の設計図。"
+    }
+  ],
+  "generatedAt": "2026-09-03T18:29:26.971Z",
+  "componentCount": 72,
+  "components": [
+    {
+      "id": "text-field",
+      "category": "input",
+      "name": "テキストフィールド",
+      "enName": "Text Field",
+      "aliases": [
+        "Text Input",
+        "Input",
+        "単一行入力",
+        "テキストボックス"
+      ],
+      "summary": "1行の自由入力を受け取る、もっとも基本的な入力UI。",
+      "purpose": "氏名・メールアドレス・電話番号など、選択肢を用意できない短い自由入力を受け取る。ラベル・プレースホルダ・ヘルプテキスト・エラーテキストの4点セットで構成するのが定石。",
+      "whenToUse": [
+        "入力値の候補が事前に列挙できない（氏名・住所・メールなど）",
+        "入力が1行に収まる短さである",
+        "既存データの編集も同じUIで行いたい"
+      ],
+      "whenNotToUse": [
+        "選択肢が5個以下に決まっている → ラジオボタンやセグメンテッドコントロール",
+        "長文を入力させたい → テキストエリア",
+        "候補が大量にあり、そこから選ばせたい → オートコンプリート"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon",
+          "usage": "配送先住所の入力フォーム。氏名・番地などを1行ずつのテキストフィールドで受け取る。"
+        },
+        {
+          "app": "X (Twitter)",
+          "usage": "ログイン画面のユーザー名／メールアドレス入力。"
+        },
+        {
+          "app": "Google アカウント",
+          "usage": "プロフィール編集の姓・名フィールド。入力形式のヒントを下部に表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "プレースホルダをラベル代わりにする（入力を始めた瞬間に何の欄か分からなくなる／スクリーンリーダーが読み上げない場合がある）",
+        "入力途中の1文字目からエラーを赤く出す（入力完了＝blur 後か、送信時に検証する）",
+        "電話番号やクレジットカードでハイフンや空白を許容せず弾く（受け取ってから正規化する）",
+        "枠線を消しきったフラットすぎるデザインで、入力欄だと気づかせない"
+      ],
+      "accessibility": [
+        "必ず <label for> または aria-label で名前を与える。プレースホルダだけはNG",
+        "エラーは aria-invalid と aria-describedby でフィールドに紐づけ、色だけでなくテキストでも伝える",
+        "inputmode / autocomplete / type を正しく指定するとモバイルのキーボードと自動入力が最適化される",
+        "タップ領域は最低 44×44pt（iOS HIG）／48×48dp（Material）を確保する"
+      ],
+      "platformNotes": {
+        "web": "<input type=\"text|email|tel|url\"> + <label>。autocomplete=\"name\" などの指定でブラウザの自動入力が効く。",
+        "flutter": "TextField / TextFormField。InputDecoration(labelText, helperText, errorText)、keyboardType、textInputAction を設定する。"
+      },
+      "related": [
+        "textarea",
+        "autocomplete",
+        "search-bar",
+        "validation-error"
+      ],
+      "keywords": [
+        "テキスト",
+        "input",
+        "フォーム",
+        "入力欄",
+        "text field"
+      ]
+    },
+    {
+      "id": "textarea",
+      "category": "input",
+      "name": "テキストエリア",
+      "enName": "Textarea / Multiline Text Field",
+      "aliases": [
+        "Multiline Input",
+        "複数行入力",
+        "本文入力"
+      ],
+      "summary": "改行を含む長文を入力させるための複数行の入力欄。",
+      "purpose": "感想・問い合わせ内容・投稿本文など、量が読めない自由記述を受け取る。行数が視覚的に「これくらい書いてよい」という期待値を伝える役割も持つ。",
+      "whenToUse": [
+        "改行を含む文章を入力させる",
+        "入力量が人によって大きく変わる",
+        "文字数制限のカウンタを見せながら書かせたい"
+      ],
+      "whenNotToUse": [
+        "1行で収まる項目（氏名・件名） → テキストフィールド",
+        "リッチテキストや画像埋め込みが必要 → リッチテキストエディタ"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "GitHub",
+          "usage": "Issue / Pull Request の本文入力。Markdown プレビュー付きのテキストエリア。"
+        },
+        {
+          "app": "Gmail",
+          "usage": "メール本文の作成エリア。"
+        },
+        {
+          "app": "X (Twitter)",
+          "usage": "ポスト作成欄。入力に応じて高さが伸び、残り文字数をリング状に表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "高さが2行しかないのに長文を求める（書ける量の期待値と実際がズレる）",
+        "文字数制限を超えた瞬間に入力を切り捨てる（超過分を赤く見せて、ユーザーに削らせる）",
+        "リサイズを一律で禁止する（デスクトップでは resize: vertical を許すと親切）",
+        "自動保存がないのに長文を要求し、リロードで消える"
+      ],
+      "accessibility": [
+        "ラベルを必ず関連付ける。文字数カウンタは aria-live=\"polite\" で控えめに通知する",
+        "Enter は改行、送信は明示的なボタンにする（Cmd/Ctrl+Enter 送信を足すのは可）",
+        "自動リサイズしても、フォーカス位置が画面外に出ないようスクロール追従させる"
+      ],
+      "platformNotes": {
+        "web": "<textarea rows> または contenteditable。自動リサイズは scrollHeight を高さに反映する実装が一般的。",
+        "flutter": "TextField(maxLines: null, minLines: 3, keyboardType: TextInputType.multiline)。maxLength でカウンタが自動表示される。"
+      },
+      "related": [
+        "text-field",
+        "validation-error"
+      ],
+      "keywords": [
+        "テキストエリア",
+        "複数行",
+        "本文",
+        "textarea"
+      ]
+    },
+    {
+      "id": "checkbox",
+      "category": "input",
+      "name": "チェックボックス",
+      "enName": "Checkbox",
+      "aliases": [
+        "チェックボックス",
+        "複数選択"
+      ],
+      "summary": "独立したON/OFFを複数選べる選択UI。0個も全部もあり得る。",
+      "purpose": "複数の選択肢から任意の数（0個以上）を選ばせる。または単独で「規約に同意する」のような二値の意思表示を取る。選択肢が全て見えていることが前提。",
+      "whenToUse": [
+        "複数選択が可能で、選択肢が画面に収まる程度の数（〜10個目安）",
+        "「同意する」「次回から表示しない」など単独のON/OFF（設定の即時反映ではない）",
+        "親子関係のある絞り込み（中間状態＝indeterminate を使える）"
+      ],
+      "whenNotToUse": [
+        "1つしか選べない → ラジオボタン",
+        "設定画面で即座に反映される二値 → トグル / スイッチ",
+        "選択肢が20個を超える → 検索付きのマルチセレクトやオートコンプリート"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon",
+          "usage": "検索結果左側の絞り込み（ブランド・配送オプションなど）を複数選択する。"
+        },
+        {
+          "app": "Gmail",
+          "usage": "メール一覧の各行の選択。ヘッダのチェックで全選択／一部選択の中間状態を表す。"
+        },
+        {
+          "app": "Google フォーム",
+          "usage": "「チェックボックス」形式の設問（複数回答可）。"
+        }
+      ],
+      "antiPatterns": [
+        "チェックボックスなのに1つしか選べない挙動にする（ラジオボタンを使う）",
+        "ラベル文字をクリックしても切り替わらない（label と結びつけていない）",
+        "否定形のラベル（「メールを受け取らない」）にして、チェックの意味を二重否定にする",
+        "設定画面で即時反映なのにチェックボックスを使う（モバイルではトグルが期待される）"
+      ],
+      "accessibility": [
+        "<input type=\"checkbox\"> + <label> で、ラベルタップでも切り替わるようにする",
+        "3状態を使う場合は indeterminate（aria-checked=\"mixed\"）を正しく設定する",
+        "グループには <fieldset> + <legend>（またはrole=\"group\" + aria-labelledby）で見出しを与える",
+        "色や✓の形だけでなく、状態がテキストでも判別できるようにする"
+      ],
+      "platformNotes": {
+        "web": "<input type=\"checkbox\">。indeterminate は JS からのみ設定可能（HTML属性はない）。",
+        "flutter": "Checkbox / CheckboxListTile。tristate: true で null（中間状態）を扱える。"
+      },
+      "related": [
+        "radio",
+        "toggle-switch",
+        "search-and-filter"
+      ],
+      "keywords": [
+        "チェック",
+        "複数選択",
+        "checkbox",
+        "同意"
+      ]
+    },
+    {
+      "id": "radio",
+      "category": "input",
+      "name": "ラジオボタン",
+      "enName": "Radio Button",
+      "aliases": [
+        "Radio Group",
+        "単一選択"
+      ],
+      "summary": "複数の選択肢から必ず1つだけを選ばせる選択UI。全選択肢が同時に見える。",
+      "purpose": "排他的な選択肢を一覧で比較させながら1つ選ばせる。選択肢を隠さないので、ドロップダウンより比較・検討がしやすい。",
+      "whenToUse": [
+        "選択肢が2〜6個程度で、すべて見せて比較させたい（配送方法・支払い方法・プランなど）",
+        "デフォルト値を明示したい（最も安全・一般的な選択肢を初期選択にする）"
+      ],
+      "whenNotToUse": [
+        "選択肢が7個以上 → セレクト / ドロップダウン",
+        "複数選べる → チェックボックス",
+        "2択かつ即時反映のON/OFF → トグル / スイッチ",
+        "2〜4択で画面幅に収まり、切り替えが軽い → セグメンテッドコントロール"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google フォーム",
+          "usage": "「ラジオボタン」形式の設問（単一回答）。"
+        },
+        {
+          "app": "Amazon",
+          "usage": "注文手続きでの配送スピード（お急ぎ便／通常配送）の選択。"
+        },
+        {
+          "app": "各種サブスクの申込画面",
+          "usage": "月額プラン／年額プランの選択。年額側に「2ヶ月分お得」などの補足を添える。"
+        }
+      ],
+      "antiPatterns": [
+        "一度選ぶと解除できないのに、初期状態で何も選ばれていない（必須なら安全なデフォルトを選択済みにする）",
+        "選択肢が1つしかないラジオボタン（チェックボックスにするか、そもそも選ばせない）",
+        "選択肢ごとに説明文の長さが極端に違い、比較しづらい",
+        "ラジオボタンで複数選択できてしまう実装ミス（name 属性の付け忘れ）"
+      ],
+      "accessibility": [
+        "同じ name でグループ化し、矢印キーでグループ内を移動できるようにする（ネイティブなら自動）",
+        "<fieldset> + <legend> で「何を選ぶグループか」を伝える",
+        "ラベル全体をクリック／タップ可能にし、行全体をヒット領域にする"
+      ],
+      "platformNotes": {
+        "web": "<input type=\"radio\" name=\"group\">。同一 name が排他制御の鍵。",
+        "flutter": "Radio<T> / RadioListTile<T>。groupValue と value の一致で選択状態を表す。"
+      },
+      "related": [
+        "checkbox",
+        "select",
+        "segmented-control"
+      ],
+      "keywords": [
+        "ラジオ",
+        "単一選択",
+        "radio",
+        "択一"
+      ]
+    },
+    {
+      "id": "toggle-switch",
+      "category": "input",
+      "name": "トグル / スイッチ",
+      "enName": "Toggle / Switch",
+      "aliases": [
+        "Switch",
+        "Toggle Switch",
+        "オンオフスイッチ"
+      ],
+      "summary": "設定を即座にON/OFFする物理スイッチのメタファ。押した瞬間に効く。",
+      "purpose": "「保存」ボタンを押さずにその場で反映される二値設定を切り替える。物理スイッチのメタファなので、ユーザーは即時反映を期待する。",
+      "whenToUse": [
+        "設定画面で、切り替えた瞬間に効果が出る項目（通知ON/OFF、ダークモード、機内モード）",
+        "ONとOFFがそれぞれ意味を持つ対称的な二値",
+        "モバイルアプリの設定リスト（プラットフォームの標準表現）"
+      ],
+      "whenNotToUse": [
+        "フォームの一部で「保存」を押して初めて反映される → チェックボックス",
+        "利用規約への同意など、法的に明示的な意思表示が必要な場面 → チェックボックス",
+        "3状態以上ある（ON / OFF / 自動） → セグメンテッドコントロールやセレクト"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS 設定",
+          "usage": "機内モード・Wi-Fi・Bluetooth など。切り替えた瞬間に反映される代表例。"
+        },
+        {
+          "app": "Android 設定 / クイック設定",
+          "usage": "Material Design の Switch。ON時はサム（つまみ）に色とアイコンが付く。"
+        },
+        {
+          "app": "X (Twitter) の設定",
+          "usage": "通知やプライバシー項目の個別ON/OFF。"
+        }
+      ],
+      "antiPatterns": [
+        "トグルなのに「保存」ボタンを押さないと反映されない（期待を裏切る最も典型的な誤用）",
+        "ラベルが「通知をオフにしない」のような否定形で、ONの意味が分からない",
+        "色だけで状態を示し、色覚特性のあるユーザーがON/OFFを判別できない",
+        "通信が必要な処理で、失敗したのにトグルがONのまま残る（楽観的更新の巻き戻しを実装する）"
+      ],
+      "accessibility": [
+        "role=\"switch\" と aria-checked を使う（またはネイティブの checkbox に role=\"switch\"）",
+        "ラベルは肯定形・名詞句で（「ダークモード」「メール通知」）。状態はスイッチ側が伝える",
+        "サムの位置に加えて、ONで色＋アイコン／OFFで無色などの二重符号化を行う",
+        "非同期処理中は disabled にするか、ローディングを示して二度押しを防ぐ"
+      ],
+      "platformNotes": {
+        "web": "<button role=\"switch\" aria-checked> か <input type=\"checkbox\" role=\"switch\">。ネイティブ要素にCSSを当てるのが安全。",
+        "flutter": "Switch / SwitchListTile。Cupertino では CupertinoSwitch。SwitchListTile なら行全体がタップ領域になる。"
+      },
+      "related": [
+        "checkbox",
+        "dark-mode-toggle",
+        "segmented-control"
+      ],
+      "keywords": [
+        "トグル",
+        "スイッチ",
+        "switch",
+        "オンオフ",
+        "設定"
+      ]
+    },
+    {
+      "id": "slider",
+      "category": "input",
+      "name": "スライダー",
+      "enName": "Slider",
+      "aliases": [
+        "Range Slider",
+        "つまみ",
+        "レンジ入力"
+      ],
+      "summary": "連続的（または段階的）な数値を、つまみをドラッグして選ぶUI。",
+      "purpose": "正確な数値よりも「だいたいこのくらい」の感覚が重要な値を、視覚的に素早く調整させる。上限・下限が一目で分かるのが利点。",
+      "whenToUse": [
+        "音量・明るさ・再生位置など、変化が即座に体感できる値",
+        "価格帯・年齢帯など範囲での絞り込み（レンジスライダー）",
+        "厳密な値でなくてよく、上下限が明確な値"
+      ],
+      "whenNotToUse": [
+        "正確な数値入力が必要（金額・年齢の1歳刻み） → テキストフィールドやステッパーを併用",
+        "選択肢が3〜4個しかない → セグメンテッドコントロール",
+        "モバイルで細かい刻みが必要（指の太さで精度が出ない）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS コントロールセンター",
+          "usage": "画面の明るさ・音量の調整。ドラッグ中に即座に反映される。"
+        },
+        {
+          "app": "YouTube / Spotify",
+          "usage": "再生位置のシークバー。現在位置とバッファ済み範囲を同時に見せる。"
+        },
+        {
+          "app": "Airbnb",
+          "usage": "検索フィルタの価格帯を、下限・上限2つのつまみを持つレンジスライダーで指定する。"
+        }
+      ],
+      "antiPatterns": [
+        "現在値を数値で表示しない（今いくつなのか分からない）",
+        "つまみが小さすぎてタップできない（ヒット領域は最低44pt確保）",
+        "ドラッグ中に重い再検索を毎フレーム走らせる（離した時＝change で確定する）",
+        "0〜1000000 のような広すぎるレンジを1本のスライダーに載せる"
+      ],
+      "accessibility": [
+        "role=\"slider\" と aria-valuenow / valuemin / valuemax / valuetext を設定する",
+        "矢印キー（1刻み）・PageUp/Down（大きい刻み）・Home/End（両端）でのキーボード操作を必ず用意する",
+        "現在値をテキストでも表示し、スクリーンリーダーとマウス両方から読めるようにする",
+        "タッチ操作向けにつまみを大きくし、トラックのタップでもジャンプできるようにする"
+      ],
+      "platformNotes": {
+        "web": "<input type=\"range\">。レンジ（2つまみ）はネイティブにないので、2本重ねるか専用実装が必要。",
+        "flutter": "Slider / RangeSlider。divisions で刻みを指定、label でつまみ上に値を表示できる。"
+      },
+      "related": [
+        "stepper-input",
+        "progress-indicator",
+        "search-and-filter"
+      ],
+      "keywords": [
+        "スライダー",
+        "slider",
+        "音量",
+        "範囲",
+        "レンジ"
+      ]
+    },
+    {
+      "id": "stepper-input",
+      "category": "input",
+      "name": "ステッパー（数値増減）",
+      "enName": "Stepper / Number Input",
+      "aliases": [
+        "Quantity Picker",
+        "Spinner",
+        "数量入力",
+        "プラスマイナスボタン"
+      ],
+      "summary": "−／＋ボタンで小さな数値を1つずつ増減させる入力UI。",
+      "purpose": "1〜10程度の小さな整数（数量・人数）を、キーボードを出さずに素早く指定させる。タップだけで完結するのでモバイルと相性が良い。",
+      "whenToUse": [
+        "想定される値が小さく、増減の回数が少ない（カート内の数量、予約人数）",
+        "モバイルでキーボードを開かせたくない",
+        "上限・下限が決まっている"
+      ],
+      "whenNotToUse": [
+        "値が大きくなりうる（100個など）→ 直接入力できるテキストフィールドを併設",
+        "連続量の調整 → スライダー",
+        "0にすることが「削除」を意味するなら、削除アクションを別に用意する"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Uber Eats / 出前館",
+          "usage": "商品の注文数量を −／＋ で調整する。1未満にすると削除の確認になる。"
+        },
+        {
+          "app": "Airbnb",
+          "usage": "ゲスト人数（大人・子供・幼児）の指定。カテゴリごとにステッパーを並べる。"
+        },
+        {
+          "app": "航空券・ホテル予約サイト",
+          "usage": "搭乗者数・部屋数の指定。"
+        }
+      ],
+      "antiPatterns": [
+        "上限に達してもボタンが押せてしまう（到達したら disabled にし、理由も伝える）",
+        "中央の数値を直接編集できず、20回タップさせる",
+        "−／＋ボタンが小さく隣接しすぎて誤タップする（間に十分な間隔と数値表示を置く）",
+        "長押しでの連続増減も、直接入力も用意しない"
+      ],
+      "accessibility": [
+        "各ボタンに「1つ増やす」「1つ減らす」といった aria-label を付ける",
+        "現在値の変化を aria-live で伝えるか、role=\"spinbutton\" + aria-valuenow を使う",
+        "disabled の理由（在庫上限など）をテキストで補足する"
+      ],
+      "platformNotes": {
+        "web": "<input type=\"number\"> か、ボタン2つ + 表示のカスタム実装（スピナー矢印が小さいので後者が主流）。",
+        "flutter": "標準ウィジェットはないので IconButton × 2 + Text で構成する。Cupertino には CupertinoStepper 相当の実装例がある。"
+      },
+      "related": [
+        "slider",
+        "text-field",
+        "wizard-stepper"
+      ],
+      "keywords": [
+        "ステッパー",
+        "数量",
+        "個数",
+        "stepper",
+        "プラスマイナス"
+      ]
+    },
+    {
+      "id": "select",
+      "category": "input",
+      "name": "セレクト / ドロップダウン",
+      "enName": "Select / Dropdown",
+      "aliases": [
+        "Combo Box",
+        "プルダウン",
+        "選択リスト"
+      ],
+      "summary": "折りたたまれたリストから1つ（または複数）を選ぶ、省スペースな選択UI。",
+      "purpose": "選択肢が多くて画面に並べきれないとき、普段は畳んでおき、必要なときだけ展開して選ばせる。省スペースと引き換えに、選択肢が見えないコストを払う。",
+      "whenToUse": [
+        "選択肢が7個以上あり、ラジオボタンでは場所を取りすぎる",
+        "都道府県・国・年月など、ユーザーが既に答えを知っている定型リスト",
+        "画面の縦幅を節約したいフォーム"
+      ],
+      "whenNotToUse": [
+        "選択肢が2〜5個 → ラジオボタン／セグメンテッドコントロール（1タップで済む）",
+        "選択肢が数十〜数百 → 検索できるオートコンプリート",
+        "選択肢を比較して考えさせたい（畳むと比較できない）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google フォーム",
+          "usage": "「プルダウン」形式の設問。"
+        },
+        {
+          "app": "各種ECサイト",
+          "usage": "商品ページのサイズ・カラー選択、都道府県の選択。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "ブランチ切り替えのドロップダウン。項目が多いため検索フィールドが内蔵されている。"
+        }
+      ],
+      "antiPatterns": [
+        "「選択してください」を選択肢の1つとして残し、それを選べてしまう（未選択はプレースホルダとして扱い disabled に）",
+        "生年月日の「年」を100項目のドロップダウンにする（テキスト入力の方が速い）",
+        "ネイティブの select をやめて自作したのに、キーボード操作と型入力ジャンプが効かない",
+        "モバイルでカスタムドロップダウンにして、OSのホイールピッカーの快適さを捨てる"
+      ],
+      "accessibility": [
+        "ネイティブ <select> を第一候補にする（OSごとの最適なUIとキーボード操作が無料で手に入る）",
+        "自作する場合は role=\"combobox\" / \"listbox\" / \"option\"、aria-expanded、aria-activedescendant を実装する",
+        "Esc で閉じる、上下キーで移動、Enter で確定、フォーカスを開閉元に戻す、を必ず満たす"
+      ],
+      "platformNotes": {
+        "web": "<select> + <option>（<optgroup> でグループ化）。カスタムUIは相当な実装コストがかかる。",
+        "flutter": "DropdownButton / DropdownButtonFormField、または showModalBottomSheet でのリスト選択。Cupertino では CupertinoPicker。"
+      },
+      "related": [
+        "radio",
+        "autocomplete",
+        "sort",
+        "segmented-control"
+      ],
+      "keywords": [
+        "セレクト",
+        "ドロップダウン",
+        "プルダウン",
+        "select",
+        "選択"
+      ]
+    },
+    {
+      "id": "autocomplete",
+      "category": "input",
+      "name": "オートコンプリート",
+      "enName": "Autocomplete / Typeahead",
+      "aliases": [
+        "Combobox",
+        "Suggest",
+        "サジェスト",
+        "インクリメンタルサーチ"
+      ],
+      "summary": "入力に応じて候補を絞り込んで提示し、選択させる入力UI。",
+      "purpose": "候補が多すぎてリストで選べない／完全一致のタイプが大変な項目を、数文字の入力で特定させる。入力の自由度と選択の確実さの両立が狙い。",
+      "whenToUse": [
+        "選択肢が数十〜数百万（住所、駅名、ユーザー、タグ、商品）",
+        "表記ゆれを吸収して正規化した値を保存したい",
+        "候補外の自由入力も許したい（フリーソロ）／許したくない（厳格モード）を選べる"
+      ],
+      "whenNotToUse": [
+        "選択肢が10個以下 → セレクトやラジオ",
+        "ユーザーが候補名を知らず、探索的に選びたい → カテゴリ階層やフィルタ"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google 検索",
+          "usage": "検索窓に入力するとサジェストがドロップダウンで出る。上下キーで選択できる。"
+        },
+        {
+          "app": "Slack",
+          "usage": "@ を入力するとメンション候補、# でチャンネル候補が絞り込まれる。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "Issue 作成時の担当者・ラベル選択、コード検索のファイルパス補完。"
+        }
+      ],
+      "antiPatterns": [
+        "1文字ごとにAPIを叩く（デバウンスし、最低文字数を設ける）",
+        "古いレスポンスが後から届いて候補が入れ替わる（リクエストの順序管理・キャンセルが必要）",
+        "候補0件のときに何も出さない（「候補がありません」と、次の行動を示す）",
+        "マウスでしか選べず、キーボードの上下・Enterが効かない"
+      ],
+      "accessibility": [
+        "WAI-ARIA の combobox パターンに従う（role=\"combobox\", aria-expanded, aria-controls, aria-activedescendant）",
+        "候補件数の変化を aria-live で通知する（「5件の候補」）",
+        "Esc で候補を閉じ、入力値は保持する。フォーカスは入力欄から動かさない"
+      ],
+      "platformNotes": {
+        "web": "<input> + <ul role=\"listbox\">。<datalist> は簡易だがスタイリングとキーボード挙動の制御が効かない。",
+        "flutter": "Autocomplete<T> / RawAutocomplete、または SearchAnchor（Material 3 の検索ビュー）。"
+      },
+      "related": [
+        "search-bar",
+        "select",
+        "tag-input",
+        "search-and-filter"
+      ],
+      "keywords": [
+        "オートコンプリート",
+        "サジェスト",
+        "補完",
+        "autocomplete",
+        "typeahead"
+      ]
+    },
+    {
+      "id": "date-time-picker",
+      "category": "input",
+      "name": "日付 / 時刻ピッカー",
+      "enName": "Date & Time Picker",
+      "aliases": [
+        "Calendar Picker",
+        "カレンダー",
+        "Date Range Picker"
+      ],
+      "summary": "カレンダーやホイールから日付・時刻を選ばせる専用の入力UI。",
+      "purpose": "曜日・月末・営業日といった「カレンダーを見ないと分からない文脈」を伴う日付選択を助ける。入力形式の揺れ（2026/1/5 と 26-01-05）も防げる。",
+      "whenToUse": [
+        "曜日や前後関係が判断材料になる（予約・スケジュール・宿泊日）",
+        "選択可能な日に制限がある（休業日・在庫なしをグレーアウトできる）",
+        "期間（開始〜終了）を選ばせたい"
+      ],
+      "whenNotToUse": [
+        "生年月日など、ユーザーが正確に暗記していて過去に大きく遡る値 → テキスト入力（YYYY/MM/DD）の方が速い",
+        "「今日」「明日」のような相対指定で十分な場合 → クイック選択チップ"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Airbnb",
+          "usage": "チェックイン／チェックアウトのレンジ選択カレンダー。空き状況や料金を日付上に表示する。"
+        },
+        {
+          "app": "Google カレンダー",
+          "usage": "予定作成時の日付・時刻選択。開始を変えると終了が連動する。"
+        },
+        {
+          "app": "iOS 純正アプリ",
+          "usage": "ホイール型の UIDatePicker。ドラッグ中にハプティクスのフィードバックがある。"
+        }
+      ],
+      "antiPatterns": [
+        "テキストでの直接入力を一切許さない（キーボード派とスクリーンリーダー利用者が困る）",
+        "終了日に開始日より前の日付を選べてしまう（選択済みの開始日以降だけを有効にする）",
+        "タイムゾーンを明示せず、ユーザーの端末時刻とサーバ時刻がズレる",
+        "モバイルで小さすぎるカレンダーセルを表示して誤タップさせる"
+      ],
+      "accessibility": [
+        "カレンダーはグリッド（role=\"grid\"）として実装し、矢印キーで日移動、PageUp/Down で月移動できるようにする",
+        "選択不可の日は disabled にしたうえで、理由を伝える",
+        "テキスト入力とピッカーの両方を提供し、フォーマット例をヘルプテキストで示す"
+      ],
+      "platformNotes": {
+        "web": "<input type=\"date|time|datetime-local\">（UIはブラウザ依存）。デザイン統一が必要なら自作かライブラリ。",
+        "flutter": "showDatePicker / showDateRangePicker / showTimePicker。Cupertino は CupertinoDatePicker（ホイール）。"
+      },
+      "related": [
+        "select",
+        "text-field",
+        "modal-dialog"
+      ],
+      "keywords": [
+        "日付",
+        "カレンダー",
+        "時刻",
+        "date picker",
+        "予約"
+      ]
+    },
+    {
+      "id": "file-uploader",
+      "category": "input",
+      "name": "ファイルアップローダー",
+      "enName": "File Uploader / Dropzone",
+      "aliases": [
+        "Dropzone",
+        "File Picker",
+        "添付",
+        "ドラッグ&ドロップ"
+      ],
+      "summary": "端末上のファイルを選択・ドロップしてアップロードさせるUI。",
+      "purpose": "画像・書類などのファイルを取り込む。選択→プレビュー→進捗→完了／失敗、という一連の状態遷移を見せることが本体。",
+      "whenToUse": [
+        "画像・PDF・CSV などのファイルを受け取る",
+        "複数ファイルをまとめて扱わせたい",
+        "アップロードに時間がかかり、進捗の可視化が必要"
+      ],
+      "whenNotToUse": [
+        "カメラでその場撮影が主目的（モバイルではカメラ起動を優先的に提示する）",
+        "テキストのコピペで済む内容をファイルにさせている"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Slack",
+          "usage": "メッセージ入力欄へのドラッグ&ドロップ添付。ドロップ可能領域がハイライトされる。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "Issue 本文への画像ドロップ。アップロード中はプレースホルダの Markdown が挿入される。"
+        },
+        {
+          "app": "Google ドライブ",
+          "usage": "ウィンドウへのドロップでアップロード開始、右下に個別の進捗が並ぶ。"
+        }
+      ],
+      "antiPatterns": [
+        "ドラッグ&ドロップだけを用意し、クリックでのファイル選択ボタンがない",
+        "対応形式・上限サイズを事前に書かず、失敗して初めて伝える",
+        "アップロード中にキャンセルできない／進捗が出ない",
+        "失敗したファイルを黙って捨てる（どれが失敗したか、再試行できるかを示す）"
+      ],
+      "accessibility": [
+        "見た目をカスタムしても、実体は <input type=\"file\"> をキーボードでフォーカス・起動できるようにする",
+        "ドロップ領域は「ファイルを選択」ボタンとしても機能させる",
+        "進捗は aria-live または role=\"progressbar\" で伝え、完了・失敗も読み上げる"
+      ],
+      "platformNotes": {
+        "web": "<input type=\"file\" accept multiple> + Drag&Drop API（dragover の preventDefault が必須）。進捗は XHR/fetch のストリームで取得。",
+        "flutter": "file_picker / image_picker パッケージが定番。Web の DnD 相当は別途実装が必要。"
+      },
+      "related": [
+        "progress-indicator",
+        "toast-snackbar",
+        "validation-error"
+      ],
+      "keywords": [
+        "アップロード",
+        "ファイル",
+        "添付",
+        "ドロップ",
+        "upload"
+      ]
+    },
+    {
+      "id": "search-bar",
+      "category": "input",
+      "name": "検索バー",
+      "enName": "Search Bar / Search Field",
+      "aliases": [
+        "Search Input",
+        "検索窓",
+        "サーチボックス"
+      ],
+      "summary": "キーワードでコンテンツを探すための入力欄。虫眼鏡アイコンが共通の記号。",
+      "purpose": "階層をたどらずに目的の情報へ直接ジャンプさせる。コンテンツ量が多いサービスでは、ナビゲーションと並ぶ主要な導線になる。",
+      "whenToUse": [
+        "コンテンツ件数が多く、一覧の走査では見つけられない",
+        "ユーザーが探したいものの名前を知っている",
+        "履歴・人気検索・サジェストで探索を助けられる"
+      ],
+      "whenNotToUse": [
+        "コンテンツが10件程度しかない（一覧を見せるだけでよい）",
+        "何を検索できるか分からない状態（まずカテゴリやフィルタで探索させる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "YouTube",
+          "usage": "画面上部の検索バー。入力中にサジェスト、確定後は結果一覧とフィルタを表示する。"
+        },
+        {
+          "app": "Notion",
+          "usage": "Cmd/Ctrl+K でどこからでも呼び出せる検索。最近開いたページも並ぶ。"
+        },
+        {
+          "app": "App Store",
+          "usage": "タブの1つが検索。フォーカス前は人気キーワードを提示する。"
+        }
+      ],
+      "antiPatterns": [
+        "検索結果0件で行き止まりにする（表記ゆれ提案・条件の緩和・人気コンテンツを出す）",
+        "入力内容をクリアするボタン（×）がない",
+        "検索したのに元の条件が消え、やり直しになる（クエリをURLに残す）",
+        "アイコンだけの検索ボタンで、押すまで何も起きないことが分からない"
+      ],
+      "accessibility": [
+        "<input type=\"search\"> と role=\"search\" のランドマークを使う",
+        "件数と結果の更新を aria-live で通知する",
+        "モバイルでは Enter（検索）キーを表示（enterkeyhint=\"search\"）"
+      ],
+      "platformNotes": {
+        "web": "<form role=\"search\"> + <input type=\"search\">。URL のクエリパラメータに検索語を保持するのが定石。",
+        "flutter": "SearchBar / SearchAnchor（Material 3）、CupertinoSearchTextField。"
+      },
+      "related": [
+        "autocomplete",
+        "search-and-filter",
+        "empty-state"
+      ],
+      "keywords": [
+        "検索",
+        "search",
+        "サーチ",
+        "虫眼鏡"
+      ]
+    },
+    {
+      "id": "tag-input",
+      "category": "input",
+      "name": "タグ入力",
+      "enName": "Tag Input / Token Field",
+      "aliases": [
+        "Chips Input",
+        "Token Field",
+        "マルチセレクト",
+        "宛先入力"
+      ],
+      "summary": "入力した値をチップ（トークン）化して積み上げる、複数値の入力UI。",
+      "purpose": "個数が可変の複数値（タグ・宛先・スキル）を1つの入力欄で扱う。確定した値がチップとして視覚的に分離されるので、個別削除がしやすい。",
+      "whenToUse": [
+        "複数の短い値を任意の数だけ受け取る（タグ、キーワード、メール宛先）",
+        "既存候補からの選択と、新規作成の両方を許したい",
+        "選択済みの値を常に一覧で見せたい"
+      ],
+      "whenNotToUse": [
+        "選択肢が固定で少ない → チェックボックス",
+        "1つしか選ばない → オートコンプリート（単一選択）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail",
+          "usage": "宛先（To / Cc）欄。確定したアドレスがチップになり、×で個別に外せる。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "Issue の Labels / Assignees。候補から選ぶ形式のトークン表示。"
+        },
+        {
+          "app": "Qiita / Zenn",
+          "usage": "記事投稿時のタグ入力。候補サジェストと新規タグ作成を併用する。"
+        }
+      ],
+      "antiPatterns": [
+        "区切り文字（Enter / カンマ / スペース）のルールが不明で、意図せず1つのタグにまとまる",
+        "Backspace で直前のチップを消せない（学習された操作なので必ず対応する）",
+        "タグ数の上限を超えた時にエラーだけ出して、どれを消せばよいか示さない",
+        "チップの×が小さすぎてモバイルで押せない"
+      ],
+      "accessibility": [
+        "チップのリストは role=\"list\" 相当にし、各削除ボタンに「〇〇を削除」の名前を付ける",
+        "追加・削除の結果を aria-live で通知する",
+        "キーボードだけで、追加・移動・削除がすべて行えるようにする"
+      ],
+      "platformNotes": {
+        "web": "<input> + チップの描画を自前で行う。IME 変換中の Enter を確定と誤認しない処理（compositionend）が重要。",
+        "flutter": "Wrap + InputChip/Chip と TextField の組み合わせ。onDeleted でチップを外す。"
+      },
+      "related": [
+        "chip",
+        "autocomplete",
+        "checkbox"
+      ],
+      "keywords": [
+        "タグ",
+        "チップ",
+        "宛先",
+        "token",
+        "複数入力"
+      ]
+    },
+    {
+      "id": "rating",
+      "category": "input",
+      "name": "レーティング（星評価）",
+      "enName": "Rating / Star Rating",
+      "aliases": [
+        "Star Rating",
+        "評価",
+        "スコア入力"
+      ],
+      "summary": "星などの記号で満足度を5段階前後で表す、入力にも表示にも使えるUI。",
+      "purpose": "定性的な満足度を、書かせずに1タップで集める。同時に、集計結果を一目で比較できる表示部品としても機能する。",
+      "whenToUse": [
+        "購入・利用後のフィードバック収集（レビュー）",
+        "一覧で品質を比較させたい（平均点＋件数の表示）",
+        "入力ハードルを最小にしたい（自由記述は任意にする）"
+      ],
+      "whenNotToUse": [
+        "0か1かの二値評価（👍/👎の方が速く、判断も容易）",
+        "評価軸が複数ある（清潔さ・立地など）のに1つの星でまとめてしまう場合"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon",
+          "usage": "商品の星評価。平均値・件数・分布バーをセットで表示し、絞り込み条件にもなる。"
+        },
+        {
+          "app": "Google マップ",
+          "usage": "店舗の口コミ投稿時の星評価と、一覧での平均点表示。"
+        },
+        {
+          "app": "Uber",
+          "usage": "乗車後のドライバー評価。1タップで完了し、低評価時のみ理由を聞く。"
+        }
+      ],
+      "antiPatterns": [
+        "平均値だけ見せて件数を出さない（1件の5.0と500件の4.6が同列に見える）",
+        "半分の星の切り上げ・切り捨てが表示と数値で食い違う",
+        "評価を取り消せない・変更できない",
+        "星の意味（1が最低か最高か）が不明"
+      ],
+      "accessibility": [
+        "入力時はラジオグループとして実装し、矢印キーで選べるようにする",
+        "表示時は aria-label に「5点中4.6点、口コミ523件」のようにテキストで書く",
+        "星の色と塗りだけでなく、数値も併記する"
+      ],
+      "platformNotes": {
+        "web": "ラジオボタン群を視覚的に星にするのが定番（CSSの :checked + 兄弟セレクタ）。",
+        "flutter": "IconButton や GestureDetector + Icon(Icons.star) の組み合わせ。表示のみなら Icon の並びで十分。"
+      },
+      "related": [
+        "radio",
+        "badge",
+        "card"
+      ],
+      "keywords": [
+        "評価",
+        "星",
+        "レビュー",
+        "rating",
+        "スコア"
+      ]
+    },
+    {
+      "id": "pin-input",
+      "category": "input",
+      "name": "PIN / 認証コード入力",
+      "enName": "PIN Input / OTP Input",
+      "aliases": [
+        "OTP Input",
+        "Verification Code",
+        "ワンタイムパスワード",
+        "セグメント入力"
+      ],
+      "summary": "桁ごとにマスを分けた、短い数字コード専用の入力UI。",
+      "purpose": "SMSやアプリで受け取った4〜6桁のコードを、桁数を視覚的に示しながら素早く入力させる。入力の進捗が一目で分かるのが利点。",
+      "whenToUse": [
+        "2段階認証やメール確認のワンタイムコード",
+        "アプリのロック解除PIN",
+        "桁数が固定で短い（4〜8桁）"
+      ],
+      "whenNotToUse": [
+        "桁数が可変・長い（クーポンコード等） → 通常のテキストフィールド",
+        "英数字混在で貼り付けが多い場合（分割入力は貼り付けと相性が悪いことがある）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "各種SMS認証",
+          "usage": "6桁コードの入力。iOS/Android はSMSから自動入力の候補を提示する。"
+        },
+        {
+          "app": "銀行・証券アプリ",
+          "usage": "起動時のPINロック解除。入力済みの桁を●で表す。"
+        },
+        {
+          "app": "Apple / Google のログイン",
+          "usage": "確認コードの入力画面。再送までのカウントダウンを併記する。"
+        }
+      ],
+      "antiPatterns": [
+        "コードのペーストを受け付けない（6桁を1マスずつ分解して埋めるのが正しい実装）",
+        "自動入力（autocomplete=\"one-time-code\"）に対応せず、アプリ切り替えを強いる",
+        "誤入力時に全桁クリアして最初から打ち直させる",
+        "コードの有効期限や再送手段を画面に出さない"
+      ],
+      "accessibility": [
+        "autocomplete=\"one-time-code\" と inputmode=\"numeric\" を指定する",
+        "全体を1つのグループとしてラベル付けし、「6桁のうち3桁目」のように位置を伝える",
+        "Backspace で前のマスへ戻る、ペーストで一括入力、の2つは必須"
+      ],
+      "platformNotes": {
+        "web": "input を桁数分並べるか、1つの input を分割表示する。後者の方がペースト・自動入力に強い。",
+        "flutter": "TextField を複数並べて FocusNode で連結する実装、または pinput などのパッケージ。"
+      },
+      "related": [
+        "text-field",
+        "auth-form",
+        "validation-error"
+      ],
+      "keywords": [
+        "PIN",
+        "OTP",
+        "認証コード",
+        "2段階認証",
+        "ワンタイム"
+      ]
+    },
+    {
+      "id": "app-bar",
+      "category": "navigation",
+      "name": "ヘッダー / アプリバー",
+      "enName": "App Bar / Header / Navigation Bar",
+      "aliases": [
+        "Top Bar",
+        "Toolbar",
+        "ナビゲーションバー",
+        "ヘッダ"
+      ],
+      "summary": "画面最上部に固定され、現在地・戻る・主要アクションを常に示す帯。",
+      "purpose": "「今どの画面にいるか」と「ここで何ができるか」を、スクロールしても失われない位置に置く。左＝戻る／中央＝タイトル／右＝アクション、が世界共通の配置慣習。",
+      "whenToUse": [
+        "画面にタイトルが必要（＝どこにいるか説明が要る）",
+        "戻る・検索・共有など、その画面のグローバルな操作を置きたい",
+        "スクロール中も参照・操作させたい"
+      ],
+      "whenNotToUse": [
+        "没入体験が主目的（動画全画面、カメラ、ゲーム）→ タップで出し入れする",
+        "縦幅が極端に貴重で、タイトルが自明な画面"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail (モバイル)",
+          "usage": "上部バーにメニュー（ハンバーガー）・検索・アカウントアイコンを配置。"
+        },
+        {
+          "app": "iOS 設定",
+          "usage": "スクロールするとラージタイトルが縮んで小さいタイトルに変わる（Large Title の縮退）。"
+        },
+        {
+          "app": "YouTube",
+          "usage": "ロゴ＋検索＋通知＋アカウント。下スクロールで隠れ、上スクロールで再表示される。"
+        }
+      ],
+      "antiPatterns": [
+        "アクションアイコンを5個以上並べて、意味が判別できない（3個以内＋「その他」メニューに集約）",
+        "戻るボタンの位置がOSの慣習と違う（iOSは左上、Androidは左上＋システムバック）",
+        "タイトルが長すぎて省略され、どの画面か分からない",
+        "スクロールで隠れるのに、そこにしか置いていない重要な操作がある"
+      ],
+      "accessibility": [
+        "<header> と role=\"banner\"、ナビゲーションは <nav> でランドマーク化する",
+        "アイコンのみのボタンには必ず aria-label を付ける",
+        "iOS のセーフエリア（ノッチ／ダイナミックアイランド）を避けてコンテンツを置く"
+      ],
+      "platformNotes": {
+        "web": "position: sticky; top: 0 のヘッダー。スクロール連動の表示制御は IntersectionObserver が便利。",
+        "flutter": "AppBar / SliverAppBar（pinned, floating, snap でスクロール挙動を制御）。Cupertino は CupertinoNavigationBar。"
+      },
+      "related": [
+        "hamburger-menu",
+        "tab-bar",
+        "breadcrumbs",
+        "safe-area"
+      ],
+      "keywords": [
+        "ヘッダー",
+        "アプリバー",
+        "ナビバー",
+        "app bar",
+        "上部"
+      ]
+    },
+    {
+      "id": "bottom-navigation",
+      "category": "navigation",
+      "name": "ボトムナビゲーション",
+      "enName": "Bottom Navigation / Tab Bar",
+      "aliases": [
+        "Tab Bar (iOS)",
+        "Bottom Tabs",
+        "下部タブ"
+      ],
+      "summary": "画面下部に3〜5個の主要セクションを常時表示する、モバイルの主要ナビ。",
+      "purpose": "アプリのトップレベルの行き先を、親指が届く位置に常に見せる。相互に切り替えても各タブの状態（スクロール位置・入力）は保持されるのが原則。",
+      "whenToUse": [
+        "トップレベルの行き先が3〜5個で、頻繁に行き来する",
+        "モバイルアプリで、片手操作を重視する",
+        "各セクションが対等な関係（親子ではない）"
+      ],
+      "whenNotToUse": [
+        "行き先が6個以上 → ドロワーやその他タブへ集約",
+        "セクション間の移動が稀（設定など）→ ドロワーやメニューに置く",
+        "デスクトップWeb → 横幅を活かしたトップナビやサイドバーが適切"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Instagram",
+          "usage": "ホーム／検索／リール／ショップまたは投稿／プロフィールの下部タブ。"
+        },
+        {
+          "app": "X (Twitter)",
+          "usage": "ホーム／検索／コミュニティ／通知／DM。"
+        },
+        {
+          "app": "LINE",
+          "usage": "ホーム／トーク／VOOM／ニュース／ウォレット。未読数をバッジで重ねる。"
+        }
+      ],
+      "antiPatterns": [
+        "タブを切り替えるたびにスクロール位置がリセットされる（各タブのナビゲーションスタックを保持する）",
+        "アイコンだけでラベルを出さない（意味が伝わらないアイコンが多数ある）",
+        "選択中タブが色以外で区別できない（塗りつぶし／アウトラインの切り替えを併用）",
+        "中央にFABを置いて、実質4タブなのに5タブに見せる（役割が違うものを混ぜない）"
+      ],
+      "accessibility": [
+        "<nav> + role=\"tablist\" 相当の構造にし、現在地を aria-current=\"page\" で示す",
+        "ラベル文字は縮小しすぎない（最低11px程度）。アイコン＋ラベルの併記が最も確実",
+        "セーフエリア（ホームインジケータ）の分だけ下パディングを確保する",
+        "タップ領域は48dp以上。バッジは装飾ではなく件数を読み上げ可能にする"
+      ],
+      "platformNotes": {
+        "web": "position: fixed; bottom: 0 + env(safe-area-inset-bottom)。PWAで有効。",
+        "flutter": "Scaffold(bottomNavigationBar: NavigationBar / BottomNavigationBar)。状態保持には IndexedStack や go_router の StatefulShellRoute。"
+      },
+      "related": [
+        "tab-bar",
+        "drawer-sidebar",
+        "fab",
+        "safe-area",
+        "badge"
+      ],
+      "keywords": [
+        "ボトムナビ",
+        "下部タブ",
+        "tab bar",
+        "bottom navigation"
+      ]
+    },
+    {
+      "id": "tab-bar",
+      "category": "navigation",
+      "name": "タブ",
+      "enName": "Tabs",
+      "aliases": [
+        "Tab Bar",
+        "Top Tabs",
+        "Scrollable Tabs",
+        "タブビュー"
+      ],
+      "summary": "同じ階層の内容を、横並びの見出しで切り替えるUI。",
+      "purpose": "同一コンテキスト内の並列な情報を、画面遷移せずに切り替える。「同じものの別の見方」を示す記号として使う。",
+      "whenToUse": [
+        "内容が対等で、同時に見る必要がない（概要／レビュー／仕様）",
+        "切り替えが軽く、行き来が多い",
+        "項目が多い場合はスクロール可能タブにできる"
+      ],
+      "whenNotToUse": [
+        "内容を並べて比較したい → 分割表示やテーブル",
+        "順序があり必ず全部通る → ウィザード / ステッパー",
+        "画面のトップレベルの行き先 → ボトムナビゲーション"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "X (Twitter)",
+          "usage": "タイムライン上部の「おすすめ／フォロー中」タブ。左右スワイプでも切り替わる。"
+        },
+        {
+          "app": "App Store",
+          "usage": "アプリ詳細内のセグメント切り替えや、ランキングのカテゴリタブ。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "リポジトリの Code / Issues / Pull requests / Actions タブ。URLも切り替わる。"
+        }
+      ],
+      "antiPatterns": [
+        "タブ内にさらにタブを入れる（階層が分からなくなる）",
+        "タブの切り替えでデータが毎回リセットされ、戻ると入力が消える",
+        "選択中のタブが目立たず、どこにいるか分からない",
+        "タブが画面幅に収まらないのに、スクロールできることを示さない（端で切れて見せる工夫が必要）"
+      ],
+      "accessibility": [
+        "WAI-ARIA の tabs パターン：role=\"tablist\" / \"tab\" / \"tabpanel\"、aria-selected、aria-controls",
+        "左右矢印キーでタブ移動、Tab キーはパネルへ移動（ロービングtabindex）",
+        "タブ切り替えでURLも変わるようにすると、共有・戻る操作に強くなる"
+      ],
+      "platformNotes": {
+        "web": "role=\"tablist\" のカスタム実装が基本。URLのハッシュやクエリと同期させる。",
+        "flutter": "TabBar + TabBarView + TabController（DefaultTabController で簡潔に書ける）。isScrollable: true で横スクロール。"
+      },
+      "related": [
+        "segmented-control",
+        "bottom-navigation",
+        "app-bar"
+      ],
+      "keywords": [
+        "タブ",
+        "tab",
+        "切り替え",
+        "タブバー"
+      ]
+    },
+    {
+      "id": "drawer-sidebar",
+      "category": "navigation",
+      "name": "サイドバー / ドロワー",
+      "enName": "Sidebar / Navigation Drawer",
+      "aliases": [
+        "Side Nav",
+        "Navigation Drawer",
+        "サイドメニュー"
+      ],
+      "summary": "画面の横から現れる（または常設の）縦長のナビゲーション領域。",
+      "purpose": "行き先が多く階層があるアプリで、一覧性の高いナビゲーションを提供する。デスクトップでは常設、モバイルでは overlay として出し入れするのが定石。",
+      "whenToUse": [
+        "行き先が6個以上、またはグループ分けが必要",
+        "デスクトップの横幅が余っている（常設サイドバー）",
+        "ワークスペース／アカウント切り替えなど、階層のあるナビ"
+      ],
+      "whenNotToUse": [
+        "主要な行き先が3〜5個 → ボトムナビゲーション（常に見える方が使われる）",
+        "モバイルで最も使う機能を隠してしまう場合（隠すと利用率は確実に下がる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail (モバイル)",
+          "usage": "ハンバーガーから開くドロワー。受信トレイ・スター付き・ラベル一覧を階層表示する。"
+        },
+        {
+          "app": "Slack",
+          "usage": "常設サイドバーにチャンネル・DMを一覧。未読は太字＋バッジで示す。"
+        },
+        {
+          "app": "Notion",
+          "usage": "左サイドバーのページツリー。ドラッグで並べ替え、折りたたみができる。"
+        }
+      ],
+      "antiPatterns": [
+        "主要導線をすべてドロワーに隠す（発見されず使われない）",
+        "オーバーレイ表示なのに、外側タップ・Escで閉じられない",
+        "開いた時に背景がスクロールしてしまう（背面のスクロールロックが必要）",
+        "モバイルで常設サイドバーを無理に表示し、コンテンツ幅を潰す"
+      ],
+      "accessibility": [
+        "オーバーレイ時はフォーカストラップを行い、閉じたら開いたボタンにフォーカスを戻す",
+        "role=\"dialog\" + aria-modal（モーダルドロワーの場合）／<nav> ランドマーク（常設の場合）",
+        "現在地を aria-current で示す。スワイプで開く場合もボタンを必ず用意する"
+      ],
+      "platformNotes": {
+        "web": "transform: translateX で出し入れ。<dialog> や inert 属性で背面を無効化するのが現代的。",
+        "flutter": "Scaffold(drawer: / endDrawer:) + Drawer。常設は Row + NavigationRail / NavigationDrawer。"
+      },
+      "related": [
+        "hamburger-menu",
+        "bottom-navigation",
+        "drawer-overlay"
+      ],
+      "keywords": [
+        "サイドバー",
+        "ドロワー",
+        "サイドメニュー",
+        "drawer",
+        "sidebar"
+      ]
+    },
+    {
+      "id": "hamburger-menu",
+      "category": "navigation",
+      "name": "ハンバーガーメニュー",
+      "enName": "Hamburger Menu",
+      "aliases": [
+        "Menu Button",
+        "三本線",
+        "≡ ボタン"
+      ],
+      "summary": "三本線アイコンで、隠れたナビゲーションを開くボタン。",
+      "purpose": "狭い画面でナビゲーション項目を畳んでおくためのトリガー。アイコン自体は「メニューがある」という記号で、中身はドロワーやシートで開く。",
+      "whenToUse": [
+        "モバイル幅で、ナビゲーション項目が多く常時表示できない",
+        "二次的な導線（設定・ヘルプ・アカウント）をまとめる",
+        "デスクトップとモバイルでナビの表示方法を切り替えるレスポンシブ設計"
+      ],
+      "whenNotToUse": [
+        "主要な行き先が3〜5個しかない → ボトムナビやトップタブで露出させる",
+        "その中の項目が最重要（隠すとクリック率が大きく落ちる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail (モバイル)",
+          "usage": "左上の三本線からナビゲーションドロワーを開く。"
+        },
+        {
+          "app": "多くの企業サイトのモバイル表示",
+          "usage": "デスクトップの横並びメニューを、モバイルでは三本線に畳む。"
+        },
+        {
+          "app": "Google ドライブ (モバイル)",
+          "usage": "三本線からマイドライブ・共有アイテム・ゴミ箱などへ移動する。"
+        }
+      ],
+      "antiPatterns": [
+        "「MENU」等のラベルもなく、アイコンの意味が伝わらない層に配慮しない",
+        "開閉アイコンが状態に応じて変化しない（開いている時は×にするのが親切）",
+        "デスクトップでも常に畳んで、広い画面を活かさない",
+        "中身が3項目しかないのに畳む（タップを1回増やしただけ）"
+      ],
+      "accessibility": [
+        "aria-label=\"メニュー\"、aria-expanded、aria-controls を設定する",
+        "開閉のフォーカス管理（開いたらドロワー内へ、閉じたらボタンへ戻す）",
+        "44×44pt 以上のタップ領域を確保する"
+      ],
+      "platformNotes": {
+        "web": "<button aria-expanded> + CSS のメディアクエリで表示切り替え。",
+        "flutter": "Scaffold に drawer を渡すと AppBar に自動で表示される（IconButton(Icons.menu) 相当）。"
+      },
+      "related": [
+        "drawer-sidebar",
+        "app-bar",
+        "context-menu"
+      ],
+      "keywords": [
+        "ハンバーガー",
+        "三本線",
+        "メニュー",
+        "hamburger"
+      ]
+    },
+    {
+      "id": "breadcrumbs",
+      "category": "navigation",
+      "name": "パンくずリスト",
+      "enName": "Breadcrumbs",
+      "aliases": [
+        "Breadcrumb Trail",
+        "階層ナビ",
+        "パンくず"
+      ],
+      "summary": "現在地までの階層を「ホーム > カテゴリ > 商品」の形で示す小さなナビ。",
+      "purpose": "深い階層構造の中で現在地を示し、1段上へ戻る導線を与える。検索エンジンやSNS経由で途中の階層に着地したユーザーの迷子を防ぐ。",
+      "whenToUse": [
+        "階層が3層以上ある（ECのカテゴリ、ドキュメント、ファイルシステム）",
+        "外部から深い階層に直接着地することがある",
+        "1段上・2段上への移動が実際に有用"
+      ],
+      "whenNotToUse": [
+        "階層が1〜2層しかない（戻るボタンで十分）",
+        "モバイルの狭い幅で長い階層を折り返して表示する（省略や最終1段のみ表示にする）",
+        "階層ではなく、ユーザーの遷移履歴を出そうとしている（それは戻るの役割）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon",
+          "usage": "商品ページ上部のカテゴリ階層表示。上位カテゴリへ戻れる。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "リポジトリ内ファイル閲覧時のパス表示（repo / src / components / Button.tsx）。各要素がリンク。"
+        },
+        {
+          "app": "各種ドキュメントサイト",
+          "usage": "ガイド > 導入 > インストール、のような階層表示。"
+        }
+      ],
+      "antiPatterns": [
+        "最後の要素（現在地）をリンクにする（現在地はリンクにしない）",
+        "履歴を出してパンくずと称する（階層構造を示すのが本来の役割）",
+        "モバイルで折り返して2行3行になる（先頭省略 … を使う）",
+        "区切り文字を装飾要素として読み上げさせる"
+      ],
+      "accessibility": [
+        "<nav aria-label=\"パンくずリスト\"> + <ol> でマークアップする",
+        "現在地に aria-current=\"page\" を付ける",
+        "区切り文字は CSS の ::before で描画し、読み上げから外す",
+        "構造化データ（BreadcrumbList）を入れると検索結果にも階層が出る"
+      ],
+      "platformNotes": {
+        "web": "<nav><ol><li><a>。SEO の観点でも有効なパターン。",
+        "flutter": "標準ウィジェットはないので Wrap + TextButton + Icon(chevron_right) で構成する。"
+      },
+      "related": [
+        "app-bar",
+        "pagination",
+        "tab-bar"
+      ],
+      "keywords": [
+        "パンくず",
+        "階層",
+        "breadcrumb",
+        "現在地"
+      ]
+    },
+    {
+      "id": "pagination",
+      "category": "navigation",
+      "name": "ページネーション",
+      "enName": "Pagination",
+      "aliases": [
+        "Pager",
+        "ページ送り",
+        "ページャ"
+      ],
+      "summary": "長い一覧をページに分割し、番号や前後ボタンで移動させるUI。",
+      "purpose": "一覧の全体量を示しつつ、特定の位置へ直接ジャンプできるようにする。「何件中どこを見ているか」が分かるのが無限スクロールとの決定的な差。",
+      "whenToUse": [
+        "全体件数や位置の把握が重要（検索結果、管理画面、注文履歴）",
+        "特定のページに戻る・共有する必要がある（URLにページ番号を持てる）",
+        "フッターに到達させたい（無限スクロールだとフッターが押し出される）"
+      ],
+      "whenNotToUse": [
+        "モバイルの探索的なフィード → 無限スクロールやもっと見るボタン",
+        "件数が1ページに収まる"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google 検索",
+          "usage": "検索結果下部のページ送り。ページ番号で位置を把握できる。"
+        },
+        {
+          "app": "Amazon",
+          "usage": "検索結果一覧の下部に「1 2 3 … 次へ」。総ページ数が見える。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "Issue / PR 一覧の Previous / Next。管理系の一覧では位置の把握が重要。"
+        }
+      ],
+      "antiPatterns": [
+        "ページを移動しても画面上部にスクロールしない",
+        "現在ページが視覚的に分からない",
+        "ページ番号が100個並ぶ（前後数ページ＋最初/最後＋… に省略する）",
+        "ページ移動でフィルタ条件がリセットされる"
+      ],
+      "accessibility": [
+        "<nav aria-label=\"ページネーション\"> でランドマーク化し、現在ページに aria-current=\"page\"",
+        "「次へ」だけでなく「3ページ目へ」のように、リンク単体で意味が通る名前を付ける",
+        "ページ切り替え後にフォーカスを一覧の先頭（見出し）へ移す"
+      ],
+      "platformNotes": {
+        "web": "?page=2 のようにURLへ状態を持たせるのが基本。rel=\"next/prev\" も併用できる。",
+        "flutter": "PageView（横スワイプのページ送り）や、リスト下部にページ番号ボタンを自作する。"
+      },
+      "related": [
+        "infinite-scroll",
+        "table",
+        "breadcrumbs"
+      ],
+      "keywords": [
+        "ページネーション",
+        "ページ送り",
+        "pagination",
+        "ページャ"
+      ]
+    },
+    {
+      "id": "wizard-stepper",
+      "category": "navigation",
+      "name": "ステッパー / ウィザード",
+      "enName": "Stepper / Wizard / Multi-step Form",
+      "aliases": [
+        "Progress Steps",
+        "Multi-step Form",
+        "ステップナビ",
+        "段階フォーム"
+      ],
+      "summary": "長いタスクを複数ステップに分割し、進行状況を示しながら順に進めさせるUI。",
+      "purpose": "入力項目が多いタスクの心理的負荷を下げ、「あと何ステップか」を可視化して離脱を防ぐ。ステップ間で検証を分割できるのも利点。",
+      "whenToUse": [
+        "手順に順序があり、前の入力が後の選択肢に影響する（住所→配送方法→支払い）",
+        "項目数が多く、1画面に出すと圧倒される",
+        "途中保存・中断再開が必要"
+      ],
+      "whenNotToUse": [
+        "項目が5個程度しかない（1画面で完結させた方が速い）",
+        "ユーザーが全体像を先に見て自由に埋めたい（アコーディオン式の1画面フォームが向く）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon の注文手続き",
+          "usage": "配送先 → 配送オプション → 支払い方法 → 確認、の段階的フロー。"
+        },
+        {
+          "app": "各種オンライン口座開設",
+          "usage": "本人情報 → 本人確認書類 → 審査待ち、をステップ表示する。"
+        },
+        {
+          "app": "SaaS のセットアップウィザード",
+          "usage": "初期設定を順に進め、完了したステップにチェックを付ける。"
+        }
+      ],
+      "antiPatterns": [
+        "戻るとそれまでの入力が消える（各ステップの状態は必ず保持する）",
+        "残りステップ数を示さない（先が見えないと離脱する）",
+        "最終確認画面がない、または修正のために最初からやり直させる",
+        "ステップを細かく割りすぎ、1画面1項目にして操作回数を増やす"
+      ],
+      "accessibility": [
+        "各ステップの状態（完了／現在／未着手）をテキストでも伝える（aria-current=\"step\"）",
+        "ステップ移動時にフォーカスを新しい見出しへ移す",
+        "エラーがあるステップを一覧上でも示し、そこへジャンプできるようにする"
+      ],
+      "platformNotes": {
+        "web": "<ol> でステップを表現し、状態はクラス＋aria属性で示す。URLにステップを持たせると再開しやすい。",
+        "flutter": "Stepper ウィジェット（horizontal / vertical）。currentStep と StepState で状態を制御する。"
+      },
+      "related": [
+        "progress-indicator",
+        "onboarding",
+        "validation-error",
+        "pagination"
+      ],
+      "keywords": [
+        "ウィザード",
+        "ステップ",
+        "stepper",
+        "多段フォーム",
+        "手順"
+      ]
+    },
+    {
+      "id": "fab",
+      "category": "navigation",
+      "name": "FAB（フローティングアクションボタン）",
+      "enName": "Floating Action Button",
+      "aliases": [
+        "FAB",
+        "浮動ボタン",
+        "Extended FAB"
+      ],
+      "summary": "画面に浮いて常時表示される、その画面で最も重要な1アクションのボタン。",
+      "purpose": "画面の主要な生成アクション（新規作成・投稿）を、スクロール位置に関係なく親指の届く場所に置く。Material Design 固有の概念。",
+      "whenToUse": [
+        "その画面で圧倒的に多く使われる操作が1つある（新規作成・撮影・追加）",
+        "リストを見ながらいつでも作成に入りたい",
+        "Android / Material デザインのアプリ"
+      ],
+      "whenNotToUse": [
+        "主要アクションが複数ある（FABは原則1画面1つ）",
+        "破壊的な操作（削除など）をFABにする",
+        "iOS の標準的な画面（HIG ではナビゲーションバー右上の＋が慣習）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail (Android)",
+          "usage": "右下の「作成」ボタン。スクロールすると縮小し、アイコンのみになる。"
+        },
+        {
+          "app": "Google Keep",
+          "usage": "新規メモ作成のFAB。種類（リスト・手書き）を選ぶボタンも並ぶ。"
+        },
+        {
+          "app": "Google ドライブ",
+          "usage": "右下の「＋新規」FAB。タップでアップロード等のメニューが開く。"
+        }
+      ],
+      "antiPatterns": [
+        "リストの最後の項目やボトムナビをFABが覆い隠す（下部に余白を確保する）",
+        "アイコンの意味が曖昧で、何が起きるか分からない（重要なら Extended FAB でラベルを付ける）",
+        "1画面に複数のFABを置く",
+        "スクロールしても絶対に隠れず、コンテンツの閲覧を邪魔し続ける"
+      ],
+      "accessibility": [
+        "aria-label で動作を明示する（「新しいメモを作成」）",
+        "コンテンツの最後に十分な余白を入れ、FABが最終行を隠さないようにする",
+        "キーボード操作時のフォーカス順で、迷子にならない位置に置く"
+      ],
+      "platformNotes": {
+        "web": "position: fixed の丸ボタン。Material 以外のデザインでは使わない選択も普通。",
+        "flutter": "Scaffold(floatingActionButton:) + FloatingActionButton / .extended。位置は floatingActionButtonLocation で制御。"
+      },
+      "related": [
+        "primary-button",
+        "bottom-navigation",
+        "action-sheet"
+      ],
+      "keywords": [
+        "FAB",
+        "フローティング",
+        "浮動ボタン",
+        "新規作成"
+      ]
+    },
+    {
+      "id": "segmented-control",
+      "category": "navigation",
+      "name": "セグメンテッドコントロール",
+      "enName": "Segmented Control",
+      "aliases": [
+        "Segmented Buttons",
+        "Toggle Group",
+        "セグメント"
+      ],
+      "summary": "2〜5個の選択肢を横並びの一体型ボタンで切り替えるUI。iOS発祥。",
+      "purpose": "同じデータの表示方法や絞り込みを、1タップで切り替える。ラジオボタンより省スペースで、タブより「フィルタ／表示切替」の意味が強い。",
+      "whenToUse": [
+        "選択肢が2〜5個で、ラベルが短い（日／週／月、すべて／未読）",
+        "その場で表示が切り替わる（画面遷移ではない）",
+        "iOS 系デザイン、またはツールバー内の表示切替"
+      ],
+      "whenNotToUse": [
+        "選択肢が6個以上、またはラベルが長い → セレクトやタブ",
+        "画面のトップレベル遷移 → タブ／ボトムナビ",
+        "複数選択が必要 → チップやチェックボックス"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS カレンダー",
+          "usage": "日／週／月／年 の表示切替。"
+        },
+        {
+          "app": "iOS 純正アプリ全般",
+          "usage": "UISegmentedControl として HIG に定義された標準部品。"
+        },
+        {
+          "app": "Google マップ",
+          "usage": "経路検索の移動手段（車／公共交通機関／徒歩など）の切り替え。"
+        }
+      ],
+      "antiPatterns": [
+        "選択中セグメントが分かりにくい（背景色＋文字色の両方で差をつける）",
+        "セグメントごとに文字数が違いすぎて幅がガタつく",
+        "押した後に読み込みが走るのに、選択状態が即座に変わらない",
+        "実質タブなのにセグメンテッドコントロールで表現し、URLが変わらず共有できない"
+      ],
+      "accessibility": [
+        "ラジオグループ（role=\"radiogroup\"）またはタブとして実装し、矢印キーで移動できるようにする",
+        "選択状態を aria-checked / aria-selected で伝える",
+        "各セグメントのタップ領域を44pt以上確保する"
+      ],
+      "platformNotes": {
+        "web": "ラジオ input を視覚的にボタン化する実装が堅実。",
+        "flutter": "SegmentedButton（Material 3）／CupertinoSegmentedControl・CupertinoSlidingSegmentedControl。"
+      },
+      "related": [
+        "tab-bar",
+        "radio",
+        "toggle-switch",
+        "chip"
+      ],
+      "keywords": [
+        "セグメント",
+        "切り替え",
+        "segmented",
+        "表示切替"
+      ]
+    },
+    {
+      "id": "command-palette",
+      "category": "navigation",
+      "name": "コマンドパレット",
+      "enName": "Command Palette",
+      "aliases": [
+        "Quick Switcher",
+        "Cmd+K",
+        "コマンドバー"
+      ],
+      "summary": "キーボードショートカットで開き、検索して機能・ページへ直接飛ぶUI。",
+      "purpose": "階層をたどらずに、あらゆる機能とコンテンツへ「名前で」到達させる。パワーユーザーの操作速度を劇的に上げる、メニューの補完的存在。",
+      "whenToUse": [
+        "機能数が多く、メニュー階層が深いツール系アプリ",
+        "キーボード中心のユーザーが多い（エディタ、開発者ツール、業務SaaS）",
+        "ナビゲーションと操作実行を1つの入口に統合したい"
+      ],
+      "whenNotToUse": [
+        "モバイル専用アプリ（物理キーボードがない）",
+        "機能が少なく、メニューで十分見渡せる",
+        "これだけを唯一の導線にする（発見できない人が必ずいる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "VS Code",
+          "usage": "Cmd/Ctrl+Shift+P のコマンドパレット。全コマンドを名前で検索・実行できる。"
+        },
+        {
+          "app": "Notion",
+          "usage": "Cmd/Ctrl+K のクイック検索でページへ即移動。"
+        },
+        {
+          "app": "Slack",
+          "usage": "Cmd/Ctrl+K のクイックスイッチャーでチャンネル・DMへ移動。"
+        }
+      ],
+      "antiPatterns": [
+        "ショートカットの存在をどこにも表示しない（ヘッダーに ⌘K と表示するのが定番）",
+        "検索が完全一致のみで、あいまい検索（fuzzy）に対応していない",
+        "実行できるコマンドと移動先が混在し、何が起きるか分からない（アイコンやセクションで分ける）",
+        "Esc で閉じられない／閉じるとフォーカスが失われる"
+      ],
+      "accessibility": [
+        "モーダルダイアログとして実装し、フォーカストラップと Esc 閉じを実装する",
+        "combobox + listbox パターンで、上下キー選択・Enter実行を提供する",
+        "結果件数の変化を aria-live で通知する"
+      ],
+      "platformNotes": {
+        "web": "<dialog> + 入力 + 結果リスト。キーバインドは keydown で metaKey/ctrlKey を判定する。",
+        "flutter": "showDialog + Autocomplete、または SearchAnchor。デスクトップ版では Shortcuts/Actions でキーバインドを定義する。"
+      },
+      "related": [
+        "search-bar",
+        "autocomplete",
+        "modal-dialog",
+        "context-menu"
+      ],
+      "keywords": [
+        "コマンドパレット",
+        "Cmd+K",
+        "クイック検索",
+        "command palette"
+      ]
+    },
+    {
+      "id": "card",
+      "category": "display",
+      "name": "カード",
+      "enName": "Card",
+      "aliases": [
+        "Tile",
+        "パネル",
+        "カードUI"
+      ],
+      "summary": "関連する情報を1つのまとまりとして囲む、タップ可能な情報の単位。",
+      "purpose": "画像・タイトル・説明・アクションといった異種の情報を1つのオブジェクトとして知覚させる。グリッドやリストに並べて、比較・選択させるのが主な用途。",
+      "whenToUse": [
+        "1件あたりの情報量が多く、画像を伴う（商品、宿、記事、動画）",
+        "アイテム同士が独立していて、それぞれが遷移先を持つ",
+        "レスポンシブに列数を変えて並べたい"
+      ],
+      "whenNotToUse": [
+        "1行1項目のシンプルな情報 → リスト（カードは余白を食い、一覧性が落ちる）",
+        "厳密な数値比較 → テーブル",
+        "すべての要素をカードにして、階層がなくなっている（カードの乱用）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Airbnb",
+          "usage": "宿泊先の一覧カード。写真カルーセル＋価格＋評価＋お気に入りボタンを1枚に収める。"
+        },
+        {
+          "app": "Google Play / App Store",
+          "usage": "アプリ紹介カード。アイコン・名前・評価・インストールボタン。"
+        },
+        {
+          "app": "X (Twitter)",
+          "usage": "リンクを貼ると生成される OGP カード（画像＋タイトル＋ドメイン）。"
+        }
+      ],
+      "antiPatterns": [
+        "カード全体がリンクなのに、中にもボタンやリンクを入れ子にする（クリック領域が競合する）",
+        "影・枠線・背景色をすべて盛って、視覚的ノイズになる",
+        "カードの高さが内容によってバラバラで、グリッドが崩れる",
+        "情報が2行しかないのにカードにして、スクロール量を無駄に増やす"
+      ],
+      "accessibility": [
+        "カード全体をリンクにする場合は、見出しの中にリンクを置き、疑似要素で領域を広げる手法が安全",
+        "画像には意味のある alt を付ける（装飾なら空 alt）",
+        "カード内の主要アクションはキーボードで個別に到達できるようにする"
+      ],
+      "platformNotes": {
+        "web": "<article> + 見出し。CSS Grid の auto-fill/minmax で列数を自動調整するのが定番。",
+        "flutter": "Card + InkWell（波紋を出すなら Material の上に置く）。clipBehavior で角丸に画像を合わせる。"
+      },
+      "related": [
+        "list",
+        "carousel",
+        "avatar",
+        "badge"
+      ],
+      "keywords": [
+        "カード",
+        "card",
+        "タイル",
+        "一覧"
+      ]
+    },
+    {
+      "id": "list",
+      "category": "display",
+      "name": "リスト",
+      "enName": "List / List View",
+      "aliases": [
+        "List Tile",
+        "テーブルビュー(iOS)",
+        "一覧"
+      ],
+      "summary": "同じ形式の項目を縦に積み上げる、モバイルで最も使われる情報表示。",
+      "purpose": "均質なアイテムを高い一覧性で走査させる。行の左にアイコン／サムネ、中央にテキスト、右に補助情報やシェブロン、という構造が標準形。",
+      "whenToUse": [
+        "同じ種類のアイテムが多数並ぶ（メール、チャット、設定、通知）",
+        "縦スクロールで走査させたい",
+        "行タップで詳細へ遷移する（マスター・ディテール）"
+      ],
+      "whenNotToUse": [
+        "複数の属性を横並びで比較したい → テーブル",
+        "画像が主役で視覚的に選ばせたい → カードやグリッド"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "LINE",
+          "usage": "トーク一覧。アイコン＋名前＋最新メッセージ＋時刻＋未読バッジという典型的な行構成。"
+        },
+        {
+          "app": "Gmail",
+          "usage": "受信トレイのメール一覧。未読は太字、スワイプでアーカイブ。"
+        },
+        {
+          "app": "iOS 設定",
+          "usage": "グループ化されたリスト（Grouped Table View）。セクションヘッダで分類する。"
+        }
+      ],
+      "antiPatterns": [
+        "1行の高さが小さすぎてタップミスする（最低44〜48pt）",
+        "区切り線を全て消して、どこまでが1行か分からない",
+        "項目が数千件あるのに仮想化せず、スクロールがカクつく",
+        "行の右端シェブロンがないのに、タップできることが分からない"
+      ],
+      "accessibility": [
+        "<ul>/<li> でリスト構造をマークアップし、件数が読み上げられるようにする",
+        "行全体をリンク／ボタンにし、タップ領域を広く取る",
+        "セクション見出しを <h2> などで階層化する",
+        "大量データは仮想スクロールを使うが、スクリーンリーダー用に件数と位置を伝える"
+      ],
+      "platformNotes": {
+        "web": "<ul> + CSS。仮想化は react-window などか、content-visibility: auto。",
+        "flutter": "ListView.builder（遅延生成）+ ListTile。区切りは ListView.separated。"
+      },
+      "related": [
+        "card",
+        "table",
+        "swipe-actions",
+        "infinite-scroll"
+      ],
+      "keywords": [
+        "リスト",
+        "一覧",
+        "list",
+        "行"
+      ]
+    },
+    {
+      "id": "table",
+      "category": "display",
+      "name": "テーブル",
+      "enName": "Table / Data Grid",
+      "aliases": [
+        "Data Grid",
+        "表",
+        "データテーブル"
+      ],
+      "summary": "行と列で構造化データを表示し、比較・並べ替え・集計を可能にする。",
+      "purpose": "複数の属性を持つデータを、列単位で比較させる。並べ替え・フィルタ・ページングと組み合わせて、大量データの分析を支える。",
+      "whenToUse": [
+        "同じ属性を持つデータを横方向に比較する（売上、在庫、ユーザー一覧）",
+        "並べ替えや絞り込みで分析させる",
+        "デスクトップの管理画面"
+      ],
+      "whenNotToUse": [
+        "モバイルの狭い幅（横スクロールは使いづらい → カード形式に組み替える）",
+        "属性が2〜3個しかない → リストで十分",
+        "レイアウト目的で表を使う（table レイアウトは論外）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Notion",
+          "usage": "データベースのテーブルビュー。列の型（テキスト・選択・日付）ごとに編集UIが変わる。"
+        },
+        {
+          "app": "Google スプレッドシート",
+          "usage": "行ヘッダ・列ヘッダの固定、セル選択、並べ替え。"
+        },
+        {
+          "app": "各種管理画面 (SaaS)",
+          "usage": "ユーザー一覧・請求一覧。列ヘッダクリックでソート、行選択で一括操作。"
+        }
+      ],
+      "antiPatterns": [
+        "モバイルでそのまま縮小表示して文字が読めない（カード化かスクロール可能にする）",
+        "ヘッダ行が固定されず、スクロールすると何の列か分からなくなる",
+        "1セルに情報を詰め込みすぎて、列の意味が崩れる",
+        "ソート可能な列とそうでない列の区別が付かない"
+      ],
+      "accessibility": [
+        "<table><thead><th scope=\"col\"> を正しく使う（div の集合で表を作らない）",
+        "<caption> で表の目的を説明する",
+        "ソート状態を aria-sort=\"ascending|descending\" で伝える",
+        "横スクロール領域は tabindex=\"0\" と role=\"region\" でキーボードスクロール可能にする"
+      ],
+      "platformNotes": {
+        "web": "<table>。position: sticky で thead を固定できる。",
+        "flutter": "DataTable / PaginatedDataTable、大量データは Table + SingleChildScrollView(horizontal)。"
+      },
+      "related": [
+        "list",
+        "pagination",
+        "sort",
+        "search-and-filter"
+      ],
+      "keywords": [
+        "テーブル",
+        "表",
+        "table",
+        "データ",
+        "グリッド"
+      ]
+    },
+    {
+      "id": "avatar",
+      "category": "display",
+      "name": "アバター",
+      "enName": "Avatar",
+      "aliases": [
+        "Profile Picture",
+        "アイコン",
+        "プロフィール画像"
+      ],
+      "summary": "人・組織を表す小さな円形（または角丸）の画像。",
+      "purpose": "誰の発言・操作かを一目で識別させる。画像がない場合はイニシャルや既定アイコンにフォールバックし、常に同じ形・サイズを保つのが原則。",
+      "whenToUse": [
+        "ユーザーが複数登場する（チャット、コメント、共同編集）",
+        "アカウントの現在ログイン状態を示す",
+        "複数人を重ねて表示する（Avatar Group）"
+      ],
+      "whenNotToUse": [
+        "1人しか登場せず、識別の必要がない",
+        "画像が意味を持たない場面で装飾として並べる"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Slack",
+          "usage": "メッセージ左のアバター。オンライン状態を右下の小さな丸（プレゼンス）で重ねる。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "ユーザーアバター。ホバーでプロフィールのポップオーバーが出る。"
+        },
+        {
+          "app": "Google ドキュメント",
+          "usage": "同時編集者のアバターを右上に並べ、カーソル色と対応させる。"
+        }
+      ],
+      "antiPatterns": [
+        "画像がない時に壊れた画像アイコンを出す（イニシャル or 既定アイコンにフォールバック）",
+        "縦横比を無視して画像が歪む（object-fit: cover）",
+        "アバターだけで人物を示し、名前をどこにも書かない",
+        "イニシャルの背景色をランダムにしすぎて、コントラストが確保できない"
+      ],
+      "accessibility": [
+        "alt には人物名を入れる（「アバター」ではなく「山田太郎」）。名前が隣にあるなら alt=\"\" で重複を避ける",
+        "オンライン状態は色だけでなく aria-label でも伝える",
+        "Avatar Group の「+3」は「他3名」と読み上げられるようにする"
+      ],
+      "platformNotes": {
+        "web": "border-radius: 50% + object-fit: cover。onerror でフォールバック。",
+        "flutter": "CircleAvatar（backgroundImage / child でイニシャル）。Stack で状態ドットを重ねる。"
+      },
+      "related": [
+        "badge",
+        "list",
+        "popover"
+      ],
+      "keywords": [
+        "アバター",
+        "アイコン",
+        "プロフィール",
+        "avatar"
+      ]
+    },
+    {
+      "id": "badge",
+      "category": "display",
+      "name": "バッジ",
+      "enName": "Badge",
+      "aliases": [
+        "Notification Badge",
+        "Counter",
+        "未読バッジ",
+        "ドットバッジ"
+      ],
+      "summary": "アイコンや項目に重ねて、件数や状態を知らせる小さな印。",
+      "purpose": "「ここに新しい何かがある」を、画面を占有せずに伝える。数値バッジ（何件か重要）とドットバッジ（存在だけ伝える）を使い分ける。",
+      "whenToUse": [
+        "未読・未処理の件数を知らせる（通知、メッセージ、カート）",
+        "アイコンだけのナビゲーションに状態を添える",
+        "件数が重要でない場合はドット（●）で控えめに"
+      ],
+      "whenNotToUse": [
+        "常時1以上の数字が出続ける（バッジが無視される・ストレスになる）",
+        "ラベルの代わりに使う（バッジは補助情報）",
+        "重要な情報をバッジだけで伝える（見落とされる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS ホーム画面",
+          "usage": "アプリアイコン右上の赤い未読件数バッジ。"
+        },
+        {
+          "app": "LINE",
+          "usage": "トークタブとトーク行の未読件数バッジ。既読で消える。"
+        },
+        {
+          "app": "各種ECサイト",
+          "usage": "カートアイコンに入っている商品点数を重ねる。"
+        }
+      ],
+      "antiPatterns": [
+        "999+ を超える数を出し続ける（丸めるか、ドットに切り替える）",
+        "バッジを見て開いても、何が新しいのか分からない（新着箇所をハイライトする）",
+        "赤バッジを重要でない通知にも使い、色の意味が薄れる",
+        "バッジがアイコンを覆って、元の意味が読めない"
+      ],
+      "accessibility": [
+        "件数はアイコンの aria-label に含める（「通知、未読3件」）",
+        "色だけに依存しない（形・数値でも判別できるように）",
+        "件数の変化は aria-live=\"polite\" で控えめに通知する"
+      ],
+      "platformNotes": {
+        "web": "position: absolute で重ねる。数値は視覚的に隠したテキストでも提供する。",
+        "flutter": "Badge ウィジェット（Material 3）。Badge(label: Text('3'), child: Icon(...))。"
+      },
+      "related": [
+        "chip",
+        "bottom-navigation",
+        "avatar",
+        "toast-snackbar"
+      ],
+      "keywords": [
+        "バッジ",
+        "未読",
+        "件数",
+        "badge",
+        "通知"
+      ]
+    },
+    {
+      "id": "chip",
+      "category": "display",
+      "name": "チップ",
+      "enName": "Chip",
+      "aliases": [
+        "Tag",
+        "Pill",
+        "Filter Chip",
+        "タグ"
+      ],
+      "summary": "小さな角丸の要素で、属性・フィルタ・選択済みの値を表す。",
+      "purpose": "短い情報の断片を、独立した操作可能な単位として見せる。Material Design では用途別に Assist / Filter / Input / Suggestion の4種類に分類される。",
+      "whenToUse": [
+        "適用中のフィルタ条件を可視化し、個別に外させる（Filter Chip）",
+        "記事・商品のタグやカテゴリを並べる",
+        "入力された値のトークン表示（Input Chip）",
+        "サジェストの候補を並べる（Suggestion Chip）"
+      ],
+      "whenNotToUse": [
+        "主要アクション → ボタン（チップはボタンより軽い存在として使う）",
+        "1つしか選べないのに複数選択に見える形にする",
+        "長文をチップに入れる"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail",
+          "usage": "検索結果上部の絞り込みチップ（添付ファイルあり／未読 など）。"
+        },
+        {
+          "app": "YouTube",
+          "usage": "ホーム上部の横スクロールするトピックチップ（すべて／音楽／ゲーム…）。"
+        },
+        {
+          "app": "Google 検索",
+          "usage": "検索結果の上部に関連キーワードのチップを並べる。"
+        }
+      ],
+      "antiPatterns": [
+        "選択状態が分かりにくい（枠線のみ→塗りつぶし、＋チェックアイコンで示す）",
+        "チップなのにクリックできない・できるものと混在して見分けがつかない",
+        "削除の×が小さすぎる",
+        "チップが折り返して画面の半分を占める（横スクロールや「+3」集約を使う）"
+      ],
+      "accessibility": [
+        "フィルタチップはトグルボタン（aria-pressed）またはチェックボックスとして実装する",
+        "削除ボタンには「〇〇を削除」という個別の名前を付ける",
+        "横スクロール領域はキーボードでもスクロールできるようにする"
+      ],
+      "platformNotes": {
+        "web": "<button aria-pressed> の並び。overflow-x: auto でスクロールチップ列にする。",
+        "flutter": "FilterChip / ChoiceChip / InputChip / ActionChip を用途で使い分ける。"
+      },
+      "related": [
+        "tag-input",
+        "search-and-filter",
+        "badge",
+        "segmented-control"
+      ],
+      "keywords": [
+        "チップ",
+        "タグ",
+        "chip",
+        "フィルタ",
+        "ピル"
+      ]
+    },
+    {
+      "id": "timeline",
+      "category": "display",
+      "name": "タイムライン",
+      "enName": "Timeline / Activity Feed",
+      "aliases": [
+        "Activity Log",
+        "Stepper (状態表示)",
+        "履歴表示"
+      ],
+      "summary": "出来事を時系列に沿って縦線で結び、進行や履歴を示すUI。",
+      "purpose": "「何が・いつ・どの順で起きたか」を一目で把握させる。完了・進行中・未着手の状態を並べることで、現在地と残りも同時に伝えられる。",
+      "whenToUse": [
+        "配送状況・申請の進捗など、順序のある状態遷移",
+        "変更履歴・監査ログ・コメントの流れ",
+        "プロジェクトのマイルストーン表示"
+      ],
+      "whenNotToUse": [
+        "順序に意味がないデータ（単なるリストでよい）",
+        "件数が非常に多く、時系列よりも検索・絞り込みが重要な場合"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon / ヤマト運輸などの配送追跡",
+          "usage": "「発送済み → 輸送中 → 配達中 → 配達完了」を縦のタイムラインで表示。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "Issue / PR のイベント履歴（コメント、ラベル追加、クローズ）を時系列に並べる。"
+        },
+        {
+          "app": "各種SNS",
+          "usage": "投稿のフィード。時刻を相対表記（3分前）で示す。"
+        }
+      ],
+      "antiPatterns": [
+        "絶対時刻を一切出さず「3日前」だけにする（ホバーやサブテキストで絶対時刻も出す）",
+        "現在地（今どの段階か）が視覚的に分からない",
+        "全イベントを同じ重要度で並べ、重要な節目が埋もれる",
+        "タイムゾーンを明示しない"
+      ],
+      "accessibility": [
+        "<ol> で順序を持つリストとしてマークアップする",
+        "状態（完了／進行中）をアイコンの色だけでなくテキストでも示す",
+        "<time datetime> を使い、機械可読な日時を持たせる"
+      ],
+      "platformNotes": {
+        "web": "<ol> + 疑似要素で縦線とドットを描画する。",
+        "flutter": "Column + Container(線) の自作、または Stepper(type: StepperType.vertical) を状態表示に流用する。"
+      },
+      "related": [
+        "wizard-stepper",
+        "list",
+        "progress-indicator"
+      ],
+      "keywords": [
+        "タイムライン",
+        "履歴",
+        "時系列",
+        "timeline",
+        "進捗"
+      ]
+    },
+    {
+      "id": "accordion",
+      "category": "display",
+      "name": "アコーディオン / 折りたたみ",
+      "enName": "Accordion / Disclosure / Collapsible",
+      "aliases": [
+        "Disclosure",
+        "Expander",
+        "Toggle List",
+        "折りたたみ",
+        "開閉パネル"
+      ],
+      "summary": "見出しをタップすると中身が展開／折りたたまれる、縦方向の情報圧縮UI。",
+      "purpose": "見出しだけを並べて全体像を見渡させ、必要な部分だけ開かせる。スクロール量を減らしつつ、情報の階層構造を保つのが目的。",
+      "whenToUse": [
+        "FAQ など、見出しで目的の項目を探して1つだけ読む",
+        "設定画面の詳細オプションを、既定では隠しておく",
+        "モバイルで長いコンテンツを段階的に見せる"
+      ],
+      "whenNotToUse": [
+        "ユーザーがほぼ全項目を読む必要がある（開く手間が増えるだけ）",
+        "中身が短く、そのまま並べても問題ない",
+        "検索やCtrl+Fで見つけたい重要情報を隠す（閉じていると検索にヒットしない実装は特に危険）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Notion",
+          "usage": "トグルリスト（▶）。見出しの下に任意のブロックを畳んで入れられる。"
+        },
+        {
+          "app": "多くのFAQ / ヘルプセンター",
+          "usage": "質問をタップすると回答が展開される。"
+        },
+        {
+          "app": "Amazon の商品ページ",
+          "usage": "商品仕様・配送情報などのセクションを折りたたんで表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "開閉のアイコン（▶/▼、＋/−）がなく、開けることが分からない",
+        "1つ開くと他が閉じる（排他）仕様なのに、それが予期できない",
+        "アニメーションが遅すぎて操作がもたつく（150〜250ms程度）",
+        "重要な情報や必須の入力項目を初期状態で畳んでおく"
+      ],
+      "accessibility": [
+        "見出しは <button aria-expanded aria-controls> にする（div にクリックを付けない）",
+        "中身のパネルに id を振り、見出しと関連付ける",
+        "ネイティブの <details>/<summary> はキーボード・ページ内検索に強い（ブラウザによっては閉じた中身も検索可能）",
+        "開閉時にフォーカスを奪わない（開いた内容へ自動移動させない）"
+      ],
+      "platformNotes": {
+        "web": "<details><summary> が最も安全。デザイン都合で自作するなら aria-expanded を必ず実装。",
+        "flutter": "ExpansionTile / ExpansionPanelList。AnimatedSize や AnimatedCrossFade で高さのアニメーションを付ける。"
+      },
+      "related": [
+        "list",
+        "tab-bar",
+        "popover"
+      ],
+      "keywords": [
+        "アコーディオン",
+        "折りたたみ",
+        "トグルリスト",
+        "accordion",
+        "開閉",
+        "展開"
+      ]
+    },
+    {
+      "id": "tooltip",
+      "category": "display",
+      "name": "ツールチップ",
+      "enName": "Tooltip",
+      "aliases": [
+        "Hint",
+        "Hover Text",
+        "吹き出しヒント"
+      ],
+      "summary": "要素にホバー／フォーカスした時に出る、ごく短い補足テキスト。",
+      "purpose": "アイコンボタンの名称や、省略された文字列の全文など「知らなくても操作はできるが、あると助かる」補足を、画面を占有せずに提供する。",
+      "whenToUse": [
+        "アイコンのみのボタンの名前を補う",
+        "省略表示されたテキストの全文を見せる",
+        "専門用語の短い説明"
+      ],
+      "whenNotToUse": [
+        "タッチデバイスのみの環境（ホバーが存在しない）→ ラベルを常時表示するか、ポップオーバーにする",
+        "操作に必須の情報（隠してはいけない）",
+        "長文・リンク・ボタンを含む → ポップオーバー"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Figma",
+          "usage": "ツールバーのアイコンにホバーすると、名前とショートカットが表示される。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "アイコンボタンやアバターにホバーした際の補足表示。"
+        },
+        {
+          "app": "デスクトップOS全般",
+          "usage": "ツールバーアイコンのホバーヒント（Tooltip の語源的な用法）。"
+        }
+      ],
+      "antiPatterns": [
+        "重要情報をツールチップだけに入れる（モバイルで永遠に読めない）",
+        "ホバーした瞬間に出る／消えるのが速すぎる（200〜500msの遅延と、猶予を持たせる）",
+        "ツールチップ内にリンクやボタンを入れる（マウスを移すと消えてしまう）",
+        "画面端で見切れる（配置の自動反転を実装する）"
+      ],
+      "accessibility": [
+        "キーボードフォーカスでも表示されること（hover 限定にしない）",
+        "role=\"tooltip\" と aria-describedby で対象と関連付ける",
+        "Esc で閉じられること、ホバー中は消えないこと（WCAG 1.4.13 Content on Hover or Focus）",
+        "アイコンボタンには aria-label も別途付ける（ツールチップだけに頼らない）"
+      ],
+      "platformNotes": {
+        "web": "title 属性は表示が遅く制御できないので、通常は自作＋aria-describedby。Popover API や anchor positioning も選択肢。",
+        "flutter": "Tooltip ウィジェットで child を包む。長押しでも表示されるためモバイルでも機能する。"
+      },
+      "related": [
+        "popover",
+        "icon-button",
+        "context-menu"
+      ],
+      "keywords": [
+        "ツールチップ",
+        "ヒント",
+        "tooltip",
+        "吹き出し"
+      ]
+    },
+    {
+      "id": "popover",
+      "category": "display",
+      "name": "ポップオーバー",
+      "enName": "Popover",
+      "aliases": [
+        "Popup",
+        "Flyout",
+        "Hover Card",
+        "吹き出しパネル"
+      ],
+      "summary": "起点となる要素にぶら下がる形で開く、操作可能な小さいパネル。",
+      "purpose": "画面遷移もモーダルも使わずに、その要素に関する詳細や操作をその場で提供する。ツールチップと違い、中にリンク・ボタン・フォームを置ける。",
+      "whenToUse": [
+        "プロフィールの詳細プレビュー（ホバーカード）",
+        "その要素に対する設定・オプションのミニパネル",
+        "軽い確認や、絞り込みメニュー"
+      ],
+      "whenNotToUse": [
+        "内容が多く、スクロールが必要なほど → モーダルや別画面",
+        "モバイルの狭い画面（ボトムシートの方が扱いやすい）",
+        "単なる説明テキスト → ツールチップ"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "GitHub",
+          "usage": "ユーザー名やアバターにホバーすると出るプロフィールのホバーカード。"
+        },
+        {
+          "app": "Slack",
+          "usage": "メンバー名をクリックすると出るプロフィールパネル（DM送信などのアクション付き）。"
+        },
+        {
+          "app": "Google カレンダー",
+          "usage": "予定をクリックすると詳細と編集・削除ボタンがポップオーバーで開く。"
+        }
+      ],
+      "antiPatterns": [
+        "外側クリックや Esc で閉じられない",
+        "起点要素から離れた位置に出て、何に関するパネルか分からない",
+        "ホバーで開くのに、マウスをパネルへ動かす途中で閉じてしまう",
+        "ポップオーバーの中からさらにポップオーバーを開く"
+      ],
+      "accessibility": [
+        "開閉ボタンに aria-expanded / aria-haspopup を設定する",
+        "開いたらフォーカスをパネル内へ移し、閉じたら起点へ戻す",
+        "Esc・外側クリックで閉じる。フォーカスがパネル外へ出たら閉じる"
+      ],
+      "platformNotes": {
+        "web": "HTML の Popover API（popover 属性）や <dialog>、CSS Anchor Positioning が使えるようになってきた。",
+        "flutter": "PopupMenuButton、showMenu、または Overlay + CompositedTransformFollower で自作する。"
+      },
+      "related": [
+        "tooltip",
+        "context-menu",
+        "modal-dialog",
+        "bottom-sheet"
+      ],
+      "keywords": [
+        "ポップオーバー",
+        "popover",
+        "吹き出し",
+        "パネル"
+      ]
+    },
+    {
+      "id": "carousel",
+      "category": "display",
+      "name": "カルーセル",
+      "enName": "Carousel / Slider",
+      "aliases": [
+        "Slideshow",
+        "Image Slider",
+        "横スクロールリスト",
+        "スライダー(画像)"
+      ],
+      "summary": "複数のアイテムを横方向に切り替えて見せるUI。自動再生型と手動スクロール型がある。",
+      "purpose": "限られた縦幅で多数のアイテムを提示する。特にモバイルでは「横スクロールできるリスト」として、カテゴリごとの回遊を促す用途が主流。",
+      "whenToUse": [
+        "同じ種類のアイテムを、カテゴリ単位で少しずつ見せる（動画・商品・おすすめ）",
+        "1つの商品の複数枚の写真を見せる（ギャラリー）",
+        "縦幅を節約しつつ、探索を促したい"
+      ],
+      "whenNotToUse": [
+        "重要な情報を自動でスライドさせる（見逃される。ヒーローカルーセルはクリック率が低いことで知られる）",
+        "アイテムを比較して選ばせたい → グリッド",
+        "件数が3件以下（そのまま並べればよい）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Netflix",
+          "usage": "ジャンルごとの横スクロール行。端に次のアイテムを覗かせて、続きがあることを示す。"
+        },
+        {
+          "app": "App Store",
+          "usage": "Today タブや「おすすめ」の横スクロールカード。"
+        },
+        {
+          "app": "Amazon / 各種EC",
+          "usage": "商品ページの写真ギャラリーと、「この商品を見た人はこれも見ています」の横並び。"
+        }
+      ],
+      "antiPatterns": [
+        "自動再生を止められない（一時停止ボタンは WCAG 2.2.2 の要件）",
+        "次のアイテムが完全に隠れていて、スクロールできることに気づかない（peek＝次を少し見せる）",
+        "ドットインジケータが小さすぎて、何枚あるか・今何枚目か分からない",
+        "モバイルで矢印ボタンだけ用意し、スワイプできない"
+      ],
+      "accessibility": [
+        "自動再生は一時停止可能にし、ホバー／フォーカス時は止める",
+        "前後ボタンをキーボードで操作でき、現在位置を aria-live で伝える",
+        "スクロールコンテナに role=\"region\" と aria-label、tabindex=\"0\" を付ける",
+        "prefers-reduced-motion に対応して自動アニメーションを止める"
+      ],
+      "platformNotes": {
+        "web": "overflow-x: auto + scroll-snap-type: x mandatory でJSなしの実装が可能。",
+        "flutter": "PageView（1画面ずつ）／ListView(scrollDirection: Axis.horizontal)／CarouselView（Material 3）。"
+      },
+      "related": [
+        "card",
+        "pagination",
+        "infinite-scroll"
+      ],
+      "keywords": [
+        "カルーセル",
+        "スライダー",
+        "横スクロール",
+        "carousel",
+        "ギャラリー"
+      ]
+    },
+    {
+      "id": "empty-state",
+      "category": "display",
+      "name": "空状態",
+      "enName": "Empty State",
+      "aliases": [
+        "Zero State",
+        "Blank State",
+        "ゼロ件表示"
+      ],
+      "summary": "データが0件のときに表示する、説明と次の一歩を示す画面。",
+      "purpose": "「壊れているのか、まだ何もないのか」を明確にし、ユーザーが取るべき次の行動へ導く。初回利用者にとっては事実上のオンボーディングになる。",
+      "whenToUse": [
+        "初回利用でデータがまだない（First Use）",
+        "検索・フィルタの結果が0件（No Results）",
+        "すべて完了して項目がなくなった（Task Complete）"
+      ],
+      "whenNotToUse": [
+        "読み込み中に空状態を出してしまう（それはスケルトンやスピナーの役割）",
+        "エラーで取得できていないのに「0件です」と表示する（誤解を招く）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail",
+          "usage": "受信トレイを空にすると「受信トレイは空です」と達成を称える表示になる。"
+        },
+        {
+          "app": "Notion",
+          "usage": "新規ページで、テンプレートやAIの候補を提示して最初の一歩を促す。"
+        },
+        {
+          "app": "Slack",
+          "usage": "検索結果0件時に、検索条件の見直し方を提案する。"
+        }
+      ],
+      "antiPatterns": [
+        "「データがありません」だけで終わる（次に何をすればよいか書く）",
+        "3種類の空状態（初回／0件／完了）をすべて同じ文言で済ませる",
+        "イラストだけ大きく、肝心の行動導線（ボタン）がない",
+        "エラー状態と空状態を区別せず、原因が分からない"
+      ],
+      "accessibility": [
+        "見出し（<h2>など）と説明文で構造化する",
+        "状態変化（0件になった）を aria-live で伝える",
+        "イラストは装飾として alt=\"\" にし、意味はテキストで伝える"
+      ],
+      "platformNotes": {
+        "web": "コンテンツ領域に中央寄せのブロックを置く。CTAボタンを1つに絞る。",
+        "flutter": "Column + Icon + Text + FilledButton を Center で配置。ListView が空のときに差し替える。"
+      },
+      "related": [
+        "three-states",
+        "skeleton",
+        "search-bar",
+        "onboarding"
+      ],
+      "keywords": [
+        "空状態",
+        "0件",
+        "empty state",
+        "ゼロ件",
+        "データなし"
+      ]
+    },
+    {
+      "id": "skeleton",
+      "category": "display",
+      "name": "スケルトン",
+      "enName": "Skeleton Screen / Shimmer",
+      "aliases": [
+        "Shimmer",
+        "Placeholder Loading",
+        "骨組み表示"
+      ],
+      "summary": "読み込み中に、これから出る内容の形を灰色のブロックで先に見せるUI。",
+      "purpose": "レイアウトの完成形を先に提示することで、体感待ち時間を短縮し、読み込み完了時のガタつき（レイアウトシフト）を防ぐ。",
+      "whenToUse": [
+        "レイアウトが事前に分かっているコンテンツ（フィード、カード一覧、記事）",
+        "読み込みが 0.5〜3秒程度かかる",
+        "初回表示（既にデータがある更新時はスピナーの方が邪魔にならないこともある）"
+      ],
+      "whenNotToUse": [
+        "待ち時間が非常に短い（点滅してかえって煩わしい）",
+        "読み込み結果の形が予測できない",
+        "10秒以上かかる処理 → 進捗バーや説明テキストで状況を伝える"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Facebook / Instagram",
+          "usage": "フィード読み込み中に、投稿カードの形をしたグレーのプレースホルダを表示する。"
+        },
+        {
+          "app": "YouTube",
+          "usage": "サムネイル・タイトル・チャンネル名の位置にスケルトンを出す。"
+        },
+        {
+          "app": "LinkedIn",
+          "usage": "スケルトンスクリーンを早期に採用した例として知られる。"
+        }
+      ],
+      "antiPatterns": [
+        "実際のレイアウトと形が違い、表示された瞬間に画面が飛ぶ",
+        "アニメーションが激しく、目が疲れる（prefers-reduced-motion を尊重する）",
+        "エラー時もスケルトンが出続け、永遠に読み込み中に見える（タイムアウトを設ける）",
+        "スケルトンの数が実データとかけ離れている"
+      ],
+      "accessibility": [
+        "領域に aria-busy=\"true\" を設定し、完了時に false へ戻す",
+        "スクリーンリーダーには「読み込み中」と1回だけ伝え、無数のプレースホルダを読ませない（aria-hidden）",
+        "点滅・シマーは prefers-reduced-motion で停止する"
+      ],
+      "platformNotes": {
+        "web": "CSS の linear-gradient + background-position アニメーション。",
+        "flutter": "Container(色) の並び＋ shimmer パッケージ、または AnimatedOpacity での自作。"
+      },
+      "related": [
+        "progress-indicator",
+        "three-states",
+        "empty-state"
+      ],
+      "keywords": [
+        "スケルトン",
+        "読み込み",
+        "shimmer",
+        "プレースホルダ",
+        "loading"
+      ]
+    },
+    {
+      "id": "progress-indicator",
+      "category": "display",
+      "name": "プログレスバー / スピナー",
+      "enName": "Progress Bar / Spinner / Activity Indicator",
+      "aliases": [
+        "Loader",
+        "Activity Indicator",
+        "ローディング",
+        "進捗バー"
+      ],
+      "summary": "処理中であることと、可能なら進捗率を示すUI。確定型と不確定型がある。",
+      "purpose": "システムが動いていることを伝え、待機を許容させる。所要時間が計算できるなら確定型（％表示）、できないなら不確定型（回転）を使う。",
+      "whenToUse": [
+        "1秒以上かかる処理（それ以下なら何も出さない方がよい場合が多い）",
+        "アップロード・ダウンロードなど、進捗が計算できる → 確定型プログレスバー",
+        "所要時間が読めない通信 → 不確定型スピナー"
+      ],
+      "whenNotToUse": [
+        "レイアウトが分かっているコンテンツの初回読み込み → スケルトン",
+        "一瞬で終わる処理にスピナーを出して点滅させる",
+        "10秒以上かかるのに何の説明もなく回し続ける"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google ドライブ",
+          "usage": "ファイルアップロード時の確定型プログレスと、完了・失敗の表示。"
+        },
+        {
+          "app": "YouTube",
+          "usage": "動画のバッファリング中のスピナーと、シークバー上のバッファ済み範囲表示。"
+        },
+        {
+          "app": "iOS / Android のアプリ更新",
+          "usage": "アイコン上の円形プログレスでダウンロード進捗を表す。"
+        }
+      ],
+      "antiPatterns": [
+        "進捗が計算できるのにスピナーで済ませる（不安が増す）",
+        "99%で止まり続ける（残り時間の見積りが誤っている）",
+        "ボタン押下後にスピナーだけ出して、ボタンを無効化せず二重送信を許す",
+        "画面全体をブロックするローディングを多用し、操作を奪う"
+      ],
+      "accessibility": [
+        "role=\"progressbar\" + aria-valuenow / valuemin / valuemax（不確定型は valuenow を省略）",
+        "進捗の節目（開始・完了・失敗）を aria-live で通知する",
+        "処理中はボタンを disabled にし、状態をテキストでも示す（「送信中…」）"
+      ],
+      "platformNotes": {
+        "web": "<progress> 要素、またはカスタム div + role=\"progressbar\"。",
+        "flutter": "LinearProgressIndicator / CircularProgressIndicator（value を渡すと確定型、null で不確定型）。"
+      },
+      "related": [
+        "skeleton",
+        "three-states",
+        "file-uploader",
+        "toast-snackbar"
+      ],
+      "keywords": [
+        "プログレス",
+        "スピナー",
+        "ローディング",
+        "進捗",
+        "loading"
+      ]
+    },
+    {
+      "id": "modal-dialog",
+      "category": "overlay",
+      "name": "モーダル / ダイアログ",
+      "enName": "Modal / Dialog",
+      "aliases": [
+        "Popup",
+        "Lightbox",
+        "モーダルウィンドウ"
+      ],
+      "summary": "背景を覆って前面に表示し、処理するまで他の操作を止めるウィンドウ。",
+      "purpose": "ユーザーの流れを意図的に中断し、その場で完結させたい入力・確認・重要な情報提示を行う。中断のコストが高いので、使用は必要最小限にする。",
+      "whenToUse": [
+        "続行前に必ず判断が必要（削除の確認、未保存の警告）",
+        "短い入力を、文脈を失わずにその場で行わせたい（新規作成、共有設定）",
+        "エラーなど、無視されると困る情報を確実に伝える"
+      ],
+      "whenNotToUse": [
+        "情報量が多く、スクロールが長くなる → 独立した画面へ遷移",
+        "モバイルで画面いっぱいになる内容 → フルスクリーンページかボトムシート",
+        "完了通知など、確認不要な軽い伝達 → トースト / スナックバー",
+        "モーダルの中からさらにモーダルを開く（原則禁止）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google ドライブ",
+          "usage": "「共有」ダイアログ。権限設定とリンクコピーをその場で完結させる。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "リポジトリ削除の確認ダイアログ。リポジトリ名の入力を求める強い確認。"
+        },
+        {
+          "app": "各種Webサービス",
+          "usage": "ログイン／サインアップのモーダル。ページ遷移せずに認証を挟む。"
+        }
+      ],
+      "antiPatterns": [
+        "閉じるボタンがない、または Esc・外側クリックで閉じられない",
+        "破壊的操作の確認で「OK / キャンセル」という曖昧なラベルを使う（「削除する / やめる」と動詞にする）",
+        "背景がスクロールしてしまう（背面のスクロールロックが必要）",
+        "訪問直後にニュースレター登録モーダルを出す（離脱の主要因）",
+        "モーダルを閉じたら入力内容が全部消える"
+      ],
+      "accessibility": [
+        "role=\"dialog\" aria-modal=\"true\" と aria-labelledby（タイトル）を設定する",
+        "開いたらフォーカスをモーダル内へ移し、Tab がモーダル外へ出ないようトラップする",
+        "閉じたら開いた要素へフォーカスを戻す",
+        "背面コンテンツは inert / aria-hidden で読み上げ対象から外す"
+      ],
+      "platformNotes": {
+        "web": "<dialog showModal()> がフォーカストラップ・Esc・::backdrop を標準で提供する。",
+        "flutter": "showDialog + AlertDialog / Dialog。barrierDismissible で外側タップの許可を制御する。"
+      },
+      "related": [
+        "confirm-dialog",
+        "bottom-sheet",
+        "action-sheet",
+        "toast-snackbar"
+      ],
+      "keywords": [
+        "モーダル",
+        "ダイアログ",
+        "modal",
+        "ポップアップ",
+        "確認"
+      ]
+    },
+    {
+      "id": "bottom-sheet",
+      "category": "overlay",
+      "name": "ボトムシート",
+      "enName": "Bottom Sheet",
+      "aliases": [
+        "Sheet",
+        "Modal Sheet",
+        "ハーフモーダル",
+        "下から出るパネル"
+      ],
+      "summary": "画面下端から せり上がるパネル。モバイルにおけるモーダルの主流形。",
+      "purpose": "親指の届く下部から出現し、背景の文脈を残したまま追加の情報や操作を提供する。ドラッグで高さを変えられる（Modal / Persistent / Expanding）のが特徴。",
+      "whenToUse": [
+        "モバイルで、選択肢や詳細をその場で見せたい",
+        "地図・動画など、背景を見せたまま情報を重ねたい",
+        "段階的に情報量を増やしたい（ピーク→半分→全画面）"
+      ],
+      "whenNotToUse": [
+        "デスクトップの広い画面（ポップオーバーやモーダルの方が自然）",
+        "選択肢が2〜3個の単純な選択 → アクションシート",
+        "入力項目が非常に多い → 全画面ページ"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google マップ",
+          "usage": "場所を選ぶと下から詳細シートが出る。ドラッグで全画面まで広げられる代表例。"
+        },
+        {
+          "app": "Spotify",
+          "usage": "曲の「…」をタップすると下から操作シート（プレイリストに追加、共有など）が出る。"
+        },
+        {
+          "app": "iOS 16以降の各種アプリ",
+          "usage": "UISheetPresentationController によるハーフモーダル（detents で高さを指定）。"
+        }
+      ],
+      "antiPatterns": [
+        "下スワイプで閉じられない（モバイルで学習された操作）",
+        "ドラッグ可能なことを示すハンドル（グラバー）がない",
+        "シート内のスクロールとシート自体のドラッグが競合して、意図せず閉じる",
+        "キーボードが出るとシートが隠れる（keyboard inset の考慮漏れ）"
+      ],
+      "accessibility": [
+        "モーダルシートは role=\"dialog\" aria-modal でフォーカストラップする",
+        "閉じるボタンをドラッグ以外にも用意する（ジェスチャーのみに頼らない）",
+        "セーフエリア（ホームインジケータ）の分の下パディングを確保する"
+      ],
+      "platformNotes": {
+        "web": "<dialog> を下端に配置＋translateY アニメーション。scroll snap やドラッグ実装は自前。",
+        "flutter": "showModalBottomSheet（isScrollControlled: true + DraggableScrollableSheet で可変高さ）。"
+      },
+      "related": [
+        "action-sheet",
+        "modal-dialog",
+        "drawer-overlay",
+        "safe-area"
+      ],
+      "keywords": [
+        "ボトムシート",
+        "下から",
+        "シート",
+        "bottom sheet",
+        "ハーフモーダル"
+      ]
+    },
+    {
+      "id": "action-sheet",
+      "category": "overlay",
+      "name": "アクションシート",
+      "enName": "Action Sheet",
+      "aliases": [
+        "Options Menu",
+        "選択メニュー",
+        "共有シート"
+      ],
+      "summary": "特定の操作に対する選択肢を、下から縦に並べて提示するシート。iOS の標準表現。",
+      "purpose": "1つの対象に対する複数の操作を提示し、そのうち1つを選ばせる。破壊的操作は赤字、キャンセルは分離した位置、という視覚的な約束事がある。",
+      "whenToUse": [
+        "1つの対象に対する2〜6個の操作（共有・削除・編集）",
+        "破壊的な操作の確認を兼ねる（iOS で削除を押した後の確認）",
+        "モバイルで、コンテキストメニューの代わりとして"
+      ],
+      "whenNotToUse": [
+        "選択肢が多く、スクロールが必要 → ボトムシートのリスト",
+        "入力が必要 → モーダル／ボトムシート",
+        "デスクトップ → コンテキストメニューやドロップダウン"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS 共有シート",
+          "usage": "共有アイコンから開く、送信先とアクションの一覧。"
+        },
+        {
+          "app": "iOS 写真",
+          "usage": "写真を削除する際に下から出る確認（「写真を削除」が赤字、下に「キャンセル」）。"
+        },
+        {
+          "app": "各種SNSアプリ",
+          "usage": "投稿の「…」から「報告する／ミュート／リンクをコピー」等を表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "破壊的操作を通常色にして、他の項目と並べる（赤字＋最下部近くに置くのが慣習）",
+        "キャンセルがない（外側タップだけで閉じさせる）",
+        "項目が10個以上並び、選ぶのに時間がかかる",
+        "アイコンだけで文言がなく、何が起きるか分からない"
+      ],
+      "accessibility": [
+        "role=\"menu\" / \"dialog\" として実装し、上下キーで移動できるようにする",
+        "破壊的操作は色だけでなく、ラベル自体を明確にする（「削除」）",
+        "各項目のタップ領域を48dp以上にする"
+      ],
+      "platformNotes": {
+        "web": "<dialog> を下端に置いて実装。Web ではボトムシートと区別しないことも多い。",
+        "flutter": "showCupertinoModalPopup + CupertinoActionSheet（iOS 風）／showModalBottomSheet + ListTile（Material 風）。"
+      },
+      "related": [
+        "bottom-sheet",
+        "context-menu",
+        "confirm-dialog",
+        "share-button"
+      ],
+      "keywords": [
+        "アクションシート",
+        "選択肢",
+        "action sheet",
+        "共有シート"
+      ]
+    },
+    {
+      "id": "drawer-overlay",
+      "category": "overlay",
+      "name": "ドロワー（オーバーレイ）",
+      "enName": "Drawer / Side Panel",
+      "aliases": [
+        "Side Panel",
+        "Off-canvas",
+        "スライドパネル"
+      ],
+      "summary": "画面の端からスライドして重なる補助パネル。ナビにも詳細表示にも使う。",
+      "purpose": "現在の画面を離れずに、補助的な情報や操作を横から呼び出す。ナビゲーション用途（左）と、詳細・設定・フィルタ用途（右）に大別される。",
+      "whenToUse": [
+        "一覧を見ながら詳細や編集をしたい（右ドロワー／サイドパネル）",
+        "フィルタ条件を設定して、結果への影響を見たい",
+        "モバイルのナビゲーション（左ドロワー）"
+      ],
+      "whenNotToUse": [
+        "内容が主役（ページ遷移した方が集中できる）",
+        "モバイルで幅が狭すぎて、中身が窮屈になる → ボトムシート",
+        "短い確認 → ダイアログ"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail",
+          "usage": "左ドロワーのナビゲーション。デスクトップでは常設、モバイルではオーバーレイ。"
+        },
+        {
+          "app": "各種ECサイト (モバイル)",
+          "usage": "「絞り込み」ボタンから右／左のパネルでフィルタ条件を設定する。"
+        },
+        {
+          "app": "Google Chat / Slack",
+          "usage": "スレッドを右側パネルで開き、メインの会話を残したまま返信する。"
+        }
+      ],
+      "antiPatterns": [
+        "背景のスクロールが止まらず、閉じた時に位置がずれる",
+        "オーバーレイの暗幕がなく、どこまでがパネルか分からない",
+        "閉じる手段がスワイプのみ",
+        "パネル内の変更が即時反映か、閉じてから反映かが分からない"
+      ],
+      "accessibility": [
+        "モーダル的に開く場合は role=\"dialog\" + aria-modal + フォーカストラップ",
+        "開閉ボタンに aria-expanded / aria-controls を設定する",
+        "閉じたらトリガーへフォーカスを戻す"
+      ],
+      "platformNotes": {
+        "web": "transform: translateX + 背面 inert。position: fixed で全高にする。",
+        "flutter": "Scaffold(endDrawer:)、または showGeneralDialog + SlideTransition で自作。"
+      },
+      "related": [
+        "drawer-sidebar",
+        "bottom-sheet",
+        "modal-dialog",
+        "search-and-filter"
+      ],
+      "keywords": [
+        "ドロワー",
+        "サイドパネル",
+        "drawer",
+        "スライド"
+      ]
+    },
+    {
+      "id": "toast-snackbar",
+      "category": "overlay",
+      "name": "トースト / スナックバー",
+      "enName": "Toast / Snackbar",
+      "aliases": [
+        "Toast",
+        "Snackbar",
+        "フラッシュメッセージ",
+        "通知バー"
+      ],
+      "summary": "操作結果を画面の端に一時的に表示し、自動で消える軽量な通知。",
+      "purpose": "操作が成功したことを、作業を中断させずに知らせる。Undo（元に戻す）を添えることで、確認ダイアログを省略できるのが最大の利点。",
+      "whenToUse": [
+        "保存・送信・削除などの完了通知",
+        "取り消し可能な操作の直後（「削除しました｜元に戻す」）",
+        "ユーザーの返答が不要な軽い情報"
+      ],
+      "whenNotToUse": [
+        "必ず読ませたい重要なエラー → ダイアログやインラインのバナー",
+        "アクションが必須の内容（自動で消えてしまう）",
+        "長文（1〜2行に収める）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail",
+          "usage": "メール削除・アーカイブ後の「取り消す」スナックバー。数秒で消える。"
+        },
+        {
+          "app": "Android 全般",
+          "usage": "Material Design の Snackbar（画面下部、任意で1つのアクション）。"
+        },
+        {
+          "app": "各種Webアプリ",
+          "usage": "「コピーしました」「保存しました」のトースト表示。"
+        }
+      ],
+      "antiPatterns": [
+        "表示時間が短すぎて読めない（4〜6秒が目安、アクション付きはさらに長く）",
+        "複数のトーストが積み重なって画面を覆う（キューで1つずつ出す）",
+        "重要なエラーをトーストで流して、見逃される",
+        "FABやボトムナビの下に隠れる位置に出す",
+        "閉じる手段がなく、消えるまで操作を邪魔する"
+      ],
+      "accessibility": [
+        "role=\"status\"（aria-live=\"polite\"）で通知する。緊急時のみ role=\"alert\"",
+        "アクション付きの場合は自動消滅させず、キーボードで到達できるようにする",
+        "prefers-reduced-motion に配慮し、派手なアニメーションを避ける"
+      ],
+      "platformNotes": {
+        "web": "aria-live 領域を1つ用意し、そこにメッセージを差し込む実装が確実。",
+        "flutter": "ScaffoldMessenger.of(context).showSnackBar(SnackBar(action: SnackBarAction(...)))。"
+      },
+      "related": [
+        "undo",
+        "alert-banner",
+        "modal-dialog",
+        "copy-button"
+      ],
+      "keywords": [
+        "トースト",
+        "スナックバー",
+        "toast",
+        "snackbar",
+        "通知"
+      ]
+    },
+    {
+      "id": "alert-banner",
+      "category": "overlay",
+      "name": "アラート / バナー",
+      "enName": "Alert / Banner / Inline Message",
+      "aliases": [
+        "Banner",
+        "Callout",
+        "Inline Alert",
+        "告知バー"
+      ],
+      "summary": "画面内に留まり続ける、状況を知らせる帯状のメッセージ。",
+      "purpose": "自動で消えては困る情報（障害・期限切れ・警告・成功）を、文脈のある位置に常設して伝える。深刻度に応じて色とアイコンを変える。",
+      "whenToUse": [
+        "アカウントの問題（支払い失敗、メール未確認）など、解決するまで残すべき通知",
+        "システム障害・メンテナンス告知",
+        "フォーム全体のエラーサマリ",
+        "破壊的操作の前の注意喚起"
+      ],
+      "whenNotToUse": [
+        "一時的な完了通知 → トースト",
+        "個別フィールドのエラー → インラインのバリデーション表示",
+        "常時表示して慣れられ、無視されるようになった告知（バナーブラインドネス）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "GitHub",
+          "usage": "リポジトリ上部の警告バナー（脆弱性アラート、アーカイブ済みリポジトリの表示など）。"
+        },
+        {
+          "app": "各種SaaS",
+          "usage": "「お支払い方法の有効期限が切れています」を上部に固定表示し、更新導線を置く。"
+        },
+        {
+          "app": "Webサービス全般",
+          "usage": "メンテナンス予告バナー。閉じても再訪時に再表示されるものが多い。"
+        }
+      ],
+      "antiPatterns": [
+        "色だけで深刻度を示す（アイコンと見出し文言も変える）",
+        "「エラーが発生しました」だけで、原因も次の行動も書かない",
+        "閉じられないバナーを常時出し続ける",
+        "同時に3つも4つもバナーが積み上がり、コンテンツが押し下げられる"
+      ],
+      "accessibility": [
+        "重要度に応じて role=\"alert\"（即時）／role=\"status\"（控えめ）を使い分ける",
+        "色・アイコン・テキストの3点で意味を伝える（色覚特性への配慮）",
+        "解決のためのリンクやボタンをバナー内に置き、キーボードで到達可能にする",
+        "背景色と文字色のコントラスト比を 4.5:1 以上にする"
+      ],
+      "platformNotes": {
+        "web": "role=\"alert\" の div。位置はページ上部かフォーム直上が定番。",
+        "flutter": "MaterialBanner（ScaffoldMessenger.showMaterialBanner）や、Container での自作。"
+      },
+      "related": [
+        "toast-snackbar",
+        "validation-error",
+        "three-states"
+      ],
+      "keywords": [
+        "アラート",
+        "バナー",
+        "警告",
+        "alert",
+        "banner",
+        "エラー表示"
+      ]
+    },
+    {
+      "id": "context-menu",
+      "category": "overlay",
+      "name": "コンテキストメニュー",
+      "enName": "Context Menu",
+      "aliases": [
+        "Right-click Menu",
+        "Long-press Menu",
+        "More Menu",
+        "…メニュー"
+      ],
+      "summary": "対象を右クリック／長押し／「…」タップで開く、その対象専用の操作一覧。",
+      "purpose": "対象ごとの操作を、UIに常時表示せずに提供する。画面をすっきり保てるが、発見しづらいので主要操作は別途露出させる必要がある。",
+      "whenToUse": [
+        "リストの各行に対する副次的な操作（名前の変更、複製、削除）",
+        "デスクトップの右クリック操作（コピー・貼り付け）",
+        "モバイルの「…」ボタンや長押しからの操作"
+      ],
+      "whenNotToUse": [
+        "その画面の主要操作（隠すと使われない）",
+        "選択肢が1つしかない（そのままボタンにする）",
+        "モバイルで右クリック相当がないのに、長押しのみに割り当てる"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Google ドライブ",
+          "usage": "ファイルを右クリック（またはモバイルの「⋮」）で、共有・ダウンロード・名前変更などのメニュー。"
+        },
+        {
+          "app": "iOS ホーム画面",
+          "usage": "アプリアイコンの長押しでクイックアクションのメニューが出る（Haptic Touch）。"
+        },
+        {
+          "app": "Notion",
+          "usage": "ブロック左の「⋮⋮」から、削除・複製・ブロックの種類変更などを行う。"
+        }
+      ],
+      "antiPatterns": [
+        "長押しでしか開けず、その存在を示すヒントがない（「⋮」ボタンも併設する）",
+        "ブラウザ標準の右クリックメニューを奪い、コピーや検索ができなくなる",
+        "破壊的操作を先頭に置き、誤タップさせる（下部に置き、色で区別する）",
+        "画面端で見切れる（開く方向を自動反転させる）"
+      ],
+      "accessibility": [
+        "role=\"menu\" / \"menuitem\" とし、上下キー移動・Enter実行・Esc閉じを実装する",
+        "トリガーに aria-haspopup=\"menu\" と aria-expanded を設定する",
+        "長押し以外に、キーボード（Shift+F10 や Menu キー）とボタンからも開けるようにする"
+      ],
+      "platformNotes": {
+        "web": "contextmenu イベント + カスタムメニュー。標準メニューを潰す場合は代替を必ず用意する。",
+        "flutter": "PopupMenuButton / showMenu、長押しは GestureDetector(onLongPress) や CupertinoContextMenu。"
+      },
+      "related": [
+        "popover",
+        "action-sheet",
+        "long-press",
+        "swipe-actions"
+      ],
+      "keywords": [
+        "コンテキストメニュー",
+        "右クリック",
+        "長押し",
+        "context menu",
+        "…"
+      ]
+    },
+    {
+      "id": "primary-button",
+      "category": "action",
+      "name": "プライマリボタン",
+      "enName": "Primary Button / Filled Button",
+      "aliases": [
+        "CTA",
+        "Filled Button",
+        "主要ボタン",
+        "実行ボタン"
+      ],
+      "summary": "その画面で最も進めてほしい1つの行動を表す、塗りつぶしの強いボタン。",
+      "purpose": "視覚的な重みで「次にすべきこと」を示す。1画面に1つ（多くても2つ）に絞ることで、はじめてプライマリとしての意味を持つ。",
+      "whenToUse": [
+        "フォームの送信・購入・次へ進む など、そのページのゴール",
+        "モーダルで推奨する選択肢",
+        "オンボーディングの「次へ」"
+      ],
+      "whenNotToUse": [
+        "同じ画面に3つも4つも置く（すべてが目立たなくなる）",
+        "破壊的操作（削除） → デストラクティブボタン",
+        "補助的な操作 → セカンダリ／ゴーストボタン"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon",
+          "usage": "「カートに入れる」「今すぐ買う」。ページ内で最も強い色を割り当てる。"
+        },
+        {
+          "app": "各種SaaSの登録ページ",
+          "usage": "「無料で始める」のCTAボタン。ページ内で唯一の塗りつぶしボタンにする。"
+        },
+        {
+          "app": "iOS / Android のシステムダイアログ",
+          "usage": "推奨アクションを太字や塗りで強調する。"
+        }
+      ],
+      "antiPatterns": [
+        "「送信」「OK」など、何が起きるか分からない汎用ラベル（動詞＋目的語にする：「予約を確定する」）",
+        "押した後の反応（ローディング・無効化）がなく、二重送信される",
+        "disabled にした理由を説明しない（なぜ押せないのか分からない）",
+        "コントラスト不足で、押せる要素に見えない"
+      ],
+      "accessibility": [
+        "<button> 要素を使う（div にクリックを付けない）。Enter / Space で作動すること",
+        "処理中は aria-busy と disabled を設定し、状態をテキストでも伝える",
+        "文字色と背景色のコントラスト比 4.5:1 以上、タップ領域 44pt/48dp 以上",
+        "フォーカスリングを消さない"
+      ],
+      "platformNotes": {
+        "web": "<button type=\"submit\">。フォーム内では type を明示しないと意図せず送信される。",
+        "flutter": "FilledButton / ElevatedButton。onPressed: null で無効化される。"
+      },
+      "related": [
+        "secondary-button",
+        "destructive-button",
+        "ghost-button",
+        "fab"
+      ],
+      "keywords": [
+        "ボタン",
+        "CTA",
+        "プライマリ",
+        "primary button",
+        "送信"
+      ]
+    },
+    {
+      "id": "secondary-button",
+      "category": "action",
+      "name": "セカンダリボタン",
+      "enName": "Secondary Button / Outlined Button",
+      "aliases": [
+        "Outlined Button",
+        "Ghost Outline",
+        "副ボタン"
+      ],
+      "summary": "プライマリの隣に置く、枠線ベースの控えめなボタン。",
+      "purpose": "重要だが主要ではない選択肢（キャンセル、戻る、別の手段）を提供する。プライマリとの視覚的コントラストで、優先順位を伝えるのが役割。",
+      "whenToUse": [
+        "プライマリと並ぶ代替アクション（「あとで」「キャンセル」「下書き保存」）",
+        "同列の複数アクションを並べたいが、どれも主役ではない",
+        "モーダルの「キャンセル」"
+      ],
+      "whenNotToUse": [
+        "実質的に主要な操作なのに控えめにして、見つけられない",
+        "プライマリと同じ強さで並べ、どちらを選ぶべきか分からなくする",
+        "破壊的操作を目立たせないために使う（重要な操作は明示する）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "各種モーダルダイアログ",
+          "usage": "「保存する（塗り）」の左に「キャンセル（枠線）」を置く。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "PR画面の「Merge（強調）」に対し、他の操作は控えめなボタンで並ぶ。"
+        },
+        {
+          "app": "Googleのアカウント画面",
+          "usage": "推奨アクションは塗り、それ以外はテキスト／枠線ボタンで階層を作る。"
+        }
+      ],
+      "antiPatterns": [
+        "枠線だけで色のコントラストが低く、押せると認識されない",
+        "プライマリとセカンダリの見分けが背景色のわずかな差しかない",
+        "キャンセルをプライマリの右に置き、確定と間違えさせる（プラットフォームの配置慣習に従う）"
+      ],
+      "accessibility": [
+        "枠線の色はコントラスト比 3:1 以上を確保する（非テキストコントラスト）",
+        "並び順は視覚順とDOM順を一致させ、キーボードでの移動と一致させる",
+        "プライマリとの差を色だけに頼らず、塗り／枠線の形状差でも伝える"
+      ],
+      "platformNotes": {
+        "web": "<button class=\"secondary\">。役割はスタイルの違いだけで、要素は同じ button。",
+        "flutter": "OutlinedButton。TextButton より強く、FilledButton より弱い位置づけ。"
+      },
+      "related": [
+        "primary-button",
+        "ghost-button",
+        "modal-dialog"
+      ],
+      "keywords": [
+        "セカンダリ",
+        "枠線ボタン",
+        "outlined",
+        "キャンセル"
+      ]
+    },
+    {
+      "id": "ghost-button",
+      "category": "action",
+      "name": "ゴースト / テキストボタン",
+      "enName": "Ghost Button / Text Button",
+      "aliases": [
+        "Text Button",
+        "Tertiary Button",
+        "透明ボタン"
+      ],
+      "summary": "背景も枠線もない、文字だけの最も控えめなボタン。",
+      "purpose": "レイアウトを邪魔せずに操作を置く。ツールバー・カード内・リスト行など、視覚的ノイズを増やしたくない場所で使う。",
+      "whenToUse": [
+        "カードやリスト行の中の補助操作（「詳細」「もっと見る」）",
+        "ツールバーやアプリバーのアクション",
+        "3番目以降の優先度のアクション"
+      ],
+      "whenNotToUse": [
+        "重要な操作（見落とされる）",
+        "リンクと混在して、どちらが遷移でどちらが実行か分からない場合",
+        "周囲のテキストと区別がつかない配置"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Material Design のダイアログ",
+          "usage": "「キャンセル」「OK」をテキストボタンで並べるのが Material の標準形。"
+        },
+        {
+          "app": "iOS のナビゲーションバー",
+          "usage": "右上の「完了」「編集」などは、塗りのないテキストボタン。"
+        },
+        {
+          "app": "各種アプリのカードUI",
+          "usage": "カード下部の「共有」「詳細」といった補助アクション。"
+        }
+      ],
+      "antiPatterns": [
+        "本文テキストと同じ色・太さで、押せることが分からない",
+        "タップ領域が文字サイズぴったりで小さい（周囲にパディングを取る）",
+        "ホバー／押下時のフィードバックがない"
+      ],
+      "accessibility": [
+        "テキストのコントラスト比 4.5:1 以上を確保する",
+        "タップ領域を 44pt/48dp まで広げる（見た目は小さくても可）",
+        "hover / focus / active の状態変化を必ず用意する"
+      ],
+      "platformNotes": {
+        "web": "<button> に背景なしのスタイル。padding でヒット領域を確保する。",
+        "flutter": "TextButton。IconButton も実質このカテゴリ。"
+      },
+      "related": [
+        "primary-button",
+        "secondary-button",
+        "link",
+        "icon-button"
+      ],
+      "keywords": [
+        "ゴースト",
+        "テキストボタン",
+        "text button",
+        "控えめ"
+      ]
+    },
+    {
+      "id": "destructive-button",
+      "category": "action",
+      "name": "デストラクティブボタン",
+      "enName": "Destructive / Danger Button",
+      "aliases": [
+        "Danger Button",
+        "Delete Button",
+        "危険操作ボタン"
+      ],
+      "summary": "削除など、取り消しの効かない操作を表す赤系のボタン。",
+      "purpose": "結果が重大な操作であることを、色と配置で事前に警告する。実行前の確認、または実行後のUndoのどちらかを必ずセットにする。",
+      "whenToUse": [
+        "データの完全削除、アカウント解約、メンバーの除名",
+        "元に戻せない、または戻すコストが高い操作",
+        "設定画面の「危険な操作」セクション"
+      ],
+      "whenNotToUse": [
+        "取り消せる操作（アーカイブ、非表示）に赤を使う（赤の意味が薄れる）",
+        "赤を単なるアクセントカラーとして多用しているデザイン",
+        "頻繁に押す操作を赤にする"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "GitHub",
+          "usage": "Settings の Danger Zone。赤枠のセクションに削除系操作を隔離し、確認ではリポジトリ名の入力を求める。"
+        },
+        {
+          "app": "iOS",
+          "usage": "アクションシートやスワイプ削除で、破壊的操作を赤字で示す。"
+        },
+        {
+          "app": "各種SaaS",
+          "usage": "「アカウントを削除」を設定画面の最下部の独立セクションに置く。"
+        }
+      ],
+      "antiPatterns": [
+        "確認もUndoもなく即座に削除する",
+        "確認ダイアログのボタンが「OK / キャンセル」で、どちらが削除か曖昧",
+        "削除ボタンを他の操作の隣に密着させ、誤タップを誘発する",
+        "赤色だけで危険性を示し、色覚特性のあるユーザーに伝わらない"
+      ],
+      "accessibility": [
+        "ラベルに操作対象を含める（「プロジェクトを削除」）",
+        "色だけでなく、アイコン・確認ステップ・文言で危険性を伝える",
+        "確認ダイアログのデフォルトフォーカスは、安全な選択肢（キャンセル）に置く"
+      ],
+      "platformNotes": {
+        "web": "<button class=\"danger\">。確認モーダルとセットで実装する。",
+        "flutter": "FilledButton(style: FilledButton.styleFrom(backgroundColor: colorScheme.error))。"
+      },
+      "related": [
+        "confirm-dialog",
+        "undo",
+        "action-sheet",
+        "swipe-actions"
+      ],
+      "keywords": [
+        "削除",
+        "危険",
+        "destructive",
+        "danger",
+        "赤ボタン"
+      ]
+    },
+    {
+      "id": "link",
+      "category": "action",
+      "name": "リンク",
+      "enName": "Link / Hyperlink",
+      "aliases": [
+        "Anchor",
+        "テキストリンク",
+        "ハイパーリンク"
+      ],
+      "summary": "別の場所へ移動することを示すテキスト要素。ボタンとは役割が異なる。",
+      "purpose": "「移動する」という意味を担う。ボタンが「何かを実行する」のに対し、リンクは「どこかへ行く」。この使い分けがブラウザの標準機能（新規タブ、コピー、履歴）を守る。",
+      "whenToUse": [
+        "別ページ・別サイト・ページ内の別位置へ移動する",
+        "ファイルのダウンロード（URLとして意味がある）",
+        "ユーザーが新規タブで開いたり、URLをコピーしたい対象"
+      ],
+      "whenNotToUse": [
+        "その場で何かを実行する（保存・削除・開閉） → ボタン",
+        "リンクに見えるボタン、ボタンに見えるリンク（意味と見た目を一致させる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Wikipedia",
+          "usage": "本文中の青いテキストリンク。下線と色で本文と区別する。"
+        },
+        {
+          "app": "各種Webサービスのフッター",
+          "usage": "利用規約・プライバシーポリシーへのリンク。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "ファイルパスやユーザー名がリンクになっており、新規タブで開ける。"
+        }
+      ],
+      "antiPatterns": [
+        "「こちら」「詳細」だけのリンクテキスト（リンク単体で行き先が分からない）",
+        "色だけで区別し、下線も何もない（色覚特性のあるユーザーが本文と区別できない）",
+        "href のない <a> や、<div onclick> でのリンク実装（キーボードで到達できない）",
+        "外部リンク・新規タブであることを予告しない"
+      ],
+      "accessibility": [
+        "リンクテキストは単体で意味が通るようにする（スクリーンリーダーはリンク一覧を読み上げる）",
+        "本文中のリンクは下線などテキスト装飾でも区別する",
+        "target=\"_blank\" には rel=\"noopener\" と、新規タブで開く旨の表示を添える",
+        "アイコンのみのリンクには aria-label を付ける"
+      ],
+      "platformNotes": {
+        "web": "<a href>。SPA でも href を持たせるとミドルクリックや共有が機能する。",
+        "flutter": "InkWell + url_launcher、または RichText の TextSpan + TapGestureRecognizer。"
+      },
+      "related": [
+        "ghost-button",
+        "primary-button",
+        "breadcrumbs"
+      ],
+      "keywords": [
+        "リンク",
+        "link",
+        "アンカー",
+        "遷移"
+      ]
+    },
+    {
+      "id": "icon-button",
+      "category": "action",
+      "name": "アイコンボタン",
+      "enName": "Icon Button",
+      "aliases": [
+        "Icon-only Button",
+        "アイコンのみボタン"
+      ],
+      "summary": "アイコンだけで機能を表す、省スペースなボタン。",
+      "purpose": "ツールバーやリスト行など、ラベルを置く余地がない場所に操作を配置する。意味が広く共有されたアイコン（×、検索、共有、ゴミ箱）に限って有効。",
+      "whenToUse": [
+        "アイコンの意味が普遍的（閉じる、検索、戻る、削除、共有、お気に入り）",
+        "アプリバー・ツールバー・リスト行の末尾など、スペースが限られる",
+        "同じ操作が繰り返し現れ、学習コストが償却される"
+      ],
+      "whenNotToUse": [
+        "アイコンの意味が曖昧（オリジナルの機能、抽象的な概念）",
+        "初見ユーザーが必ず使う重要操作 → ラベル付きボタン",
+        "似たアイコンが並び、区別がつかない"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "X (Twitter)",
+          "usage": "投稿下部の返信・リポスト・いいね・共有アイコン。数値を隣に添える。"
+        },
+        {
+          "app": "Gmail",
+          "usage": "メール表示時のアーカイブ・削除・返信などのツールバーアイコン。"
+        },
+        {
+          "app": "Figma / Photoshop",
+          "usage": "ツールバーのアイコン群。ホバーで名前とショートカットを表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "aria-label を付けず、スクリーンリーダーで「ボタン」としか読まれない",
+        "タップ領域がアイコンサイズ（16〜24px）のままで、押しづらい",
+        "独自アイコンの意味を、ツールチップだけに依存して説明する（モバイルで読めない）",
+        "アイコンを5個以上並べて、視覚的に区別できない"
+      ],
+      "accessibility": [
+        "必ず aria-label（または視覚的に隠したテキスト）で名前を与える",
+        "タップ領域は 44×44pt / 48×48dp 以上。padding で確保する",
+        "トグル型（お気に入り等）は aria-pressed で状態を伝える",
+        "重要な操作はアイコン＋ラベルの併記を検討する"
+      ],
+      "platformNotes": {
+        "web": "<button aria-label=\"削除\"><svg aria-hidden=\"true\">。SVG には aria-hidden を付ける。",
+        "flutter": "IconButton(tooltip: '削除')。tooltip がセマンティクスラベルにもなる。"
+      },
+      "related": [
+        "tooltip",
+        "ghost-button",
+        "app-bar",
+        "fab"
+      ],
+      "keywords": [
+        "アイコンボタン",
+        "icon button",
+        "アイコン"
+      ]
+    },
+    {
+      "id": "split-button",
+      "category": "action",
+      "name": "スプリットボタン",
+      "enName": "Split Button / Dropdown Button",
+      "aliases": [
+        "Menu Button",
+        "分割ボタン",
+        "ドロップダウンボタン"
+      ],
+      "summary": "既定の操作を実行する本体と、別候補を開く▼部分が一体化したボタン。",
+      "purpose": "「よく使う1つ」を1クリックで実行しつつ、関連する代替手段も同じ場所から選べるようにする。頻度の偏りがある操作群に有効。",
+      "whenToUse": [
+        "既定の操作が明確に決まっていて、9割はそれを使う",
+        "同種の派生操作が2〜5個ある（保存／別名で保存／コピーを保存）",
+        "ツールバーの省スペース化"
+      ],
+      "whenNotToUse": [
+        "どれが既定か決められない（普通のドロップダウンメニューにする）",
+        "選択肢が1つしかない → 通常のボタン",
+        "モバイルの狭い画面（▼部分が小さくなりすぎる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "GitHub",
+          "usage": "Pull Request の「Merge pull request」ボタン。▼から Squash / Rebase を選べる。"
+        },
+        {
+          "app": "Microsoft Office / Google ドキュメント",
+          "usage": "「貼り付け」「印刷」など、既定動作＋オプションを持つツールバーボタン。"
+        },
+        {
+          "app": "各種IDE",
+          "usage": "「実行」ボタンの横に▼で実行構成を選ぶ。"
+        }
+      ],
+      "antiPatterns": [
+        "本体と▼の境界が分からず、意図せず実行してしまう（視覚的な区切りを入れる）",
+        "▼部分のタップ領域が小さすぎる",
+        "選んだ選択肢が既定に変わるのか変わらないのかが分からない",
+        "メニューを開いたのに、既定操作がメニュー内に重複表示されない"
+      ],
+      "accessibility": [
+        "2つの独立したボタンとして実装し、それぞれに名前を付ける（「マージする」「マージ方法を選択」）",
+        "▼側に aria-haspopup=\"menu\" と aria-expanded を設定する",
+        "メニューは上下キー操作・Esc閉じに対応する"
+      ],
+      "platformNotes": {
+        "web": "button 2つを隣接配置し、境界線で区切る。メニューは role=\"menu\"。",
+        "flutter": "Row に FilledButton と PopupMenuButton を並べて一体に見えるようスタイリングする。"
+      },
+      "related": [
+        "primary-button",
+        "context-menu",
+        "select"
+      ],
+      "keywords": [
+        "スプリットボタン",
+        "split button",
+        "ドロップダウンボタン",
+        "▼"
+      ]
+    },
+    {
+      "id": "copy-button",
+      "category": "action",
+      "name": "コピーボタン",
+      "enName": "Copy to Clipboard Button",
+      "aliases": [
+        "Copy to Clipboard",
+        "クリップボードコピー"
+      ],
+      "summary": "テキストをワンタップでクリップボードにコピーし、成功を即座に伝えるボタン。",
+      "purpose": "選択→コピーという面倒な操作を1タップにする。コピーされた確信を与えるフィードバック（アイコンの変化やトースト）が本体の半分を占める。",
+      "whenToUse": [
+        "コードスニペット、APIキー、招待リンク、ID、住所など、貼り付ける前提の値",
+        "モバイルでのテキスト選択が難しい場面",
+        "長い文字列（手入力させたくない）"
+      ],
+      "whenNotToUse": [
+        "コピーする理由がない普通の本文",
+        "機密情報を確認なしにコピーさせる（表示のマスクと併用する）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "GitHub",
+          "usage": "コードブロック右上のコピーアイコン。押すとチェックマークに変わる。"
+        },
+        {
+          "app": "各種パスワードマネージャ",
+          "usage": "パスワードのコピーボタン。一定時間後にクリップボードを自動クリアする実装もある。"
+        },
+        {
+          "app": "Zoom / Google Meet",
+          "usage": "会議リンクのコピーボタン。「リンクをコピーしました」と表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "コピーできたのか分からない（アイコン変化 or トーストを必ず出す）",
+        "成功表示が一瞬で消える／逆に残り続ける（2秒程度で元に戻す）",
+        "コピー失敗（権限・非セキュアコンテキスト）時のフォールバックがない",
+        "何がコピーされたのか分からない（対象を明示する）"
+      ],
+      "accessibility": [
+        "aria-label を「〇〇をコピー」とし、対象を明示する",
+        "コピー完了を aria-live=\"polite\" で通知する（アイコン変化だけでは伝わらない）",
+        "キーボードでも到達・実行できるようにする"
+      ],
+      "platformNotes": {
+        "web": "navigator.clipboard.writeText()（HTTPS 必須）。失敗時は選択＋execCommand へフォールバック。",
+        "flutter": "Clipboard.setData(ClipboardData(text: ...)) + SnackBar での通知。"
+      },
+      "related": [
+        "toast-snackbar",
+        "icon-button",
+        "share-button"
+      ],
+      "keywords": [
+        "コピー",
+        "クリップボード",
+        "copy",
+        "コピーボタン"
+      ]
+    },
+    {
+      "id": "share-button",
+      "category": "action",
+      "name": "共有ボタン",
+      "enName": "Share Button",
+      "aliases": [
+        "Share Sheet Trigger",
+        "シェアボタン"
+      ],
+      "summary": "コンテンツを他のアプリや人へ送るための、OS標準の共有機能を呼び出すボタン。",
+      "purpose": "自前で共有先を並べるのではなく、OSの共有シートに委ねることで、ユーザーが普段使うアプリへ最短で送れるようにする。",
+      "whenToUse": [
+        "URL・画像・テキストを外部へ送る可能性がある",
+        "モバイルで、OSの共有シートが使える環境",
+        "SNS拡散を促したいコンテンツ"
+      ],
+      "whenNotToUse": [
+        "共有先が自サービス内に限定される（アプリ内共有UIを作る）",
+        "共有できない機密コンテンツ",
+        "デスクトップWeb（Web Share API 非対応環境ではリンクコピーにフォールバック）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS 全般",
+          "usage": "四角＋上矢印の共有アイコンから、OSの共有シートを開く。"
+        },
+        {
+          "app": "YouTube",
+          "usage": "動画下の「共有」から、リンクコピー・SNS・再生位置指定の共有ができる。"
+        },
+        {
+          "app": "Instagram",
+          "usage": "投稿の紙飛行機アイコンから、DM送信やストーリーズへの共有を行う。"
+        }
+      ],
+      "antiPatterns": [
+        "OSの共有シートを使わず、独自のSNSボタンを10個並べる",
+        "共有されるURLがトラッキングパラメータだらけで汚い",
+        "共有時のタイトル・説明・画像（OGP）が設定されておらず、貼り付け先で意味不明になる",
+        "非対応環境でボタンだけ表示され、押しても何も起きない"
+      ],
+      "accessibility": [
+        "aria-label=\"共有\" を付け、アイコンの意味を明示する",
+        "Web Share API 非対応時は、リンクコピーなどの代替を必ず提供する",
+        "共有結果（成功・キャンセル）に応じたフィードバックを出す"
+      ],
+      "platformNotes": {
+        "web": "navigator.share()（HTTPS・ユーザー操作起点が必須、対応ブラウザが限られる）。非対応時はコピーへフォールバック。",
+        "flutter": "share_plus パッケージが定番。OS の共有シートを呼び出す。"
+      },
+      "related": [
+        "copy-button",
+        "action-sheet",
+        "icon-button"
+      ],
+      "keywords": [
+        "共有",
+        "シェア",
+        "share",
+        "共有ボタン"
+      ]
+    },
+    {
+      "id": "pull-to-refresh",
+      "category": "mobile",
+      "name": "プルトゥリフレッシュ",
+      "enName": "Pull to Refresh",
+      "aliases": [
+        "Swipe to Refresh",
+        "引っ張って更新"
+      ],
+      "summary": "リストの先頭で下に引っ張ると、コンテンツを再読み込みするジェスチャー。",
+      "purpose": "更新ボタンを画面に置かずに、最新化の操作を提供する。「引っ張る＝もっと上（新しい）を見る」という物理的な比喩に基づく。",
+      "whenToUse": [
+        "時系列のフィードやリストで、最新データが随時増える（SNS、メール、通知）",
+        "自動更新はあるが、ユーザーが能動的に更新したいことがある",
+        "モバイルアプリ（タッチ操作が前提）"
+      ],
+      "whenNotToUse": [
+        "静的なコンテンツ（更新しても何も変わらない）",
+        "横スクロールが主体の画面（ジェスチャーが競合する）",
+        "デスクトップWeb（マウスでは自然な操作ではない）",
+        "これを唯一の更新手段にする（明示的な更新ボタンも用意する）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "X (Twitter)",
+          "usage": "タイムライン最上部で引っ張ると新着ポストを読み込む。この操作の普及元とされる（Tweetie 由来）。"
+        },
+        {
+          "app": "Gmail (モバイル)",
+          "usage": "受信トレイを引っ張って新着メールを取得する。"
+        },
+        {
+          "app": "Instagram",
+          "usage": "フィード最上部からの引っ張りで更新。ローディングのアニメーションを表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "引っ張り中のフィードバック（インジケータの回転・伸び）がなく、効いているか分からない",
+        "更新後にスクロール位置が最上部へ飛び、読んでいた場所を失う",
+        "閾値が浅すぎて、普通のスクロールで誤発火する",
+        "更新に失敗しても何も表示しない"
+      ],
+      "accessibility": [
+        "ジェスチャーだけに頼らず、メニューやボタンからの更新手段も提供する（WCAG 2.5.1 ポインタジェスチャ）",
+        "更新の開始・完了を aria-live / セマンティクスで通知する",
+        "更新完了後もフォーカス位置を保つ"
+      ],
+      "platformNotes": {
+        "web": "overscroll-behavior と touch イベントで自作するか、PWAではブラウザ標準の挙動と競合しないよう注意する。",
+        "flutter": "RefreshIndicator で ListView を包む（onRefresh に Future を返す）。iOS 風は CupertinoSliverRefreshControl。"
+      },
+      "related": [
+        "infinite-scroll",
+        "progress-indicator",
+        "list"
+      ],
+      "keywords": [
+        "引っ張って更新",
+        "プルトゥリフレッシュ",
+        "pull to refresh",
+        "更新"
+      ]
+    },
+    {
+      "id": "swipe-actions",
+      "category": "mobile",
+      "name": "スワイプアクション",
+      "enName": "Swipe Actions / Swipe to Dismiss",
+      "aliases": [
+        "Swipe to Delete",
+        "Slidable",
+        "スワイプ操作"
+      ],
+      "summary": "リストの行を横にスワイプして、隠れた操作ボタンを出す／即実行するUI。",
+      "purpose": "行ごとの頻出操作（削除・アーカイブ・既読）を、画面にボタンを置かずに素早く実行させる。片手操作との相性が非常に良い。",
+      "whenToUse": [
+        "リスト行に対する1〜2個の頻出操作がある",
+        "操作が取り消し可能（Undoを出せる）",
+        "行数が多く、1件ずつ処理していく作業（メール、タスク）"
+      ],
+      "whenNotToUse": [
+        "取り返しのつかない操作を確認なしで実行する",
+        "横スクロールするコンテンツと同居する（ジェスチャーが衝突）",
+        "この操作しか手段がない（発見できないユーザーが必ずいる）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail",
+          "usage": "メールを左右にスワイプしてアーカイブ／削除。動作は設定でカスタマイズでき、直後にUndoが出る。"
+        },
+        {
+          "app": "iOS メール",
+          "usage": "左スワイプで削除・フラグなど、右スワイプで既読切り替え。深くスワイプすると即実行。"
+        },
+        {
+          "app": "LINE",
+          "usage": "トークリストの行をスワイプして、非表示・削除などの操作を表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "スワイプできることを示すヒントが一切ない（初回のみ少し覗かせる等の工夫をする）",
+        "浅いスワイプで即削除され、誤操作が多発する",
+        "Undo を提供しない",
+        "左右で似た色・似たアイコンの操作を割り当て、取り違えさせる"
+      ],
+      "accessibility": [
+        "同じ操作を、長押しメニューや行内のボタンからも実行できるようにする（WCAG 2.5.1）",
+        "スクリーンリーダー利用時はカスタムアクション（Semantics の customSemanticsActions 等）として公開する",
+        "破壊的操作は色＋アイコン＋ラベルで示す"
+      ],
+      "platformNotes": {
+        "web": "touch イベント + transform で自作。ブラウザの「戻る」スワイプと競合しないよう注意。",
+        "flutter": "Dismissible（スワイプで消す）や flutter_slidable パッケージ（複数アクション）。"
+      },
+      "related": [
+        "long-press",
+        "context-menu",
+        "undo",
+        "list",
+        "destructive-button"
+      ],
+      "keywords": [
+        "スワイプ",
+        "swipe",
+        "スワイプ削除",
+        "スライド操作"
+      ]
+    },
+    {
+      "id": "infinite-scroll",
+      "category": "mobile",
+      "name": "無限スクロール",
+      "enName": "Infinite Scroll",
+      "aliases": [
+        "Endless Scroll",
+        "Lazy Loading",
+        "自動読み込み"
+      ],
+      "summary": "スクロールが末尾に近づくと、次のデータを自動で追加読み込みする方式。",
+      "purpose": "ページ送りの操作を省き、コンテンツの消費を途切れさせない。探索的・娯楽的なフィードに向くが、位置の把握とフッター到達を犠牲にする。",
+      "whenToUse": [
+        "探索的に眺めるフィード（SNS、動画、画像）",
+        "件数や位置の把握が重要でない",
+        "モバイルで、ページ番号のタップが煩わしい"
+      ],
+      "whenNotToUse": [
+        "検索結果や業務システムなど、位置の把握と再訪が重要 → ページネーション",
+        "フッターに重要なリンクがある（永遠に到達できなくなる）",
+        "特定のアイテムに戻る・共有する必要がある"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "X (Twitter) / Instagram",
+          "usage": "タイムラインを下にスクロールし続けると次々に読み込まれる。"
+        },
+        {
+          "app": "TikTok",
+          "usage": "縦スワイプで次の動画へ。無限スクロールを1画面1コンテンツに適用した形。"
+        },
+        {
+          "app": "Google 画像検索",
+          "usage": "スクロールで追加読み込みしつつ、「さらに表示」ボタンを併用する。"
+        }
+      ],
+      "antiPatterns": [
+        "読み込み中のインジケータがなく、終わったのか続くのか分からない",
+        "末尾（これ以上ない）を示さない",
+        "詳細画面から戻るとスクロール位置と読み込み済みデータが失われる",
+        "フッターがあるのに無限スクロールにして、永遠に触れない",
+        "重複や欠落が起きる（オフセットではなくカーソルベースのページングを使う）"
+      ],
+      "accessibility": [
+        "「さらに読み込む」ボタンを併設し、キーボード・スクリーンリーダーでも続きを取得できるようにする",
+        "追加読み込みの完了を aria-live で通知し、追加件数を伝える",
+        "フォーカス位置を維持し、追加読み込みで先頭へ戻さない"
+      ],
+      "platformNotes": {
+        "web": "IntersectionObserver で末尾のセンチネル要素を監視するのが定番。",
+        "flutter": "ListView.builder + ScrollController のリスナー、または NotificationListener<ScrollNotification>。"
+      },
+      "related": [
+        "pagination",
+        "skeleton",
+        "list",
+        "pull-to-refresh"
+      ],
+      "keywords": [
+        "無限スクロール",
+        "infinite scroll",
+        "自動読み込み",
+        "ページング"
+      ]
+    },
+    {
+      "id": "long-press",
+      "category": "mobile",
+      "name": "ロングプレス（長押し）",
+      "enName": "Long Press / Haptic Touch",
+      "aliases": [
+        "Press and Hold",
+        "長押し",
+        "3D Touch (旧)"
+      ],
+      "summary": "一定時間押し続けることで、追加の操作やプレビューを表示するジェスチャー。",
+      "purpose": "通常のタップとは別のレイヤーに、補助的な操作（メニュー、プレビュー、複数選択の開始）を割り当てる。画面を増やさずに機能を追加できる。",
+      "whenToUse": [
+        "リスト項目に対する追加操作メニュー",
+        "リンクや画像のプレビュー（覗き見）",
+        "複数選択モードへの移行",
+        "ドラッグ並べ替えの開始トリガー"
+      ],
+      "whenNotToUse": [
+        "主要な操作（発見されない）",
+        "長押しの結果が予測できない場合",
+        "誤発火しやすい配置（スクロール中に押し続けてしまう領域）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS ホーム画面",
+          "usage": "アプリアイコンを長押しでクイックアクションメニュー、さらに続けるとアイコン編集モードへ。"
+        },
+        {
+          "app": "LINE",
+          "usage": "メッセージを長押しすると、コピー・転送・削除・リアクションのメニューが出る。"
+        },
+        {
+          "app": "Google フォト",
+          "usage": "写真を長押しで選択モードに入り、そのままドラッグで複数選択できる。"
+        }
+      ],
+      "antiPatterns": [
+        "長押しできることを示すヒントがない（初回のコーチマークや「⋮」ボタンを併設する）",
+        "押下時間が長すぎる（500ms前後が標準）",
+        "長押し中の視覚・触覚フィードバックがなく、効いているか分からない",
+        "長押しでしか到達できない重要機能"
+      ],
+      "accessibility": [
+        "同じ操作をボタンやメニューからも提供する（運動機能に制約のあるユーザーへの配慮）",
+        "スクリーンリーダーではカスタムアクションとして公開する",
+        "押下時間の調整（OSのアクセシビリティ設定）を尊重する"
+      ],
+      "platformNotes": {
+        "web": "contextmenu イベント（モバイルの長押しで発火）や、touchstart からのタイマー実装。",
+        "flutter": "GestureDetector(onLongPress:)、InkWell(onLongPress:)、CupertinoContextMenu。"
+      },
+      "related": [
+        "context-menu",
+        "swipe-actions",
+        "haptics",
+        "action-sheet"
+      ],
+      "keywords": [
+        "長押し",
+        "ロングプレス",
+        "long press",
+        "ホールド"
+      ]
+    },
+    {
+      "id": "safe-area",
+      "category": "mobile",
+      "name": "セーフエリア",
+      "enName": "Safe Area / Insets",
+      "aliases": [
+        "Safe Area Insets",
+        "ノッチ対応",
+        "システムインセット"
+      ],
+      "summary": "ノッチ・ホームインジケータ・ステータスバーを避けるための余白領域。",
+      "purpose": "端末のハードウェアやシステムUIに隠される領域を避け、操作可能な要素が指やノッチと衝突しないようにする。デザインではなく、正しく動くための前提条件。",
+      "whenToUse": [
+        "画面の端に固定される要素（ヘッダー、ボトムナビ、FAB、ボトムシート）",
+        "全画面表示のコンテンツ（背景は端まで、操作要素はセーフエリア内）",
+        "横向き表示（左右にもインセットが発生する）"
+      ],
+      "whenNotToUse": [
+        "背景画像や動画まで内側に縮める（背景は端まで広げ、要素だけ内側に置く）",
+        "セーフエリアを二重に適用してしまい、無駄な余白ができる"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iPhone X 以降のアプリ全般",
+          "usage": "下部のホームインジケータ領域を避けて、ボタンやタブバーを配置する。"
+        },
+        {
+          "app": "YouTube (全画面再生)",
+          "usage": "動画は画面全体に広げ、コントロールはノッチを避けた位置に置く。"
+        },
+        {
+          "app": "Android のジェスチャーナビゲーション",
+          "usage": "画面下端のスワイプ領域と、アプリのボタンが競合しないようインセットを確保する。"
+        }
+      ],
+      "antiPatterns": [
+        "ボトムナビをセーフエリアを無視して置き、ホームインジケータと重なって押しづらい",
+        "ステータスバーの下にタイトルが潜り込む",
+        "キーボード表示時のインセット（viewInsets）を考慮せず、入力欄が隠れる",
+        "横向きやフォルダブル端末で検証しない"
+      ],
+      "accessibility": [
+        "タップ対象がシステムのジェスチャー領域と重ならないようにする",
+        "文字サイズを最大にしても、セーフエリア内でレイアウトが破綻しないか確認する",
+        "端末のズーム表示・拡大表示設定でも検証する"
+      ],
+      "platformNotes": {
+        "web": "viewport-fit=cover + env(safe-area-inset-top/bottom/left/right) を padding に使う。",
+        "flutter": "SafeArea ウィジェットで包む。MediaQuery.of(context).padding / viewInsets で個別に取得も可能。"
+      },
+      "related": [
+        "bottom-navigation",
+        "app-bar",
+        "bottom-sheet",
+        "fab"
+      ],
+      "keywords": [
+        "セーフエリア",
+        "ノッチ",
+        "safe area",
+        "インセット",
+        "ホームインジケータ"
+      ]
+    },
+    {
+      "id": "haptics",
+      "category": "mobile",
+      "name": "ハプティクス（触覚フィードバック）",
+      "enName": "Haptics / Haptic Feedback",
+      "aliases": [
+        "Vibration",
+        "Taptic Engine",
+        "振動フィードバック"
+      ],
+      "summary": "短い振動で、操作の成立や状態変化を触覚的に伝える仕組み。",
+      "purpose": "視覚・聴覚に頼らず、操作が受理されたことを身体で確認させる。画面を見ずに使う場面や、ジェスチャーの成立判定で特に効果が大きい。",
+      "whenToUse": [
+        "トグルの切り替え、ピッカーの値が変わる瞬間（軽い刻み）",
+        "スワイプアクションの閾値到達、プルトゥリフレッシュの発火点",
+        "決済完了・エラーなど、結果の重要な通知",
+        "長押しでメニューが開く瞬間"
+      ],
+      "whenNotToUse": [
+        "スクロールなど連続的な操作すべてに付ける（不快・電池消費）",
+        "重要な情報を振動だけで伝える（振動をオフにしているユーザーがいる）",
+        "デスクトップ（触覚デバイスがない）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS",
+          "usage": "スイッチの切り替えやピッカーのスクロールで、Taptic Engine による細かいフィードバックが返る。"
+        },
+        {
+          "app": "Apple Pay",
+          "usage": "決済成功時に振動と音で完了を知らせる。"
+        },
+        {
+          "app": "各種スマホのキーボード",
+          "usage": "キー入力時の軽い振動（ハプティックフィードバック設定）。"
+        }
+      ],
+      "antiPatterns": [
+        "強い振動を多用して、うるさく感じさせる",
+        "OSの触覚設定・省電力設定を無視して常に振動させる",
+        "成功と失敗で同じパターンを使い、区別できない",
+        "Web で無闇に navigator.vibrate を呼ぶ（多くの環境で無効・非対応）"
+      ],
+      "accessibility": [
+        "振動は補助であり、必ず視覚的フィードバックと併用する",
+        "OSの設定（触覚フィードバックのオフ）を尊重する",
+        "前庭障害や感覚過敏のユーザーのために、アプリ内でもオフにできると望ましい"
+      ],
+      "platformNotes": {
+        "web": "navigator.vibrate()（Android Chrome など一部のみ。iOS Safari は非対応）。",
+        "flutter": "HapticFeedback.lightImpact() / mediumImpact() / selectionClick() など（package:flutter/services.dart）。"
+      },
+      "related": [
+        "long-press",
+        "swipe-actions",
+        "pull-to-refresh",
+        "toast-snackbar"
+      ],
+      "keywords": [
+        "ハプティクス",
+        "振動",
+        "触覚",
+        "haptics",
+        "バイブ"
+      ]
+    },
+    {
+      "id": "onboarding",
+      "category": "pattern",
+      "name": "オンボーディング",
+      "enName": "Onboarding",
+      "aliases": [
+        "Welcome Tour",
+        "Coach Marks",
+        "初回チュートリアル",
+        "ウォークスルー"
+      ],
+      "summary": "初回利用者に価値と使い方を伝え、最初の成功体験まで導く一連の画面。",
+      "purpose": "「何ができるアプリか」を数画面で伝え、離脱を防ぐ。機能説明より、ユーザーが最初の価値を得る（Aha moment）までの距離を縮めることが本質。",
+      "whenToUse": [
+        "アプリの価値が起動直後には伝わらない",
+        "初期設定（通知許可、プロフィール、興味の選択）が体験の質を左右する",
+        "新機能を既存ユーザーに知らせたい（機能ツアー）"
+      ],
+      "whenNotToUse": [
+        "使い方が自明なアプリで、5画面のスライドを見せる（そのまま離脱される）",
+        "UIの分かりにくさをチュートリアルで補おうとしている（UI自体を直すべき）",
+        "スキップできない強制チュートリアル"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Duolingo",
+          "usage": "アカウント作成前に、目的・レベルの質問に答えさせ、いきなり最初のレッスンを体験させる。"
+        },
+        {
+          "app": "各種SNS",
+          "usage": "初回に興味のあるトピックやおすすめアカウントを選ばせ、空のフィードを避ける。"
+        },
+        {
+          "app": "Slack",
+          "usage": "ワークスペース作成時に、チャンネル作成とメンバー招待をステップで案内する。"
+        }
+      ],
+      "antiPatterns": [
+        "スキップできない・戻れない",
+        "権限リクエストをいきなり並べる（理由を説明してから求める）",
+        "スライドが5枚以上あり、内容が抽象的なイラストと標語だけ",
+        "1度で終わり、あとから見返す方法がない（ヘルプに残す）"
+      ],
+      "accessibility": [
+        "スキップボタンを常に見える位置に置き、キーボードでも到達可能にする",
+        "ページ切り替えを aria-live で通知し、現在位置（3/5）を伝える",
+        "自動で進むスライドは避けるか、一時停止できるようにする"
+      ],
+      "platformNotes": {
+        "web": "ステップをURLに持たせて中断・再開できるようにする。",
+        "flutter": "PageView + SmoothPageIndicator 相当の自作ドット。初回判定は SharedPreferences など。"
+      },
+      "related": [
+        "wizard-stepper",
+        "permission-prompt",
+        "empty-state",
+        "carousel"
+      ],
+      "keywords": [
+        "オンボーディング",
+        "チュートリアル",
+        "初回",
+        "onboarding",
+        "ウォークスルー"
+      ]
+    },
+    {
+      "id": "auth-form",
+      "category": "pattern",
+      "name": "ログイン / サインアップ",
+      "enName": "Login / Sign-up Form",
+      "aliases": [
+        "Authentication",
+        "Sign in",
+        "認証フォーム"
+      ],
+      "summary": "認証情報を入力してアカウントにアクセスさせる、最も離脱の起きやすい画面。",
+      "purpose": "本人確認を最小の摩擦で通す。入力項目数・エラーの分かりやすさ・パスワードマネージャとの相性が、そのまま完了率に直結する。",
+      "whenToUse": [
+        "個人データを扱うサービス",
+        "複数端末での同期が必要",
+        "ソーシャルログイン／マジックリンク／パスキーなど、複数の手段を提供する"
+      ],
+      "whenNotToUse": [
+        "体験する前に登録を強制する（ゲスト利用を許し、必要になった時点で登録させる）",
+        "1回しか使わない機能のために会員登録を求める"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "各種Webサービス",
+          "usage": "メール＋パスワードに加え、Google / Apple でのソーシャルログインを併設する。"
+        },
+        {
+          "app": "Slack",
+          "usage": "パスワードの代わりにメールへマジックリンクを送るログイン方式を提供する。"
+        },
+        {
+          "app": "Amazon",
+          "usage": "メールアドレスを先に入力させ、既存ユーザーか新規かで次の画面を分岐させる。"
+        }
+      ],
+      "antiPatterns": [
+        "パスワードの入力欄を2つ用意して確認させる（表示切替ボタンの方が有効）",
+        "「メールアドレスまたはパスワードが違います」以外の情報を出さない一方で、登録済みかどうかは別の画面で漏らしている",
+        "パスワードのペーストを禁止する（パスワードマネージャの利用を妨げる）",
+        "パスワード要件を入力後にしか表示しない",
+        "autocomplete 属性がなく、自動入力が効かない"
+      ],
+      "accessibility": [
+        "autocomplete=\"username\" / \"current-password\" / \"new-password\" を正しく指定する",
+        "パスワードの表示切替ボタンに aria-pressed と適切なラベルを付ける",
+        "エラーは aria-live で通知し、該当フィールドにフォーカスを移す",
+        "CAPTCHA には音声・代替手段を用意する"
+      ],
+      "platformNotes": {
+        "web": "<form> でのネイティブ送信、type=\"password\"、autocomplete 指定が必須級。パスキー（WebAuthn）も選択肢。",
+        "flutter": "TextFormField + Form + GlobalKey<FormState> でバリデーション。obscureText でマスク。"
+      },
+      "related": [
+        "text-field",
+        "pin-input",
+        "validation-error",
+        "onboarding"
+      ],
+      "keywords": [
+        "ログイン",
+        "サインアップ",
+        "認証",
+        "login",
+        "会員登録"
+      ]
+    },
+    {
+      "id": "search-and-filter",
+      "category": "pattern",
+      "name": "検索とフィルタ",
+      "enName": "Search & Filter",
+      "aliases": [
+        "Faceted Search",
+        "絞り込み",
+        "ファセット検索"
+      ],
+      "summary": "キーワード検索と複数条件の絞り込みを組み合わせて、目的の項目に到達させるパターン。",
+      "purpose": "大量のアイテムから候補を段階的に狭める。適用中の条件が常に見えていること、いつでも1つずつ外せることが設計の要。",
+      "whenToUse": [
+        "アイテム数が多く、属性で絞り込める（EC、不動産、求人、宿泊）",
+        "ユーザーの目的が明確でない探索型の利用がある",
+        "条件の組み合わせを保存・共有したい"
+      ],
+      "whenNotToUse": [
+        "アイテム数が少ない（絞り込みの手間の方が大きい）",
+        "属性が整備されておらず、絞り込んでも0件ばかりになる"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon",
+          "usage": "左サイドの絞り込み（価格帯・ブランド・評価）と、適用中条件の表示。0件を避けるため各条件の件数を併記する。"
+        },
+        {
+          "app": "Airbnb",
+          "usage": "フィルタモーダルで条件を設定し、「〇件の宿を表示」と適用後の件数をボタンに出す。"
+        },
+        {
+          "app": "メルカリ / 各種フリマ",
+          "usage": "モバイルでは下からのシートでフィルタを設定し、適用中条件をチップで一覧表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "適用中の条件が画面に見えず、なぜ結果が少ないのか分からない",
+        "条件を1つ外すのに、全部リセットするしかない",
+        "0件になる条件を選択可能なまま出す（各選択肢に件数を出す、または選べなくする）",
+        "モバイルでフィルタを開くと、結果が全く見えなくなる（適用後の件数をボタンに出す）",
+        "リロードや戻る操作で条件が消える（URLに保持する）"
+      ],
+      "accessibility": [
+        "結果件数の変化を aria-live で通知する",
+        "適用中の条件チップに「〇〇の絞り込みを解除」という個別ラベルを付ける",
+        "フィルタパネルはモーダルとして正しくフォーカス管理する",
+        "「すべてクリア」を必ず用意する"
+      ],
+      "platformNotes": {
+        "web": "条件をクエリパラメータに反映し、共有・再訪・戻るに耐えるようにする。",
+        "flutter": "showModalBottomSheet でのフィルタUI + 状態管理。適用はシートを閉じる時にまとめて行うとよい。"
+      },
+      "related": [
+        "search-bar",
+        "chip",
+        "sort",
+        "empty-state",
+        "drawer-overlay"
+      ],
+      "keywords": [
+        "検索",
+        "フィルタ",
+        "絞り込み",
+        "filter",
+        "ファセット"
+      ]
+    },
+    {
+      "id": "sort",
+      "category": "pattern",
+      "name": "ソート（並べ替え）",
+      "enName": "Sorting",
+      "aliases": [
+        "Order by",
+        "並び替え",
+        "並べ替え"
+      ],
+      "summary": "一覧の並び順を、ユーザーの目的に合わせて変更させる仕組み。",
+      "purpose": "同じ集合を別の観点から見せる。フィルタが「何を見るか」を決めるのに対し、ソートは「どの順で見るか」を決める。両者を混同しないUI設計が重要。",
+      "whenToUse": [
+        "一覧の件数が多く、優先順位の基準が人によって違う（価格・新着・人気・評価）",
+        "テーブルの列単位の並べ替え",
+        "既定の並び順（おすすめ順など）に納得しないユーザーがいる"
+      ],
+      "whenNotToUse": [
+        "並び順に意味がない、または1つしかない",
+        "件数が少なく、一目で全部見える",
+        "フィルタと同じUIに混ぜて、違いが分からなくなる場合"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Amazon",
+          "usage": "検索結果右上の「並べ替え：おすすめ順／価格の安い順／新着順」ドロップダウン。"
+        },
+        {
+          "app": "Google スプレッドシート / Notion",
+          "usage": "列ヘッダから昇順・降順を指定し、現在のソート状態を矢印で示す。"
+        },
+        {
+          "app": "各種ファイル管理アプリ",
+          "usage": "名前順・更新日順・サイズ順の切り替え。"
+        }
+      ],
+      "antiPatterns": [
+        "現在の並び順が画面のどこにも表示されていない",
+        "昇順・降順の矢印の向きが直感と逆（↑が降順など）",
+        "ソートを変えるとフィルタ条件やページ位置がリセットされる",
+        "並べ替えの選択肢が10個以上ある"
+      ],
+      "accessibility": [
+        "テーブルは aria-sort=\"ascending|descending|none\" で状態を伝える",
+        "並べ替え完了を aria-live で通知する（「価格の安い順に並べ替えました」）",
+        "並び順の変更後もフォーカス位置を保つ"
+      ],
+      "platformNotes": {
+        "web": "<select> かメニュー。状態はURLのクエリに持たせる。",
+        "flutter": "DropdownButton や PopupMenuButton、DataTable の sortColumnIndex / sortAscending。"
+      },
+      "related": [
+        "search-and-filter",
+        "table",
+        "select",
+        "list"
+      ],
+      "keywords": [
+        "ソート",
+        "並べ替え",
+        "sort",
+        "順番"
+      ]
+    },
+    {
+      "id": "undo",
+      "category": "pattern",
+      "name": "Undo（元に戻す）",
+      "enName": "Undo",
+      "aliases": [
+        "取り消し",
+        "元に戻す",
+        "Undo Snackbar"
+      ],
+      "summary": "実行した操作を後から取り消せるようにする、確認ダイアログの代替パターン。",
+      "purpose": "「事前に確認する」のではなく「事後に取り消せる」ようにすることで、確認ダイアログの摩擦を取り除きつつ安全性を保つ。頻度の高い操作ほど効果が大きい。",
+      "whenToUse": [
+        "頻繁に行う操作（削除、アーカイブ、既読、並べ替え）",
+        "誤操作のコストが中程度で、技術的に巻き戻せる",
+        "確認ダイアログが煩わしくなるほど繰り返される操作"
+      ],
+      "whenNotToUse": [
+        "本当に取り返しのつかない操作（アカウント削除、送金） → 明示的な確認",
+        "取り消しの実装が不可能（外部への送信済みなど）",
+        "取り消し期限が長すぎて、状態管理が破綻する場合"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Gmail",
+          "usage": "メールのアーカイブ・削除直後のスナックバー「元に戻す」。送信取り消し（数秒の遅延送信）も同じ思想。"
+        },
+        {
+          "app": "Google ドキュメント",
+          "usage": "Ctrl/Cmd+Z による編集の取り消し。操作履歴として長く保持される。"
+        },
+        {
+          "app": "各種タスク管理アプリ",
+          "usage": "タスク完了時に「完了しました｜元に戻す」を表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "Undo の表示時間が短く、気づく前に消える",
+        "Undo を押しても部分的にしか戻らない（元の位置・順序も復元する）",
+        "確認ダイアログとUndoの両方を出して、二重に手間をかけさせる",
+        "複数操作を連続した時に、どれが取り消されるか分からない"
+      ],
+      "accessibility": [
+        "Undo を含むスナックバーは自動で消さない、または十分に長く表示する",
+        "キーボードで到達できる位置に置く（フォーカス順の考慮）",
+        "取り消し結果も aria-live で通知する"
+      ],
+      "platformNotes": {
+        "web": "楽観的更新＋一定時間後に確定（サーバ送信を遅延させる実装が確実）。",
+        "flutter": "SnackBar(action: SnackBarAction(label: '元に戻す'))。Dismissible と組み合わせるのが定番。"
+      },
+      "related": [
+        "toast-snackbar",
+        "confirm-dialog",
+        "swipe-actions",
+        "destructive-button"
+      ],
+      "keywords": [
+        "Undo",
+        "元に戻す",
+        "取り消し",
+        "やり直し"
+      ]
+    },
+    {
+      "id": "confirm-dialog",
+      "category": "pattern",
+      "name": "確認ダイアログ",
+      "enName": "Confirmation Dialog",
+      "aliases": [
+        "Are you sure?",
+        "確認モーダル",
+        "二段階確認"
+      ],
+      "summary": "取り返しのつかない操作の直前に、意図を確認するダイアログ。",
+      "purpose": "誤操作による損失を防ぐ。ただし多用すると読まずにOKを押す習慣を生むため、本当に必要な場面に限定し、代わりにUndoを使えないかをまず検討する。",
+      "whenToUse": [
+        "取り消し不能な操作（完全削除、公開、送金、解約）",
+        "影響範囲が大きい（他人にも影響する、大量のデータが消える）",
+        "誤クリックしやすい位置にある破壊的操作"
+      ],
+      "whenNotToUse": [
+        "取り消し可能な操作 → Undo の方が摩擦が少ない",
+        "頻繁に行う操作（確認疲れで無意識にOKを押すようになる）",
+        "単なる完了通知（確認を求めていない）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "GitHub",
+          "usage": "リポジトリ削除時に、リポジトリ名を正確に入力させる強い確認（type-to-confirm）。"
+        },
+        {
+          "app": "各種SaaSの解約フロー",
+          "usage": "失うものを明示したうえで、解約ボタンを押させる。"
+        },
+        {
+          "app": "iOS",
+          "usage": "アプリ削除時に、データも消える旨を明記した確認アラートを出す。"
+        }
+      ],
+      "antiPatterns": [
+        "ボタンが「OK / キャンセル」（どちらが何をするか分からない。「削除する / やめる」にする）",
+        "何が起きるか説明せず「よろしいですか？」だけ",
+        "危険な方をデフォルトフォーカス・目立つ配置にする",
+        "すべての操作に確認を出し、確認の意味を失わせる"
+      ],
+      "accessibility": [
+        "role=\"alertdialog\" + aria-describedby で本文を関連付ける",
+        "初期フォーカスは安全な選択肢（キャンセル）に置く",
+        "Esc でキャンセルできるようにする",
+        "ボタンラベルは動詞で、単体で意味が通るようにする"
+      ],
+      "platformNotes": {
+        "web": "<dialog> + role=\"alertdialog\"。window.confirm はスタイルもラベルも制御できないので基本は避ける。",
+        "flutter": "showDialog + AlertDialog(actions: [TextButton('やめる'), FilledButton('削除する')])。"
+      },
+      "related": [
+        "modal-dialog",
+        "destructive-button",
+        "undo",
+        "action-sheet"
+      ],
+      "keywords": [
+        "確認",
+        "confirm",
+        "ダイアログ",
+        "削除確認"
+      ]
+    },
+    {
+      "id": "validation-error",
+      "category": "pattern",
+      "name": "バリデーション / エラー表示",
+      "enName": "Form Validation & Error Messages",
+      "aliases": [
+        "Inline Validation",
+        "入力チェック",
+        "エラーメッセージ"
+      ],
+      "summary": "入力の誤りを検出し、どこを・なぜ・どう直せばよいかを伝える仕組み。",
+      "purpose": "フォーム完了率を左右する最大の要因。エラーは「責める」ものではなく「直し方を教える」もの。タイミング・場所・文言の3点で設計する。",
+      "whenToUse": [
+        "形式が決まった入力（メール、電話、パスワード要件）",
+        "サーバ側でしか判定できない検証（重複、在庫切れ）",
+        "送信前に確実に弾きたい必須項目"
+      ],
+      "whenNotToUse": [
+        "入力の1文字目からエラーを出す（打ち終わる前に赤くしない）",
+        "本来受け入れられる形式を弾く（全角スペース、ハイフンの有無は正規化する）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "各種登録フォーム",
+          "usage": "パスワード要件を入力中にチェックリストで満たしたものから✓にする（リアルタイムの肯定的フィードバック）。"
+        },
+        {
+          "app": "Amazon の住所入力",
+          "usage": "郵便番号から住所を自動補完し、そもそも誤りが起きにくくする。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "ユーザー名の重複を入力中に非同期チェックし、その場で可否を表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "エラーをページ上部にまとめるだけで、どのフィールドか分からない",
+        "「入力内容に誤りがあります」だけで、どう直すか書かない",
+        "エラー時に入力内容をクリアする（絶対にやってはいけない）",
+        "赤色のみでエラーを示す（アイコンとテキストを併用する）",
+        "送信ボタンを押すまで何のエラーも出さない、または押せなくして理由も言わない"
+      ],
+      "accessibility": [
+        "aria-invalid=\"true\" と aria-describedby でメッセージをフィールドに紐づける",
+        "送信時のエラーサマリを role=\"alert\" で提示し、各項目へのアンカーリンクを置く",
+        "最初のエラーフィールドへフォーカスを移す",
+        "色・アイコン・テキストの3点で伝える（WCAG 1.4.1 色の使用）"
+      ],
+      "platformNotes": {
+        "web": "HTML5 の制約検証（required, pattern, type）＋ novalidate でカスタム表示。blur 時に検証、修正中は即時に解除するのが定石。",
+        "flutter": "Form + TextFormField(validator:) と autovalidateMode: AutovalidateMode.onUserInteraction。"
+      },
+      "related": [
+        "text-field",
+        "alert-banner",
+        "auth-form",
+        "three-states"
+      ],
+      "keywords": [
+        "バリデーション",
+        "エラー",
+        "入力チェック",
+        "validation",
+        "エラーメッセージ"
+      ]
+    },
+    {
+      "id": "three-states",
+      "category": "pattern",
+      "name": "ローディング / エラー / 空 の3状態",
+      "enName": "Loading / Error / Empty States",
+      "aliases": [
+        "UI States",
+        "非理想状態",
+        "Edge States"
+      ],
+      "summary": "データ表示画面が必ず持つべき、成功以外の3つの状態の設計。",
+      "purpose": "実装時に忘れられがちな「データがない・失敗した・まだ来ていない」を明示的に設計する。この3つを設計しないUIは、実運用で必ず破綻する。",
+      "whenToUse": [
+        "非同期でデータを取得するすべての画面",
+        "ネットワークが不安定になりうるモバイル",
+        "検索・フィルタの結果表示"
+      ],
+      "whenNotToUse": [
+        "静的コンテンツで、そもそも取得が発生しない画面"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "Instagram / X",
+          "usage": "読み込み中はスケルトン、通信失敗時は「再試行」ボタン付きの表示、投稿0件時は作成を促す表示。"
+        },
+        {
+          "app": "Gmail",
+          "usage": "オフライン時に専用の表示を出し、復帰後に自動で再同期する。"
+        },
+        {
+          "app": "Netflix",
+          "usage": "読み込み中のプレースホルダ行と、エラー時のコード付きメッセージ。"
+        }
+      ],
+      "antiPatterns": [
+        "エラーなのに空状態を表示し、「データがない」と誤解させる",
+        "エラー画面に再試行手段がない",
+        "エラーメッセージが技術的すぎる（500 Internal Server Error をそのまま出す）",
+        "ローディングが永遠に回り続け、タイムアウトしない",
+        "部分的な失敗（一部の要素だけ取得失敗）を無視して空白にする"
+      ],
+      "accessibility": [
+        "状態の変化を aria-live で通知する（読み込み完了、エラー発生）",
+        "エラーは role=\"alert\"、読み込みは aria-busy で表現する",
+        "再試行ボタンにフォーカスを移すか、到達しやすい位置に置く"
+      ],
+      "platformNotes": {
+        "web": "状態を列挙型（idle/loading/success/error/empty）で管理し、分岐を1箇所に集約すると抜けが減る。",
+        "flutter": "FutureBuilder / StreamBuilder の connectionState と hasError、データ0件を必ず分岐する。"
+      },
+      "related": [
+        "skeleton",
+        "empty-state",
+        "progress-indicator",
+        "alert-banner"
+      ],
+      "keywords": [
+        "状態",
+        "ローディング",
+        "エラー",
+        "空",
+        "loading error empty"
+      ]
+    },
+    {
+      "id": "dark-mode-toggle",
+      "category": "pattern",
+      "name": "ダークモード切替",
+      "enName": "Dark Mode / Theme Toggle",
+      "aliases": [
+        "Theme Switcher",
+        "外観モード",
+        "ライト/ダーク"
+      ],
+      "summary": "ライト・ダーク・システム連動の3つから外観を選ばせる仕組み。",
+      "purpose": "環境光やユーザーの好みに合わせて可読性と快適性を上げる。実装上は「色をトークン化できているか」を試す試金石でもある。",
+      "whenToUse": [
+        "夜間や暗所での利用が多いアプリ",
+        "長時間の閲覧（読書、動画、コード）",
+        "OSがダークモードを持つプラットフォーム全般（システム連動は必須級）"
+      ],
+      "whenNotToUse": [
+        "ブランド表現上、色が固定されている必要がある",
+        "色をトークン化しておらず、ダーク側のコントラストを検証できない",
+        "システム連動を無視して常に片方に固定する"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "X (Twitter)",
+          "usage": "「デフォルト／ダークブルー／ブラック」から選べる表示設定。"
+        },
+        {
+          "app": "iOS / Android",
+          "usage": "OS設定の外観モード。アプリは既定でこれに追従するのが望ましい。"
+        },
+        {
+          "app": "GitHub",
+          "usage": "ライト／ダーク／システム同期に加え、テーマの種類も選べる。"
+        }
+      ],
+      "antiPatterns": [
+        "純黒(#000)と純白(#fff)の文字でコントラストが強すぎ、目が疲れる（ダークは #121212 前後＋やや落とした白）",
+        "ライトの色をそのまま反転しただけで、彩度の高い色が浮いて見える",
+        "画像・図版・グラフがダーク背景で読めない",
+        "設定が保存されず、リロードでライトに戻る（選択を永続化する）",
+        "切り替え時に一瞬白く光る（初期描画前にテーマを適用する）"
+      ],
+      "accessibility": [
+        "両モードでコントラスト比 4.5:1（本文）／3:1（大きな文字・UI部品）を満たすか検証する",
+        "システム設定（prefers-color-scheme）を既定にし、上書きも許す3択にする",
+        "切り替えボタンの状態を aria-pressed やラベルで明示する"
+      ],
+      "platformNotes": {
+        "web": "CSS カスタムプロパティ＋prefers-color-scheme、data-theme 属性で上書き。localStorage に保存し、描画前に適用する。",
+        "flutter": "MaterialApp(theme:, darkTheme:, themeMode: ThemeMode.system/light/dark)。ColorScheme.fromSeed が便利。"
+      },
+      "related": [
+        "toggle-switch",
+        "segmented-control"
+      ],
+      "keywords": [
+        "ダークモード",
+        "テーマ",
+        "dark mode",
+        "外観",
+        "配色"
+      ]
+    },
+    {
+      "id": "permission-prompt",
+      "category": "pattern",
+      "name": "通知・権限リクエスト",
+      "enName": "Permission Prompt / Priming",
+      "aliases": [
+        "Pre-permission",
+        "Priming",
+        "許可ダイアログ"
+      ],
+      "summary": "通知・位置情報・カメラなどのOS権限を、適切なタイミングで求めるパターン。",
+      "purpose": "OSの許可ダイアログは基本的に1度しか出せない。拒否されると復帰が難しいため、事前に理由を説明する画面（プライミング）を挟んで承諾率を上げる。",
+      "whenToUse": [
+        "その機能を使う直前（写真を選ぶ時にフォトライブラリ権限を求める）",
+        "ユーザーが価値を理解した後（初回起動直後ではなく、数回使ってから通知を求める）",
+        "事前説明で「何のために・何が得られるか」を伝えられる場合"
+      ],
+      "whenNotToUse": [
+        "起動直後にすべての権限をまとめて要求する",
+        "機能を使う予定がないのに先回りして求める",
+        "拒否したユーザーに繰り返し求める（設定への導線を示すに留める）"
+      ],
+      "realWorldExamples": [
+        {
+          "app": "iOS のアプリ全般",
+          "usage": "OSの権限ダイアログの前に、アプリ独自の説明画面を出して理由を伝える（プライミング）。"
+        },
+        {
+          "app": "Google マップ",
+          "usage": "経路検索など位置情報が必要な操作の時点で、初めて権限を求める。"
+        },
+        {
+          "app": "各種メッセージアプリ",
+          "usage": "通知を許可すると何が届くかを説明してから、OSダイアログを表示する。"
+        }
+      ],
+      "antiPatterns": [
+        "初回起動で通知・位置情報・連絡先をまとめて要求する（大半が拒否される）",
+        "拒否された後もアプリ内ダイアログを毎回出し続ける",
+        "権限がない状態のフォールバック体験を用意していない（機能が壊れる）",
+        "「許可しないと使えません」と脅す（正当な理由がない限り避ける）"
+      ],
+      "accessibility": [
+        "プライミング画面は通常のダイアログとしてフォーカス管理・Esc閉じを実装する",
+        "「今はしない」の選択肢を明示し、後から設定できる場所を案内する",
+        "権限が必要な理由を、平易な言葉で1〜2文で書く"
+      ],
+      "platformNotes": {
+        "web": "Notification.requestPermission() はユーザー操作起点で呼ぶ。ブラウザは自動要求をブロックする傾向にある。",
+        "flutter": "permission_handler パッケージ。iOS は Info.plist の usage description が必須。"
+      },
+      "related": [
+        "onboarding",
+        "modal-dialog",
+        "alert-banner"
+      ],
+      "keywords": [
+        "権限",
+        "通知許可",
+        "パーミッション",
+        "permission",
+        "プライミング"
+      ]
+    }
+  ]
+}
