@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1024" y2="1024">
+      <stop offset="0" stop-color="#3B5BFD"/>
+      <stop offset="1" stop-color="#9B6BFF"/>
+    </linearGradient>
+    <radialGradient id="glow" gradientUnits="userSpaceOnUse" cx="200" cy="160" r="900">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B5BFD"/>
+      <stop offset="1" stop-color="#9B6BFF"/>
+    </linearGradient>
+    <linearGradient id="accentDeep" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2A43C9"/>
+      <stop offset="1" stop-color="#7A4FE0"/>
+    </linearGradient>
+    <filter id="tileShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#141A5C" flood-opacity="0.38"/>
+    </filter>
+    <filter id="knobShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#141A5C" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- background (opaque, full bleed) -->
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1024" height="1024" fill="url(#glow)"/>
+
+  <!-- tiles: 2x2 cluster, 720px wide, 32px gap, centered -->
+  <g filter="url(#tileShadow)">
+    <rect x="152" y="152" width="344" height="344" rx="64" fill="#F6F7FB"/>
+    <rect x="528" y="152" width="344" height="344" rx="64" fill="#F6F7FB"/>
+    <rect x="152" y="528" width="344" height="344" rx="64" fill="#F6F7FB"/>
+    <rect x="528" y="528" width="344" height="344" rx="64" fill="#F6F7FB"/>
+  </g>
+
+  <!-- 1. Toggle (top-left), center 324,324 -->
+  <g>
+    <rect x="206" y="260" width="236" height="128" rx="64" fill="url(#accent)"/>
+    <circle cx="378" cy="324" r="46" fill="#FFFFFF" filter="url(#knobShadow)"/>
+  </g>
+
+  <!-- 2. Slider (top-right), center 700,324 -->
+  <g>
+    <rect x="582" y="302" width="236" height="44" rx="22" fill="#C9CEE8"/>
+    <rect x="582" y="302" width="156" height="44" rx="22" fill="url(#accent)"/>
+    <circle cx="738" cy="324" r="50" fill="url(#accent)" stroke="#F6F7FB" stroke-width="14"/>
+  </g>
+
+  <!-- 3. Checkbox (bottom-left), center 324,700 -->
+  <g>
+    <rect x="224" y="600" width="200" height="200" rx="48" fill="url(#accent)"/>
+    <polyline points="276,704 312,740 374,660" fill="none" stroke="#FFFFFF" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- 4. Button (bottom-right), center 700,700 -->
+  <g>
+    <rect x="582" y="648" width="236" height="128" rx="36" fill="url(#accentDeep)"/>
+    <rect x="582" y="634" width="236" height="128" rx="36" fill="url(#accent)"/>
+    <text x="700" y="726" text-anchor="middle" font-family="-apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="800" font-size="74" fill="#FFFFFF">OK</text>
+  </g>
+</svg>
